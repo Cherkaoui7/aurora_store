@@ -1,0 +1,103 @@
+.footer {
+  background-color: #222;
+  color: #fff;
+  padding-top: 60px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: 40px;
+  padding-bottom: 60px;
+}
+
+.newsletter h3 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.inputGroup {
+  display: flex;
+}
+
+.inputGroup input {
+  flex-grow: 1;
+  padding: 10px 15px;
+  border: none;
+  outline: none;
+}
+
+.inputGroup button {
+  padding: 10px 20px;
+  background-color: var(--secondary-color);
+  color: #fff;
+  border: none;
+  font-weight: 600;
+}
+
+.links h4, .social h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.links ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.links a {
+  font-size: 14px;
+  color: #ccc;
+  transition: color 0.2s;
+}
+
+.links a:hover {
+  color: #fff;
+}
+
+.socialIcons {
+  display: flex;
+  gap: 15px;
+  font-size: 20px;
+}
+
+.bottomBar {
+  background-color: #111;
+  padding: 20px 0;
+}
+
+.bottomContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #ccc;
+}
+
+.paymentIcons {
+  display: flex;
+  gap: 10px;
+  font-size: 24px;
+}
+
+/* Responsive adjustments for footer */
+@media (max-width: 992px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .newsletter {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .newsletter {
+    grid-column: span 1;
+  }
+}

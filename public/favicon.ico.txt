@@ -1,0 +1,3 @@
+# Public file icons (placeholder)
+# favicon.ico, logo192.png, and logo512.png should be added as binary files
+# Place actual icon files in this directory

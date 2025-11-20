@@ -1,0 +1,54 @@
+/* src/pages/PageStyles.module.css */
+.pageContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+
+.pageTitle {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+/* Styles specifically for the About Page */
+.aboutContent {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+.aboutImage {
+  flex: 1;
+  height: 400px;
+  object-fit: cover;
+}
+
+.aboutText {
+  flex: 1;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--secondary-color);
+}
+
+.aboutText h2 {
+  color: var(--primary-color);
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .aboutContent {
+    flex-direction: column;
+  }
+  .aboutImage {
+    height: 300px;
+    width: 100%;
+  }
+}
