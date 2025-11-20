@@ -1,67 +1,74 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // Import Link
-import { FiFacebook, FiTwitter, FiInstagram, FiYoutube } from 'react-icons/fi';
-import { FaCcVisa, FaCcMastercard, FaCcAmex, FaCcPaypal } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { FaInstagram, FaFacebookF, FaTwitter, FaLinkedinIn } from 'react-icons/fa';
+import { Reveal } from '../UI/Reveal'; // Import your animation wrapper
 import styles from './Footer.module.css';
 
 const Footer = () => {
   return (
     <footer className={styles.footer}>
-      <div className={`container ${styles.grid}`}>
-        <div className={styles.newsletter}>
-          <h3>Join the AURORA Community.<br />Get 10% off your first order.</h3>
-          <div className={styles.inputGroup}>
-            <input type="email" placeholder="Enter your email address" />
-            <button>Sign Up</button>
-          </div>
+      <div className={styles.container}>
+        
+        {/* COLUMN 1: BRAND & INFO */}
+        <div className={styles.column}>
+            <Reveal>
+                <h2 className={styles.logo}>AURORA</h2>
+                <p className={styles.text}>
+                    Elevating your everyday style with breathable fabrics and timeless designs. 
+                    Quality you can feel, aesthetics you can wear.
+                </p>
+                <div className={styles.socials}>
+                    <div className={styles.socialIcon}><FaInstagram /></div>
+                    <div className={styles.socialIcon}><FaFacebookF /></div>
+                    <div className={styles.socialIcon}><FaTwitter /></div>
+                    <div className={styles.socialIcon}><FaLinkedinIn /></div>
+                </div>
+            </Reveal>
         </div>
-        <div className={styles.links}>
-          <h4>Shop</h4>
-          <ul>
-            {/* Update links */}
-            <li><Link to="/shop">Shop All</Link></li>
-            <li><Link to="/new-arrivals">New Arrivals</Link></li>
-            <li><Link to="/accessories">Accessories</Link></li>
-          </ul>
+
+        {/* COLUMN 2: SHOP LINKS */}
+        <div className={styles.column}>
+            <Reveal delay={0.1}>
+                <h3 className={styles.heading}>SHOP</h3>
+                <ul className={styles.links}>
+                    <li><Link to="/men">Men</Link></li>
+                    <li><Link to="/women">Women</Link></li>
+                    <li><Link to="/accessories">Accessories</Link></li>
+                    <li><Link to="/new-arrivals">New Arrivals</Link></li>
+                </ul>
+            </Reveal>
         </div>
-        <div className={styles.links}>
-          <h4>Help</h4>
-          <ul>
-            {/* These can remain placeholder <a> tags or be routes if you create pages for them */}
-            <li><a href="#help">Help</a></li>
-            <li><a href="#contact">Contact Us</a></li>
-            <li><a href="#careers">Careers</a></li>
-          </ul>
+
+        {/* COLUMN 3: COMPANY */}
+        <div className={styles.column}>
+             <Reveal delay={0.2}>
+                <h3 className={styles.heading}>COMPANY</h3>
+                <ul className={styles.links}>
+                    <li><Link to="/about">About Us</Link></li>
+                    <li><Link to="/contact">Contact</Link></li>
+                    <li><Link to="/careers">Careers</Link></li>
+                    <li><Link to="/privacy">Privacy Policy</Link></li>
+                </ul>
+            </Reveal>
         </div>
-        <div className={styles.links}>
-          <h4>About</h4>
-          <ul>
-            {/* Update link */}
-            <li><Link to="/about">About Us</Link></li>
-            <li><a href="#story">Our Story</a></li>
-            <li><a href="#privacy">Privacy Policy</a></li>
-          </ul>
+
+        {/* COLUMN 4: NEWSLETTER */}
+        <div className={styles.column}>
+            <Reveal delay={0.3}>
+                <h3 className={styles.heading}>STAY IN THE LOOP</h3>
+                <p className={styles.text}>Sign up for exclusive offers and style tips.</p>
+                <div className={styles.inputGroup}>
+                    <input type="email" placeholder="Enter your email" />
+                    <button>SUBSCRIBE</button>
+                </div>
+            </Reveal>
         </div>
-        <div className={styles.social}>
-          <h4>Follow Us</h4>
-          <div className={styles.socialIcons}>
-            <FiFacebook />
-            <FiTwitter />
-            <FiInstagram />
-            <FiYoutube />
-          </div>
-        </div>
+
       </div>
-      <div className={styles.bottomBar}>
-        <div className={`container ${styles.bottomContent}`}>
-          <p>© 2023 AURORA.</p>
-          <div className={styles.paymentIcons}>
-            <FaCcVisa />
-            <FaCcMastercard />
-            <FaCcAmex />
-            <FaCcPaypal />
-          </div>
-        </div>
+
+      {/* COPYRIGHT BAR */}
+      <div className={styles.copyright}>
+         <p>© 2025 AURORA. All Rights Reserved.</p>
       </div>
     </footer>
   );

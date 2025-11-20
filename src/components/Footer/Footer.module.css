@@ -1,103 +1,147 @@
 .footer {
-  background-color: #222;
-  color: #fff;
-  padding-top: 60px;
+    background-color: #111; /* Deep black/charcoal */
+    color: #fff;
+    padding-top: 80px;
+    margin-top: 100px; /* Separation from content above */
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-  gap: 40px;
-  padding-bottom: 60px;
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1.5fr; /* Custom column widths */
+    gap: 40px;
+    padding-bottom: 60px;
 }
 
-.newsletter h3 {
-  font-size: 20px;
-  margin-bottom: 20px;
+/* LOGO & TEXT */
+.logo {
+    font-size: 28px;
+    font-family: serif;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
 }
 
-.inputGroup {
-  display: flex;
+.text {
+    color: #a1a1a1; /* Soft gray text is easier to read on black */
+    line-height: 1.6;
+    font-size: 14px;
+    margin-bottom: 20px;
+    max-width: 300px;
 }
 
-.inputGroup input {
-  flex-grow: 1;
-  padding: 10px 15px;
-  border: none;
-  outline: none;
+/* SOCIAL ICONS */
+.socials {
+    display: flex;
+    gap: 15px;
 }
 
-.inputGroup button {
-  padding: 10px 20px;
-  background-color: var(--secondary-color);
-  color: #fff;
-  border: none;
-  font-weight: 600;
+.socialIcon {
+    width: 35px;
+    height: 35px;
+    background-color: #222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.links h4, .social h4 {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 20px;
+.socialIcon:hover {
+    background-color: #fff;
+    color: #000;
+    transform: translateY(-3px);
 }
 
-.links ul {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* LINKS COLUMNS */
+.heading {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    letter-spacing: 0.5px;
+}
+
+.links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.links li {
+    margin-bottom: 12px;
 }
 
 .links a {
-  font-size: 14px;
-  color: #ccc;
-  transition: color 0.2s;
+    color: #a1a1a1;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
 }
 
 .links a:hover {
-  color: #fff;
+    color: #fff;
+    padding-left: 5px; /* Subtle slide effect on hover */
 }
 
-.socialIcons {
-  display: flex;
-  gap: 15px;
-  font-size: 20px;
+/* NEWSLETTER INPUT */
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.bottomBar {
-  background-color: #111;
-  padding: 20px 0;
+.inputGroup input {
+    padding: 12px;
+    background-color: #222;
+    border: 1px solid #333;
+    color: white;
+    outline: none;
+    border-radius: 4px;
 }
 
-.bottomContent {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 12px;
-  color: #ccc;
+.inputGroup input:focus {
+    border-color: #555;
 }
 
-.paymentIcons {
-  display: flex;
-  gap: 10px;
-  font-size: 24px;
+.inputGroup button {
+    padding: 12px;
+    background-color: white;
+    color: black;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.3s;
 }
 
-/* Responsive adjustments for footer */
-@media (max-width: 992px) {
-  .grid {
-    grid-template-columns: 1fr 1fr;
-  }
-  .newsletter {
-    grid-column: span 2;
-  }
+.inputGroup button:hover {
+    background-color: #ddd;
 }
 
-@media (max-width: 600px) {
-  .grid {
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
-  .newsletter {
-    grid-column: span 1;
-  }
+/* BOTTOM BAR */
+.copyright {
+    border-top: 1px solid #222;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 13px;
+    color: #666;
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr; /* Stack everything */
+        gap: 40px;
+        text-align: center;
+    }
+    
+    .text {
+        margin: 0 auto 20px auto; /* Center the text block */
+    }
+
+    .socials {
+        justify-content: center;
+    }
 }

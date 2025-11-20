@@ -1,16 +1,51 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; // 1. Import the navigation hook
 import styles from './HeroSection.module.css';
-
-// Placeholder image. Replace with your own.
-const heroImage = 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80';
+import { Reveal } from '../UI/Reveal'; 
+import { motion } from 'framer-motion';
 
 const HeroSection = () => {
+  // 2. Initialize the hook
+  const navigate = useNavigate();
+
+  // 3. Create the function to handle the click
+  const handleShopNow = () => {
+    navigate('/shop'); // Redirects user to the /shop page
+    // navigate('/new-arrivals'); // Or change to this if you prefer
+  };
+
   return (
-    <section className={styles.hero} style={{ backgroundImage: `url(${heroImage})` }}>
-      <div className={`container ${styles.content}`}>
-        <h1>The Summer <br />Collection is Here.</h1>
-        <p>Discover breathable fabrics and effortless styles designed for the sun.</p>
-        <button className={styles.button}>SHOP THE COLLECTION</button>
+    <section className={styles.hero}>
+      <div className={styles.content}>
+        
+        {/* Title */}
+        <Reveal width="100%">
+            <h1 className={styles.title}>The Summer <br /> Collection is Here.</h1>
+        </Reveal>
+
+        {/* Subtitle */}
+        <Reveal width="100%" delay={0.2}>
+            <p className={styles.subtitle}>
+                Discover breathable fabrics and effortless styles designed for the sun.
+            </p>
+        </Reveal>
+
+        {/* Button - Now Functional! */}
+        <Reveal width="100%" delay={0.4}>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <motion.button 
+                    onClick={handleShopNow} // 4. Attach the click handler here
+                    className={styles.ctaButton}
+                    whileHover={{ scale: 1.05, backgroundColor: "#f8f8f8" }} // Added subtle color change on hover
+                    whileTap={{ scale: 0.95 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                >
+                    SHOP THE COLLECTION
+                </motion.button>
+            </div>
+        </Reveal>
+
       </div>
     </section>
   );

@@ -1,54 +1,194 @@
 /* src/pages/PageStyles.module.css */
+
 .pageContainer {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 60px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 20px;
 }
 
 .pageTitle {
-  font-size: 32px;
-  font-weight: 700;
-  margin-bottom: 40px;
-  text-align: center;
+    text-align: center;
+    font-size: 40px;
+    font-family: serif; /* Matches your Aurora brand */
+    margin-bottom: 10px;
+    font-weight: 500;
 }
 
+/* THIS IS THE MISSING PART THAT FIXES THE GIANT IMAGES */
 .productGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 30px;
+    display: grid;
+    /* Auto-layout: Fit as many 240px cards as possible, then wrap */
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
+    gap: 40px;
+    row-gap: 50px;
+    margin-top: 50px;
 }
 
-/* Styles specifically for the About Page */
-.aboutContent {
-  display: flex;
-  gap: 40px;
-  align-items: center;
+/* About & Contact Styles (Keeping these safe from previous step) */
+.aboutSection, .contactContainer {
+    display: flex;
+    gap: 50px;
+    align-items: flex-start; /* Aligns top of content */
+    margin-bottom: 100px;
 }
 
 .aboutImage {
-  flex: 1;
-  height: 400px;
-  object-fit: cover;
+    flex: 1;
+    height: 400px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    object-fit: cover;
 }
 
-.aboutText {
-  flex: 1;
-  font-size: 16px;
-  line-height: 1.6;
-  color: var(--secondary-color);
+.aboutContent, .contactInfo, .contactForm {
+    flex: 1;
 }
 
-.aboutText h2 {
-  color: var(--primary-color);
-  margin-bottom: 20px;
+.aboutContent h2, .contactInfo h3 {
+    margin-bottom: 20px;
+    font-size: 28px;
 }
 
+.aboutContent p, .contactInfo p {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.statsGrid {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.statBox {
+    border: 1px solid #eee;
+    padding: 20px;
+    min-width: 100px;
+    text-align: center;
+}
+
+.statBox b {
+    display: block;
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+
+.inputRow {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.inputRow input {
+    padding: 12px;
+    width: 300px;
+    border: 1px solid #ccc;
+}
+
+.inputRow button, .sendBtn {
+    background: black;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    cursor: pointer;
+}
+
+/* Mobile Responsiveness */
 @media (max-width: 768px) {
-  .aboutContent {
+    .productGrid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on tablet */
+        gap: 15px;
+    }
+
+    .aboutSection, .contactContainer {
+        flex-direction: column;
+    }
+    
+    .inputRow {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .inputRow input {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .productGrid {
+        grid-template-columns: 1fr; /* 1 column on phone */
+    }
+}
+/* --- THE FORM FIX --- */
+.contactForm {
+    flex: 1;
+    background-color: #f9f9f9; /* Light background to define the area */
+    padding: 40px;
+    border-radius: 8px;
+}
+
+/* Target the form tag directly */
+.contactForm form {
+    display: flex;
     flex-direction: column;
-  }
-  .aboutImage {
-    height: 300px;
+    gap: 20px;
     width: 100%;
-  }
+}
+
+/* Force Labels to be block elements */
+.contactForm label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: -10px; /* Pull input closer to label */
+    color: #333;
+    display: block;
+}
+
+.contactForm input, 
+.contactForm textarea {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #fff;
+    font-family: inherit;
+}
+
+.contactForm input:focus,
+.contactForm textarea:focus {
+    outline: 2px solid black;
+    border-color: transparent;
+}
+
+.sendBtn {
+    background: black;
+    color: white;
+    border: none;
+    padding: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    letter-spacing: 1px;
+    margin-top: 10px;
+    transition: background 0.3s;
+}
+
+.sendBtn:hover {
+    background-color: #333;
+}
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .contactContainer, .aboutSection {
+        flex-direction: column;
+        gap: 40px;
+    }
+    
+    .contactForm {
+        width: 100%;
+        padding: 20px;
+    }
 }

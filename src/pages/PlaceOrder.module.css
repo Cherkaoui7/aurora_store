@@ -1,0 +1,126 @@
+.placeOrder {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 50px;
+    margin-top: 80px;
+    margin-bottom: 100px;
+    padding: 0 20px; /* Adds safety padding on mobile */
+}
+
+.leftSide {
+    width: 100%;
+    max-width: 500px;
+}
+
+.title {
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    font-family: serif; 
+}
+
+.input {
+    margin-bottom: 15px;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #c5c5c5;
+    border-radius: 4px;
+    outline-color: tomato; /* Or your brand color */
+}
+
+.multiFields {
+    display: flex;
+    gap: 10px;
+}
+
+/* Right Side */
+.rightSide {
+    width: 100%;
+    max-width: 500px;
+}
+
+.cartTotal {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.cartTotal h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.totalRow {
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    color: #555;
+}
+
+.bold {
+    font-weight: bold;
+    color: #333;
+    font-size: 18px;
+}
+
+.paymentTitle {
+    font-weight: 600;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.paymentOptions {
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+}
+
+.paymentOption {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid #e2e2e2;
+    padding: 12px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.paymentOption:hover {
+    background-color: #f9f9f9;
+}
+
+.dot {
+    height: 14px;
+    width: 14px;
+    border: 1px solid #888;
+    border-radius: 50%;
+}
+
+.activeDot {
+    background-color: tomato; /* Or black */
+    border-color: tomato;
+}
+
+.placeOrderBtn {
+    margin-top: 30px;
+    width: 100%;
+    background-color: black;
+    color: white;
+    padding: 12px 0;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 750px) {
+    .placeOrder {
+        flex-direction: column;
+    }
+    .leftSide, .rightSide {
+        max-width: 100%;
+    }
+}
