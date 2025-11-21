@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
-import { FiSearch, FiUser, FiHeart, FiShoppingCart, FiX } from 'react-icons/fi'; // Import FiX (Close icon)
+import { FiSearch, FiUser, FiHeart, FiShoppingCart, FiX} from 'react-icons/fi'; // Import FiX (Close icon)
 import { ShopContext } from '../../context/ShopContext';
 import styles from './Header.module.css';
 
@@ -30,7 +30,10 @@ const Header = () => {
       </div>
       
       <div className={`container ${styles.navContainer}`}>
-        <Link to="/" className={styles.logo}>AURORA</Link>
+        <div className={styles.logoContainer}>
+          
+          <Link to="/" className={styles.logo}>AURORA</Link>
+        </div>
         
         <nav className={styles.nav}>
           <ul>

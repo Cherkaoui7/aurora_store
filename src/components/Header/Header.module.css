@@ -24,6 +24,27 @@
   letter-spacing: 2px;
 }
 
+.logoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.storeBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--secondary-color, #666);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.storeIcon {
+  font-size: 16px;
+  color: var(--primary-color, #000);
+}
+
 .nav ul {
   display: flex;
   gap: 25px;
