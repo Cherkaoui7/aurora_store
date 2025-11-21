@@ -4,16 +4,15 @@ import ProductCard from '../components/ProductCard/ProductCard';
 import styles from './PageStyles.module.css';
 
 const ShopAll = () => {
-  const { all_products, search } = useContext(ShopContext); // Get search term
+  const { all_products, search } = useContext(ShopContext);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
-  // Filter Logic
   useEffect(() => {
     if (search === '') {
         setFilteredProducts(all_products);
     } else {
         const filtered = all_products.filter(item => 
-            item.title.toLowerCase().includes(search.toLowerCase())
+            item.name.toLowerCase().includes(search.toLowerCase()) // changed item.title to item.name
         );
         setFilteredProducts(filtered);
     }
@@ -29,9 +28,12 @@ const ShopAll = () => {
         {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
               <ProductCard 
-                key={product.id} 
-                id={product.id} 
-                {...product} 
+                key={product._id}      // ✅ FIX 1: Use _id for React Key
+                id={product._id}       // ✅ FIX 2: Pass _id as the id prop
+                image={product.image}
+                title={product.name}   // ✅ FIX 3: Map DB 'name' to Card 'title'
+                price={product.price}
+                rating={4}             // Default rating until DB has one
               />
             ))
         ) : (

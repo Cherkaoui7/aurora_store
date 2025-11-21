@@ -15,8 +15,15 @@ const TrendingSection = () => {
     <section className={`container ${styles.section}`}>
       <h2 className={styles.heading}>Trending Right Now</h2>
       <div className={styles.grid}>
-        {products.map(product => (
-          <ProductCard key={product.id} {...product} />
+        {products.map((product) => (
+          <ProductCard 
+            key={product.id}
+            id={product.id}       // 👈 THIS IS CRITICAL for the link to work
+            image={product.image}
+            title={product.title}
+            price={product.price}
+            rating={product.rating}
+          />
         ))}
       </div>
     </section>

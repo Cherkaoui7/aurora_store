@@ -1,24 +1,32 @@
-import React from 'react';
+import React, { useContext } from 'react'; // ✅ Added useContext
+import { ShopContext } from '../context/ShopContext'; // ✅ Added ShopContext
 import ProductCard from '../components/ProductCard/ProductCard';
 import styles from './PageStyles.module.css';
 
-const womenProducts = [
-  { id: 'w1', title: 'Summer Floral Dress', price: 75.00, rating: 5, image: 'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?auto=format&fit=crop&w=800&q=80' },
-  { id: 'w2', title: 'High-Waist Jeans', price: 98.00, rating: 4, image: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=800&q=80' },
-  { id: 'w3', title: 'Silk Blouse', price: 110.00, rating: 5, image: 'https://images.unsplash.com/photo-1564257631407-4deb1f99d992?auto=format&fit=crop&w=800&q=80' },
-  { id: 'w4', title: 'Knit Cardigan', price: 65.00, rating: 4, image: 'https://images.unsplash.com/photo-1624224971170-2f84fed5eb5e?auto=format&fit=crop&w=800&q=80' },
-  { id: 'w5', title: 'Midi Skirt', price: 55.00, rating: 4, image: 'https://images.unsplash.com/photo-1617922001439-4a2e6562f328?auto=format&fit=crop&w=800&q=80' },
-  { id: 'w6', title: 'Activewear Set', price: 80.00, rating: 5, image: 'https://images.unsplash.com/photo-1571945153237-4929e783af4a?auto=format&fit=crop&w=800&q=80' },
-];
-
 const Women = () => {
+  const { all_products } = useContext(ShopContext);
+
+  // Filter only "Women" products from the Database
+  const womenProducts = all_products.filter(item => item.category === "Women");
+
   return (
     <div className={styles.pageContainer}>
       <h1 className={styles.pageTitle}>Women's Collection</h1>
+      
       <div className={styles.productGrid}>
-        {womenProducts.map(product => (
-          <ProductCard key={product.id} {...product} />
-        ))}
+        {womenProducts.length > 0 ? (
+            womenProducts.map((product) => (
+              <ProductCard 
+                key={product._id} 
+                id={product._id} 
+                {...product} 
+              />
+            ))
+        ) : (
+            <p style={{ textAlign: 'center', gridColumn: '1/-1' }}>
+                No products found in this category.
+            </p>
+        )}
       </div>
     </div>
   );

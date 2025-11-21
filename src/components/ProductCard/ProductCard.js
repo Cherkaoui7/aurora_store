@@ -1,24 +1,34 @@
-import React, { useContext } from 'react'; // Import useContext
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FaHeart, FaRegHeart } from 'react-icons/fa'; // Import Hearts
-import { ShopContext } from '../../context/ShopContext'; // Import Context
-import StarRating from '../UI/StarRating';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import { ShopContext } from '../../context/ShopContext';
+import StarRating from '../UI/StarRating'; // Make sure you have this component
 import styles from './ProductCard.module.css';
 
 const ProductCard = ({ id, image, title, price, rating }) => {
-  // 1. Get wishlist state and toggle function
+  
+  // 1. Access Wishlist State
   const { wishlistItems, toggleWishlist } = useContext(ShopContext);
-
-  // Check if this specific product is in the wishlist
   const isInWishlist = wishlistItems[id];
 
+  // 2. Smart Image Logic (Handles both Dummy Data URLs and Backend Uploads)
+  // If 'image' is an array (from backend), take the first one.
+  let imageUrl = Array.isArray(image) ? image[0] : image;
+  
+  // If it's not a full URL (doesn't start with http), prepend the backend server address
+  // Change 'http://localhost:4000' if your server runs elsewhere
+  const displayImage = (imageUrl && !imageUrl.startsWith('http')) 
+    ? `http://localhost:4000/images/${imageUrl}` 
+    : imageUrl;
+
+  // Animation Config
   const springTransition = { type: "spring", stiffness: 350, damping: 25 };
 
   return (
-    <div className={styles.cardWrapperRelative}> {/* We need a wrapper to position the heart outside the link if needed, or manage z-index */}
+    <div className={styles.cardWrapperRelative}> {/* Relative wrapper for Heart positioning */}
       
-      {/* 2. THE HEART BUTTON */}
+      {/* --- HEART BUTTON (Absolute Positioned) --- */}
       <motion.button 
         className={styles.wishlistBtn}
         onClick={(e) => {
@@ -31,18 +41,31 @@ const ProductCard = ({ id, image, title, price, rating }) => {
         {isInWishlist ? <FaHeart color="#ff4d4d" /> : <FaRegHeart />}
       </motion.button>
 
+      {/* --- MAIN CARD LINK --- */}
       <Link to={`/product/${id}`} className={styles.cardLink}>
         <motion.div 
             className={styles.cardWrapper}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            whileHover={{ y: -10, boxShadow: "0 20px 30px -10px rgba(0,0,0,0.15)" }}
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            whileHover={{ 
+                y: -10, 
+                scale: 1.02, 
+                boxShadow: "0 20px 30px -10px rgba(0, 0, 0, 0.15)" 
+            }}
             viewport={{ once: true }}
         >
+          {/* Image Area */}
           <div className={styles.imageContainer}>
-            <img src={image} alt={title} className={styles.image} />
+            <motion.img 
+                src={displayImage} 
+                alt={title} 
+                className={styles.image}
+                whileHover={{ scale: 1.08 }} 
+                transition={springTransition}
+            />
             
+            {/* The Floating "Pill" Button */}
             <motion.div 
                className={styles.quickViewPill}
                initial={{ opacity: 0, y: 20, x: "-50%" }}
@@ -53,12 +76,16 @@ const ProductCard = ({ id, image, title, price, rating }) => {
             </motion.div>
           </div>
           
+          {/* Details Area */}
           <div className={styles.details}>
             <h3 className={styles.title}>{title}</h3>
+            
             <div className={styles.ratingWrapper}>
                <StarRating rating={rating} />
             </div>
-            <p className={styles.price}>${price.toFixed(2)}</p>
+
+            {/* Safely handle price formatting */}
+            <p className={styles.price}>${Number(price).toFixed(2)}</p>
           </div>
         </motion.div>
       </Link>

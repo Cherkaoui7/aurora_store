@@ -1,23 +1,37 @@
-import React, { createContext, useState } from "react";
-import { all_products } from "../assets/all_products";
+import React, { createContext, useEffect, useState } from "react";
+import axios from "axios"; 
+// ❌ Removed import { all_products } ...
 
 export const ShopContext = createContext(null);
 
-const getDefaultCart = () => {
-  let cart = {};
-  all_products.forEach((product) => {
-    cart[product.id] = 0;
-  });
-  return cart;
-};
-
 const ShopContextProvider = (props) => {
-  const [cartItems, setCartItems] = useState(getDefaultCart());
-  const [wishlistItems, setWishlistItems] = useState({});
   
-  // 1. NEW: Search States
+  // 1. State to hold products from Database
+  const [products, setProducts] = useState([]); // Default empty array
+  
+  const [cartItems, setCartItems] = useState({});
+  const [wishlistItems, setWishlistItems] = useState({});
   const [search, setSearch] = useState('');
   const [showSearch, setShowSearch] = useState(false);
+
+  // 2. Function to Fetch Data from Backend
+  const getProductsData = async () => {
+    try {
+        // Make sure your backend is running on 4000
+        const response = await axios.get('http://localhost:4000/api/product/list');
+        if (response.data.success) {
+            setProducts(response.data.products); // Save DB data to state
+        }
+    } catch (error) {
+        console.log("Backend Error:", error);
+    }
+  }
+
+  // 3. Run on Load
+  useEffect(() => {
+    getProductsData();
+  }, [])
+
 
   const addToCart = (itemId) => {
     setCartItems((prev) => ({ ...prev, [itemId]: (prev[itemId] || 0) + 1 }));
@@ -45,14 +59,13 @@ const ShopContextProvider = (props) => {
   };
 
   const contextValue = {
-    all_products,
+    all_products: products, // ✅ Map the new state to the old variable name so pages don't break
     cartItems,
     addToCart,
     removeFromCart,
     getTotalCartItems,
     wishlistItems,
     toggleWishlist,
-    // 2. Export Search Values
     search, setSearch,
     showSearch, setShowSearch
   };

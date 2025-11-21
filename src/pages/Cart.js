@@ -12,7 +12,8 @@ const Cart = () => {
     let totalAmount = 0;
     for (const item in cartItems) {
       if (cartItems[item] > 0) {
-        let itemInfo = all_products.find((product) => String(product.id) === String(item));
+        // ✅ Fix 1: Compare using _id
+        let itemInfo = all_products.find((product) => String(product._id) === String(item));
         if (itemInfo) {
             totalAmount += itemInfo.price * cartItems[item];
         }
@@ -23,7 +24,6 @@ const Cart = () => {
 
   const totalAmount = getTotalCartAmount();
 
-  // Empty State
   if (getTotalCartItems() === 0) {
       return (
           <div className={styles.cartPage} style={{textAlign: 'center', padding: '150px 0'}}>
@@ -41,38 +41,38 @@ const Cart = () => {
         <h1>YOUR CART</h1>
       </div>
 
-      {/* Note: Header is hidden in CSS, but we keep the logic simple */}
-
-      {/* CART ITEMS LIST */}
       <div>
         {all_products.map((product) => {
-          if (cartItems[product.id] > 0) {
+          // ✅ Fix 2: Use _id here
+          if (cartItems[product._id] > 0) {
             return (
-              <div key={product.id} className={styles.cartItem}>
+              // ✅ Fix 3: Key must use _id
+              <div key={product._id} className={styles.cartItem}>
                 
-                {/* Col 1: Image */}
-                <img src={product.image} alt="" className={styles.itemImage} />
+                {/* Image Fix (Handle local vs url) */}
+                <img 
+                  src={product.image[0].startsWith('http') ? product.image[0] : `http://localhost:4000/images/${product.image[0]}`} 
+                  alt="" 
+                  className={styles.itemImage} 
+                />
                 
-                {/* Col 2: Title & Size */}
                 <div>
-                  <p className={styles.itemName}>{product.title}</p>
+                  <p className={styles.itemName}>{product.name}</p> {/* MongoDB usually uses 'name', check your data! */}
                   <div className={styles.itemMeta}>
                      <span>Size: M</span> 
                   </div>
                 </div>
                 
-                {/* Col 3: Price */}
                 <p>${product.price.toFixed(2)}</p>
                 
-                {/* Col 4: Quantity */}
-                <button className={styles.quantityInput}>{cartItems[product.id]}</button>
+                {/* ✅ Fix 4: Use _id for quantity lookup */}
+                <button className={styles.quantityInput}>{cartItems[product._id]}</button>
                 
-                {/* Col 5: Total per item */}
-                <p>${(product.price * cartItems[product.id]).toFixed(2)}</p>
+                <p>${(product.price * cartItems[product._id]).toFixed(2)}</p>
                 
-                {/* Col 6: Delete Icon */}
+                {/* ✅ Fix 5: Pass _id to remove function */}
                 <FiTrash2 
-                    onClick={() => removeFromCart(product.id)} 
+                    onClick={() => removeFromCart(product._id)} 
                     className={styles.deleteIcon} 
                 />
               </div>
@@ -82,35 +82,26 @@ const Cart = () => {
         })}
       </div>
 
-      {/* CART TOTALS SECTION */}
       <div className={styles.cartBottom}>
         <div className={styles.cartTotal}>
           <h2>CART TOTALS</h2>
-          
           <div className={styles.totalRow}>
              <p>Subtotal</p>
              <p>${totalAmount.toFixed(2)}</p>
           </div>
-          
           <div className={styles.totalRow}>
              <p>Shipping Fee</p>
              <p style={{color: 'green'}}>Free</p>
           </div>
-          
           <div className={`${styles.totalRow} ${styles.bold}`}>
              <p>Total</p>
              <p>${totalAmount.toFixed(2)}</p>
           </div>
-          
-          <button 
-            onClick={() => navigate('/place-order')} 
-            className={styles.checkoutBtn}
-          >
+          <button onClick={() => navigate('/place-order')} className={styles.checkoutBtn}>
             PROCEED TO CHECKOUT
           </button>
         </div>
       </div>
-
     </div>
   );
 };
