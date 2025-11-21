@@ -12,8 +12,13 @@ const About = () => {
       </Reveal>
 
       <div className={styles.aboutSection}>
-        {/* Left Side: Image (Placeholder color for now) */}
-        <div className={styles.aboutImage}></div>
+        {/* Left Side: Image */}
+        <div className={styles.aboutImage}>
+          <img
+            src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1000&q=80"
+            alt="Professional team in creative studio"
+          />
+        </div>
 
         {/* Right Side: Text */}
         <div className={styles.aboutContent}>

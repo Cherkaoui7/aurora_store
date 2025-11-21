@@ -27,8 +27,8 @@
 /* About & Contact Styles (Keeping these safe from previous step) */
 .aboutSection, .contactContainer {
     display: flex;
-    gap: 50px;
-    align-items: flex-start; /* Aligns top of content */
+    gap: 60px;
+    align-items: flex-start;
     margin-bottom: 100px;
 }
 
@@ -37,7 +37,14 @@
     height: 400px;
     background-color: #f0f0f0;
     border-radius: 4px;
+    overflow: hidden;
+}
+
+.aboutImage img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    display: block;
 }
 
 .aboutContent, .contactInfo, .contactForm {

@@ -89,3 +89,52 @@
   outline: none;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
+/* Add at the bottom of Header.module.css */
+
+.searchBarContainer {
+    width: 100%;
+    background-color: #f9f9f9;
+    padding: 15px 0;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    /* Optional: Animation */
+    animation: slideDown 0.3s ease;
+}
+
+.searchInputWrapper {
+    position: relative;
+    width: 50%;
+    min-width: 300px;
+}
+
+.realInput {
+    width: 100%;
+    padding: 10px 40px; /* Space for icon */
+    border-radius: 50px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 16px;
+}
+
+.searchIconInput {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+}
+
+.closeSearch {
+    font-size: 20px;
+    cursor: pointer;
+    color: #555;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}

@@ -57,7 +57,7 @@ export const all_products = [
     title: 'Swim Trunks', 
     price: 45.00, 
     rating: 5, 
-    image: 'https://images.unsplash.com/photo-1616340306660-285339a028f2?auto=format&fit=crop&w=800&q=80',
+    image: 'https://imgs.search.brave.com/Vena2AY99VsURuVEoitjAlUQ-KUO13_cdxFmdyLJF88/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMtbmEuc3NsLWlt/YWdlcy1hbWF6b24u/Y29tL2ltYWdlcy9J/LzgxcThsOTE4MnJM/LmpwZw',
     description: "Quick-dry fabric with a modern fit for the beach.",
     sizes: ["S", "M", "L"]
   },
@@ -103,8 +103,8 @@ export const all_products = [
     description: "Soft knit cardigan for chilly evenings.",
     sizes: ["One Size"]
   },
-  { id: 'w5', title: 'Midi Skirt', price: 55.00, rating: 4, image: 'https://source.unsplash.com/random/300x400?skirt' },
-  { id: 'w6', title: 'Activewear Set', price: 80.00, rating: 5, image: 'https://source.unsplash.com/random/300x400?activewear' },
+  { id: 'w5', category: 'Women', title: 'Midi Skirt', price: 55.00, rating: 4, image: 'https://images.unsplash.com/photo-1617922001439-4a2e6562f328?auto=format&fit=crop&w=800&q=80' },
+  { id: 'w6', category: 'Women', title: 'Activewear Set', price: 80.00, rating: 5, image: 'https://images.unsplash.com/photo-1571945153237-4929e783af4a?auto=format&fit=crop&w=800&q=80' },
 
   // --- ACCESSORIES ---
   { 
@@ -128,10 +128,10 @@ export const all_products = [
     sizes: ["US 7", "US 8", "US 9", "US 10"]
   },
   
-  { id: 'a3', title: 'Leather Crossbody Bag', price: 110.00, rating: 5, image: 'https://source.unsplash.com/random/300x400?leather bag' },
-  { id: 'a4', title: 'Modern Sunglasses', price: 45.00, rating: 4, image: 'https://source.unsplash.com/random/300x400?sunglasses' },
-  { id: 'a5', title: 'Classic Watch', price: 150.00, rating: 5, image: 'https://source.unsplash.com/random/300x400?watch' },
-  { id: 'a6', title: 'Baseball Cap', price: 30.00, rating: 4, image: 'https://source.unsplash.com/random/300x400?cap' },
+  { id: 'a3', category: 'Accessories', title: 'Leather Crossbody Bag', price: 110.00, rating: 5, image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=800&q=80' },
+  { id: 'a4', category: 'Accessories', title: 'Modern Sunglasses', price: 45.00, rating: 4, image: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=800&q=80' },
+  { id: 'a5', category: 'Accessories', title: 'Classic Watch', price: 150.00, rating: 5, image: 'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?auto=format&fit=crop&w=800&q=80' },
+  { id: 'a6', category: 'Accessories', title: 'Baseball Cap', price: 30.00, rating: 4, image: 'https://images.unsplash.com/photo-1595642527925-4d41cb781653?auto=format&fit=crop&w=800&q=80' },
 
   // --- NEW ARRIVALS ---
   { 
@@ -144,7 +144,7 @@ export const all_products = [
     description: "Breathable linen for the ultimate summer comfort.",
     sizes: ["S", "M", "L", "XL"]
   },
-  { id: 102, category: 'New', title: 'High-Waist Trousers', price: 95.00, rating: 4, image: 'https://source.unsplash.com/random/300x400?trousers' },
-  { id: 103, category: 'New', title: 'Woven Straw Hat', price: 42.00, rating: 5, image: 'https://source.unsplash.com/random/300x400?straw hat' },
-  { id: 104, category: 'New', title: 'Slip-on Loafers', price: 115.00, rating: 4, image: 'https://source.unsplash.com/random/300x400?loafers' },
+  { id: 102, category: 'New', title: 'High-Waist Trousers', price: 95.00, rating: 4, image: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=800&q=80' },
+  { id: 103, category: 'New', title: 'Woven Straw Hat', price: 42.00, rating: 5, image: 'https://images.unsplash.com/photo-1521369909029-2afed882baee?auto=format&fit=crop&w=800&q=80' },
+  { id: 104, category: 'New', title: 'Slip-on Loafers', price: 115.00, rating: 4, image: 'https://images.unsplash.com/photo-1570464197285-9949814674a7?auto=format&fit=crop&w=800&q=80' },
 ];

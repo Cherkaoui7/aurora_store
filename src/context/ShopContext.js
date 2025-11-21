@@ -5,7 +5,6 @@ export const ShopContext = createContext(null);
 
 const getDefaultCart = () => {
   let cart = {};
-  // Initialize cart with all product IDs set to 0
   all_products.forEach((product) => {
     cart[product.id] = 0;
   });
@@ -13,21 +12,21 @@ const getDefaultCart = () => {
 };
 
 const ShopContextProvider = (props) => {
-  // State to hold cart items { itemId: quantity }
   const [cartItems, setCartItems] = useState(getDefaultCart());
+  const [wishlistItems, setWishlistItems] = useState({});
+  
+  // 1. NEW: Search States
+  const [search, setSearch] = useState('');
+  const [showSearch, setShowSearch] = useState(false);
 
-  // Function to Add to Cart
   const addToCart = (itemId) => {
     setCartItems((prev) => ({ ...prev, [itemId]: (prev[itemId] || 0) + 1 }));
-    console.log("Cart Items:", cartItems); // Helpful for debugging
   };
 
-  // Function to Remove from Cart
   const removeFromCart = (itemId) => {
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
   };
 
-  // Function to calculate total number of items in cart (for the badge)
   const getTotalCartItems = () => {
     let totalItem = 0;
     for (const item in cartItems) {
@@ -38,13 +37,24 @@ const ShopContextProvider = (props) => {
     return totalItem;
   };
 
-  // Value passed to all components
+  const toggleWishlist = (itemId) => {
+    setWishlistItems((prev) => ({
+      ...prev,
+      [itemId]: !prev[itemId]
+    }));
+  };
+
   const contextValue = {
     all_products,
     cartItems,
     addToCart,
     removeFromCart,
     getTotalCartItems,
+    wishlistItems,
+    toggleWishlist,
+    // 2. Export Search Values
+    search, setSearch,
+    showSearch, setShowSearch
   };
 
   return (
