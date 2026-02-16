@@ -3,8 +3,8 @@ import axios from "axios";
 
 export const ShopContext = createContext(null);
 
-// Centralized API URL — change this for production
-export const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000';
+// API_URL: empty string = same-origin (Vercel). For local dev, set REACT_APP_API_URL=http://localhost:4000
+export const API_URL = process.env.REACT_APP_API_URL || '';
 
 const ShopContextProvider = (props) => {
 

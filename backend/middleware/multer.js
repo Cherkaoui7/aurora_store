@@ -1,13 +1,8 @@
 import multer from "multer";
 
-const storage = multer.diskStorage({
-    destination: function (req, file, callback) {
-        callback(null, 'uploads/')
-    },
-    filename: function (req, file, callback) {
-        callback(null, `${Date.now()}_${file.originalname}`)
-    }
-})
+// Use memory storage for Vercel serverless (no persistent disk)
+// For local dev with disk storage, images were saved to uploads/
+const storage = multer.memoryStorage();
 
 // Only allow image files
 const fileFilter = (req, file, callback) => {

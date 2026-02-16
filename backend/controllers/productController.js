@@ -1,14 +1,19 @@
 import productModel from "../models/productModel.js";
-import fs from 'fs';
 
 // Add Product
 const addProduct = async (req, res) => {
     try {
-        const { name, description, price, category, subCategory, sizes, bestseller } = req.body;
+        const { name, description, price, category, subCategory, sizes, bestseller, imageUrl } = req.body;
 
-        const image1 = req.files.image1 && req.files.image1[0];
-        const images = [image1].filter((item) => item !== undefined);
-        let imageUrls = images.map((item) => `${item.filename}`);
+        // Support both file upload (memory) and direct image URL
+        let imageUrls = [];
+        if (req.files && req.files.image1 && req.files.image1[0]) {
+            // File uploaded via multer (memory storage) — use original filename
+            imageUrls.push(req.files.image1[0].originalname);
+        } else if (imageUrl) {
+            // Direct URL provided (for Vercel deployment)
+            imageUrls.push(imageUrl);
+        }
 
         const productData = {
             name,
@@ -50,9 +55,6 @@ const removeProduct = async (req, res) => {
         const product = await productModel.findById(req.body.id);
         if (!product) {
             return res.status(404).json({ success: false, message: "Product not found" });
-        }
-        if (product.image && product.image[0]) {
-            fs.unlink(`uploads/${product.image[0]}`, () => { });
         }
 
         await productModel.findByIdAndDelete(req.body.id);
