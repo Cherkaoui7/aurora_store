@@ -12,12 +12,12 @@ const ProductCard = ({ id, image, title, price, rating }) => {
   const { wishlistItems, toggleWishlist, API_URL } = useContext(ShopContext);
   const isInWishlist = wishlistItems[id];
 
-  // 2. Smart Image Logic (Handles both URLs and Backend Uploads)
+  // 2. Smart Image Logic (Handles URLs, Base64 data URLs, and Backend Uploads)
   let imageUrl = Array.isArray(image) ? image[0] : image;
 
-  const displayImage = (imageUrl && !imageUrl.startsWith('http'))
-    ? `${API_URL}/images/${imageUrl}`
-    : imageUrl;
+  const displayImage = (imageUrl && (imageUrl.startsWith('http') || imageUrl.startsWith('data:')))
+    ? imageUrl
+    : `${API_URL}/images/${imageUrl}`;
 
   // Animation Config
   const springTransition = { type: "spring", stiffness: 350, damping: 25 };

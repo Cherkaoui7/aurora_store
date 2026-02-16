@@ -20,7 +20,7 @@ const Product = () => {
       if (product) {
         setProductData(product);
         const img = Array.isArray(product.image) ? product.image[0] : product.image;
-        setImage(img.startsWith('http') ? img : `${API_URL}/images/${img}`);
+        setImage((img.startsWith('http') || img.startsWith('data:')) ? img : `${API_URL}/images/${img}`);
       }
     }
   }, [productId, all_products, API_URL]);

@@ -3,16 +3,22 @@ import productModel from "../models/productModel.js";
 // Add Product
 const addProduct = async (req, res) => {
     try {
-        const { name, description, price, category, subCategory, sizes, bestseller, imageUrl } = req.body;
+        const { name, description, price, category, subCategory, sizes, bestseller } = req.body;
 
-        // Support both file upload (memory) and direct image URL
+        // Helper to get image URL from file object
+        const getImageUrl = (file) => {
+            if (file.path) return file.path; // Cloudinary or Disk Storage
+            if (file.buffer) { // Memory Storage (Base64 fallback)
+                const base64 = file.buffer.toString('base64');
+                return `data:${file.mimetype};base64,${base64}`;
+            }
+            return null;
+        };
+
         let imageUrls = [];
         if (req.files && req.files.image1 && req.files.image1[0]) {
-            // File uploaded via multer (memory storage) — use original filename
-            imageUrls.push(req.files.image1[0].originalname);
-        } else if (imageUrl) {
-            // Direct URL provided (for Vercel deployment)
-            imageUrls.push(imageUrl);
+            const url = getImageUrl(req.files.image1[0]);
+            if (url) imageUrls.push(url);
         }
 
         const productData = {

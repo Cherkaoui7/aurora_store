@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
-const Add = () => {
+const Add = ({ token }) => {
     const [image, setImage] = useState(false);
     const [name, setName] = useState("");
     const [desc, setDesc] = useState("");
@@ -33,7 +33,7 @@ const Add = () => {
             image && formData.append("image1", image);
 
             const response = await axios.post(`${API_URL}/api/product/add`, formData, {
-                headers: { 'Content-Type': 'multipart/form-data' }
+                headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${token}` }
             });
 
             if (response.data.success) {

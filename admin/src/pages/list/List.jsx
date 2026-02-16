@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
-const List = () => {
+const List = ({ token }) => {
 
   const [list, setList] = useState([]);
 
@@ -25,7 +25,9 @@ const List = () => {
 
   const removeProduct = async (productId) => {
     try {
-      const response = await axios.post(`${API_URL}/api/product/remove`, { id: productId });
+      const response = await axios.post(`${API_URL}/api/product/remove`, { id: productId }, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
       if (response.data.success) {
         toast.success(response.data.message);
         await fetchList();
@@ -55,10 +57,10 @@ const List = () => {
           <b>Price</b>
           <b>Action</b>
         </div>
-        {list.map((item, index) => {
+        {list.filter(item => item.image && item.image[0]).map((item) => {
           return (
             <div key={item._id} className='list-table-format'>
-              <img src={`${API_URL}/images/${item.image[0]}`} alt="" />
+              <img src={item.image[0].startsWith('data:') ? item.image[0] : `${API_URL}/images/${item.image[0]}`} alt="" />
               <p>{item.name}</p>
               <p>{item.category}</p>
               <p>${item.price}</p>

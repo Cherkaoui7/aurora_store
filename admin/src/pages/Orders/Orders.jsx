@@ -6,13 +6,15 @@ import { toast } from 'react-toastify'
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
 
-const Orders = () => {
+const Orders = ({ token }) => {
     const [orders, setOrders] = useState([]);
 
     // 1. Fetch All Orders
     const fetchAllOrders = async () => {
         try {
-            const response = await axios.get(`${API_URL}/api/order/list`);
+            const response = await axios.get(`${API_URL}/api/order/list`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
             if (response.data.success) {
                 setOrders(response.data.data);
             } else {
@@ -29,6 +31,8 @@ const Orders = () => {
             const response = await axios.post(`${API_URL}/api/order/status`, {
                 orderId,
                 status: event.target.value
+            }, {
+                headers: { 'Authorization': `Bearer ${token}` }
             })
             if (response.data.success) {
                 await fetchAllOrders(); // Refresh list

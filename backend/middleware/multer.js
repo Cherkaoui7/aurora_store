@@ -1,8 +1,30 @@
 import multer from "multer";
+import { v2 as cloudinary } from 'cloudinary';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
+import 'dotenv/config';
 
-// Use memory storage for Vercel serverless (no persistent disk)
-// For local dev with disk storage, images were saved to uploads/
-const storage = multer.memoryStorage();
+// Defaults to Memory Storage (Base64)
+let storage = multer.memoryStorage();
+
+// If Cloudinary credentials exist, switch to Cloud Cloud Storage
+if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET) {
+    cloudinary.config({
+        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+        api_key: process.env.CLOUDINARY_API_KEY,
+        api_secret: process.env.CLOUDINARY_API_SECRET
+    });
+
+    storage = new CloudinaryStorage({
+        cloudinary: cloudinary,
+        params: {
+            folder: 'aurora_store_products',
+            allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
+        },
+    });
+    console.log("☁️  Using Cloudinary Storage for image uploads");
+} else {
+    console.log("⚠️  Using Memory Storage (Base64) - Cloudinary keys missing");
+}
 
 // Only allow image files
 const fileFilter = (req, file, callback) => {

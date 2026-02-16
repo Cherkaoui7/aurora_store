@@ -4,6 +4,7 @@ import 'dotenv/config';
 import mongoose from 'mongoose';
 import productRouter from './routes/productRoute.js';
 import orderRouter from './routes/orderRoute.js';
+import adminRouter from './routes/adminRoute.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -29,20 +30,33 @@ app.use(cors({
 
 // Database Connection
 let isConnected = false;
-const connectDB = async () => {
+const connectDB = async (retries = 5, delay = 5000) => {
     if (isConnected) return;
-    try {
-        await mongoose.connect(process.env.MONGODB_URI);
-        isConnected = true;
-        console.log("✅ MongoDB Connected Successfully");
-    } catch (error) {
-        console.error("❌ MongoDB Connection Error:", error);
+
+    for (let i = 0; i < retries; i++) {
+        try {
+            await mongoose.connect(process.env.MONGODB_URI);
+            isConnected = true;
+            console.log("✅ MongoDB Connected Successfully");
+            return;
+        } catch (error) {
+            console.error(`❌ MongoDB Connection Error (Attempt ${i + 1}/${retries}):`, error.message);
+            if (i < retries - 1) {
+                console.log(`Retrying in ${delay / 1000} seconds...`);
+                await new Promise(res => setTimeout(res, delay));
+            } else {
+                console.error("❌ Failed to connect to MongoDB after multiple attempts.");
+                // We don't exit process here strictly so Vercel function doesn't crash immediately,
+                // but usually it will fail subsequent requests. 
+            }
+        }
     }
 }
 
 // API Endpoints
 app.use('/api/product', productRouter);
 app.use('/api/order', orderRouter);
+app.use('/api/admin', adminRouter);
 
 // Serve uploaded images (local dev only)
 app.use('/images', express.static(path.join(__dirname, 'uploads')));
