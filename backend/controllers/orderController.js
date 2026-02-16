@@ -3,8 +3,11 @@ import orderModel from "../models/orderModel.js";
 // 1. Placing an Order (Cash on Delivery method for now)
 const placeOrder = async (req, res) => {
     try {
-        // We get all this data from the Frontend form
         const { userId, items, amount, address, paymentMethod } = req.body;
+
+        if (!userId || !items || !amount || !address || !paymentMethod) {
+            return res.status(400).json({ success: false, message: "Missing required order fields" });
+        }
 
         const newOrder = new orderModel({
             userId,
@@ -12,19 +15,17 @@ const placeOrder = async (req, res) => {
             amount,
             address,
             paymentMethod,
-            payment: false, // Not paid yet if COD
+            payment: false,
             date: Date.now()
         })
 
         await newOrder.save();
 
-        // (Optional) Clear user cart logic would go here
-
         res.json({ success: true, message: "Order Placed Successfully" })
 
     } catch (error) {
-        console.log(error);
-        res.json({ success: false, message: "Error placing order" })
+        console.error(error);
+        res.status(500).json({ success: false, message: "Error placing order" })
     }
 }
 
@@ -34,19 +35,23 @@ const allOrders = async (req, res) => {
         const orders = await orderModel.find({});
         res.json({ success: true, data: orders })
     } catch (error) {
-        console.log(error);
-        res.json({ success: false, message: "Error fetching orders" })
+        console.error(error);
+        res.status(500).json({ success: false, message: "Error fetching orders" })
     }
 }
 
 // 3. Update Status (For Admin to change "Order Placed" -> "Shipped")
 const updateStatus = async (req, res) => {
     try {
-        await orderModel.findByIdAndUpdate(req.body.orderId, { status: req.body.status });
+        const { orderId, status } = req.body;
+        if (!orderId || !status) {
+            return res.status(400).json({ success: false, message: "Missing orderId or status" });
+        }
+        await orderModel.findByIdAndUpdate(orderId, { status });
         res.json({ success: true, message: "Status Updated" })
     } catch (error) {
-        console.log(error);
-        res.json({ success: false, message: "Error updating status" })
+        console.error(error);
+        res.status(500).json({ success: false, message: "Error updating status" })
     }
 }
 

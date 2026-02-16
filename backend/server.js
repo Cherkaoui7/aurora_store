@@ -11,12 +11,20 @@ const port = process.env.PORT || 4000;
 
 // Middlewares
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: [
+        'http://localhost:3000',   // Frontend dev
+        'http://localhost:5173',   // Admin dev (Vite)
+        process.env.FRONTEND_URL, // Production frontend
+        process.env.ADMIN_URL     // Production admin
+    ].filter(Boolean),
+    credentials: true
+}));
 
 // Database Connection
 const connectDB = async () => {
     try {
-        await mongoose.connect(process.env.MONGODB_URI); // Ensure .env has your URL
+        await mongoose.connect(process.env.MONGODB_URI);
         console.log("✅ MongoDB Connected Successfully");
     } catch (error) {
         console.error("❌ MongoDB Connection Error:", error);
@@ -27,7 +35,7 @@ const connectDB = async () => {
 app.use('/api/product', productRouter);
 app.use('/api/order', orderRouter);
 
-// ✅ CRITICAL: Serve the uploaded images to the frontend
+// Serve the uploaded images to the frontend
 app.use('/images', express.static('uploads'));
 
 app.get('/', (req, res) => {

@@ -1,42 +1,51 @@
 import React, { useContext, useState } from 'react';
 import { ShopContext } from '../context/ShopContext';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // ✅ Import Axios
- // Use toast for better alerts (optional)
+import axios from 'axios';
 import styles from './PlaceOrder.module.css';
 
 const PlaceOrder = () => {
-  const { all_products, cartItems } = useContext(ShopContext); // Need these to build order data
-  const [method, setMethod] = useState('cod'); 
+  const { all_products, cartItems, clearCart, API_URL } = useContext(ShopContext);
+  const [method, setMethod] = useState('cod');
   const navigate = useNavigate();
 
   // State for Address Form
   const [formData, setFormData] = useState({
-      firstName: "",
-      lastName: "",
-      email: "",
-      street: "",
-      city: "",
-      state: "",
-      zipcode: "",
-      country: "",
-      phone: ""
+    firstName: "",
+    lastName: "",
+    email: "",
+    street: "",
+    city: "",
+    state: "",
+    zipcode: "",
+    country: "",
+    phone: ""
   })
 
   const onChangeHandler = (event) => {
-      const name = event.target.name;
-      const value = event.target.value;
-      setFormData(data => ({...data, [name]:value}))
+    const name = event.target.name;
+    const value = event.target.value;
+    setFormData(data => ({ ...data, [name]: value }))
   }
+
+  // Parse cart key
+  const parseCartKey = (key) => {
+    const lastUnderscore = key.lastIndexOf('_');
+    return {
+      productId: key.substring(0, lastUnderscore),
+      size: key.substring(lastUnderscore + 1)
+    };
+  };
 
   // Calculate Total
   const getTotalCartAmount = () => {
     let totalAmount = 0;
-    for (const item in cartItems) {
-      if (cartItems[item] > 0) {
-        let itemInfo = all_products.find((product) => String(product._id) === String(item));
+    for (const cartKey in cartItems) {
+      if (cartItems[cartKey] > 0) {
+        const { productId } = parseCartKey(cartKey);
+        let itemInfo = all_products.find((product) => String(product._id) === String(productId));
         if (itemInfo) {
-            totalAmount += itemInfo.price * cartItems[item];
+          totalAmount += itemInfo.price * cartItems[cartKey];
         }
       }
     }
@@ -45,56 +54,56 @@ const PlaceOrder = () => {
 
   const totalAmount = getTotalCartAmount();
 
-  // ✅ THE REAL SUBMIT FUNCTION
   const onSubmitHandler = async (event) => {
     event.preventDefault();
-    
+
     try {
-        // 1. Prepare Order Items Array
-        let orderItems = [];
-        for (const itemId in cartItems) {
-            if (cartItems[itemId] > 0) {
-                const itemInfo = all_products.find((product) => String(product._id) === String(itemId));
-                if (itemInfo) {
-                    // Create a clean object for the database
-                    let itemCopy = {
-                        ...itemInfo,
-                        quantity: cartItems[itemId]
-                    };
-                    orderItems.push(itemCopy);
-                }
-            }
+      // 1. Prepare Order Items Array
+      let orderItems = [];
+      for (const cartKey in cartItems) {
+        if (cartItems[cartKey] > 0) {
+          const { productId, size } = parseCartKey(cartKey);
+          const itemInfo = all_products.find((product) => String(product._id) === String(productId));
+          if (itemInfo) {
+            let itemCopy = {
+              ...itemInfo,
+              size: size === 'default' ? 'One Size' : size,
+              quantity: cartItems[cartKey]
+            };
+            orderItems.push(itemCopy);
+          }
         }
+      }
 
-        // 2. Prepare Payload
-        let orderData = {
-            userId: "guest_user", // Temporary until we build Login
-            items: orderItems,
-            amount: totalAmount,
-            address: formData,
-            paymentMethod: method
-        }
+      // 2. Prepare Payload
+      let orderData = {
+        userId: "guest_user",
+        items: orderItems,
+        amount: totalAmount,
+        address: formData,
+        paymentMethod: method
+      }
 
-        // 3. Send to Backend
-        const response = await axios.post('http://localhost:4000/api/order/place', orderData);
+      // 3. Send to Backend
+      const response = await axios.post(`${API_URL}/api/order/place`, orderData);
 
-        if (response.data.success) {
-            alert("Order Placed Successfully!"); 
-            // Ideally: clearCart();
-            navigate('/'); 
-        } else {
-            alert("Error placing order");
-        }
+      if (response.data.success) {
+        clearCart();
+        alert("Order Placed Successfully!");
+        navigate('/');
+      } else {
+        alert("Error placing order");
+      }
 
     } catch (error) {
-        console.log(error);
-        alert("Error connecting to server");
+      console.error(error);
+      alert("Error connecting to server");
     }
   }
 
   return (
     <form className={styles.placeOrder} onSubmit={onSubmitHandler}>
-      
+
       {/* LEFT SIDE */}
       <div className={styles.leftSide}>
         <p className={styles.title}>DELIVERY INFORMATION</p>
@@ -120,32 +129,32 @@ const PlaceOrder = () => {
         <div className={styles.cartTotal}>
           <h2>CART TOTALS</h2>
           <div className={styles.totalRow}>
-             <p>Subtotal</p>
-             <p>${totalAmount.toFixed(2)}</p>
+            <p>Subtotal</p>
+            <p>${totalAmount.toFixed(2)}</p>
           </div>
           <hr />
           <div className={styles.totalRow}>
-             <p>Shipping Fee</p>
-             <p>Free</p>
+            <p>Shipping Fee</p>
+            <p>Free</p>
           </div>
           <hr />
           <div className={`${styles.totalRow} ${styles.bold}`}>
-             <p>Total</p>
-             <p>${totalAmount.toFixed(2)}</p>
+            <p>Total</p>
+            <p>${totalAmount.toFixed(2)}</p>
           </div>
-          
+
           <div className={styles.paymentMethods}>
-              <p className={styles.paymentTitle}>PAYMENT METHOD</p>
-              <div className={styles.paymentOptions}>
-                  <div onClick={() => setMethod('stripe')} className={styles.paymentOption}>
-                      <div className={method === 'stripe' ? `${styles.dot} ${styles.activeDot}` : styles.dot}></div>
-                      <p>Stripe (Credit Card)</p>
-                  </div>
-                  <div onClick={() => setMethod('cod')} className={styles.paymentOption}>
-                      <div className={method === 'cod' ? `${styles.dot} ${styles.activeDot}` : styles.dot}></div>
-                      <p>Cash on Delivery</p>
-                  </div>
+            <p className={styles.paymentTitle}>PAYMENT METHOD</p>
+            <div className={styles.paymentOptions}>
+              <div onClick={() => setMethod('stripe')} className={styles.paymentOption}>
+                <div className={method === 'stripe' ? `${styles.dot} ${styles.activeDot}` : styles.dot}></div>
+                <p>Stripe (Credit Card)</p>
               </div>
+              <div onClick={() => setMethod('cod')} className={styles.paymentOption}>
+                <div className={method === 'cod' ? `${styles.dot} ${styles.activeDot}` : styles.dot}></div>
+                <p>Cash on Delivery</p>
+              </div>
+            </div>
           </div>
 
           <button className={styles.placeOrderBtn} type="submit">PLACE ORDER</button>

@@ -6,7 +6,7 @@ const Login = () => {
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
-    // Logic for Backend API will go here later
+    alert(`${currentState} feature coming soon! We're working on it.`);
   }
 
   return (
@@ -21,13 +21,13 @@ const Login = () => {
         {currentState === 'Sign Up' && (
           <input type="text" className={styles.inputField} placeholder="Name" required />
         )}
-        
+
         <input type="email" className={styles.inputField} placeholder="Email" required />
         <input type="password" className={styles.inputField} placeholder="Password" required />
 
         <div className={styles.forgotPassword}>
           <p>Forgot your password?</p>
-          {currentState === 'Login' 
+          {currentState === 'Login'
             ? <p onClick={() => setCurrentState('Sign Up')} className={styles.toggleText}>Create account</p>
             : <p onClick={() => setCurrentState('Login')} className={styles.toggleText}>Login Here</p>
           }

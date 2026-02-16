@@ -1,44 +1,54 @@
 import React, { createContext, useEffect, useState } from "react";
-import axios from "axios"; 
-// ❌ Removed import { all_products } ...
+import axios from "axios";
 
 export const ShopContext = createContext(null);
 
+// Centralized API URL — change this for production
+export const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000';
+
 const ShopContextProvider = (props) => {
-  
-  // 1. State to hold products from Database
-  const [products, setProducts] = useState([]); // Default empty array
-  
+
+  const [products, setProducts] = useState([]);
   const [cartItems, setCartItems] = useState({});
   const [wishlistItems, setWishlistItems] = useState({});
   const [search, setSearch] = useState('');
   const [showSearch, setShowSearch] = useState(false);
 
-  // 2. Function to Fetch Data from Backend
+  // Fetch products from Backend
   const getProductsData = async () => {
     try {
-        // Make sure your backend is running on 4000
-        const response = await axios.get('http://localhost:4000/api/product/list');
-        if (response.data.success) {
-            setProducts(response.data.products); // Save DB data to state
-        }
+      const response = await axios.get(`${API_URL}/api/product/list`);
+      if (response.data.success) {
+        setProducts(response.data.products);
+      }
     } catch (error) {
-        console.log("Backend Error:", error);
+      console.error("Backend Error:", error);
     }
   }
 
-  // 3. Run on Load
   useEffect(() => {
     getProductsData();
   }, [])
 
-
-  const addToCart = (itemId) => {
-    setCartItems((prev) => ({ ...prev, [itemId]: (prev[itemId] || 0) + 1 }));
+  // Cart key format: "productId_size" (e.g. "abc123_M")
+  const addToCart = (itemId, size = 'default') => {
+    const cartKey = `${itemId}_${size}`;
+    setCartItems((prev) => ({ ...prev, [cartKey]: (prev[cartKey] || 0) + 1 }));
   };
 
-  const removeFromCart = (itemId) => {
-    setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+  const removeFromCart = (cartKey) => {
+    setCartItems((prev) => {
+      const newCount = (prev[cartKey] || 0) - 1;
+      if (newCount <= 0) {
+        const { [cartKey]: _, ...rest } = prev;
+        return rest;
+      }
+      return { ...prev, [cartKey]: newCount };
+    });
+  };
+
+  const clearCart = () => {
+    setCartItems({});
   };
 
   const getTotalCartItems = () => {
@@ -59,15 +69,17 @@ const ShopContextProvider = (props) => {
   };
 
   const contextValue = {
-    all_products: products, // ✅ Map the new state to the old variable name so pages don't break
+    all_products: products,
     cartItems,
     addToCart,
     removeFromCart,
+    clearCart,
     getTotalCartItems,
     wishlistItems,
     toggleWishlist,
     search, setSearch,
-    showSearch, setShowSearch
+    showSearch, setShowSearch,
+    API_URL
   };
 
   return (

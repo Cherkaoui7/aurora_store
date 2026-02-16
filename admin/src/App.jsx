@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Route, NavLink } from 'react-router-dom'
+import { Routes, Route, NavLink, Navigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Add from './pages/Add/Add'
@@ -11,22 +11,23 @@ const App = () => {
     <div>
       <ToastContainer />
       <div className="navbar">
-         <h1 className="nav-logo">AURORA Admin</h1>
-         <div className="nav-profile"></div>
+        <h1 className="nav-logo">AURORA Admin</h1>
+        <div className="nav-profile"></div>
       </div>
       <hr />
       <div className="app-content">
         <div className="sidebar">
-           <NavLink to="/add" className="sidebar-option"><p>+ Add Items</p></NavLink>
-           <NavLink to="/list" className="sidebar-option"><p>📋 List Items</p></NavLink>
-           <NavLink to="/orders" className="sidebar-option"><p>📦 Orders</p></NavLink>
+          <NavLink to="/add" className="sidebar-option"><p>+ Add Items</p></NavLink>
+          <NavLink to="/list" className="sidebar-option"><p>📋 List Items</p></NavLink>
+          <NavLink to="/orders" className="sidebar-option"><p>📦 Orders</p></NavLink>
         </div>
         <div className="main-content">
-            <Routes>
-              <Route path="/add" element={<Add />} />
-              <Route path="/list" element={<List />} />
-              <Route path="/orders" element={<Orders />} />
-            </Routes>
+          <Routes>
+            <Route path="/" element={<Navigate to="/list" replace />} />
+            <Route path="/add" element={<Add />} />
+            <Route path="/list" element={<List />} />
+            <Route path="/orders" element={<Orders />} />
+          </Routes>
         </div>
       </div>
     </div>

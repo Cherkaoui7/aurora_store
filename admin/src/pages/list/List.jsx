@@ -3,16 +3,15 @@ import './List.css'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+
 const List = () => {
-  
+
   const [list, setList] = useState([]);
 
   const fetchList = async () => {
     try {
-      const response = await axios.get('http://localhost:4000/api/product/list');
-      
-      // DEBUG LOG: See what the backend sent back
-      console.log("Backend Response:", response.data);
+      const response = await axios.get(`${API_URL}/api/product/list`);
 
       if (response.data.success) {
         setList(response.data.products);
@@ -20,15 +19,13 @@ const List = () => {
         toast.error("Backend says: " + response.data.message);
       }
     } catch (error) {
-      // DEBUG LOG: See the real crash reason
-      console.error("Fetch Error:", error);
-      toast.error(error.message); // Displays "Network Error" or similar
+      toast.error(error.message);
     }
   }
 
   const removeProduct = async (productId) => {
     try {
-      const response = await axios.post('http://localhost:4000/api/product/remove', { id: productId });
+      const response = await axios.post(`${API_URL}/api/product/remove`, { id: productId });
       if (response.data.success) {
         toast.success(response.data.message);
         await fetchList();
@@ -36,7 +33,6 @@ const List = () => {
         toast.error("Error");
       }
     } catch (error) {
-      console.error("Remove Error:", error);
       toast.error(error.message || "Error");
     }
   }
@@ -61,8 +57,8 @@ const List = () => {
         </div>
         {list.map((item, index) => {
           return (
-            <div key={index} className='list-table-format'>
-              <img src={'http://localhost:4000/images/' + item.image[0]} alt="" />
+            <div key={item._id} className='list-table-format'>
+              <img src={`${API_URL}/images/${item.image[0]}`} alt="" />
               <p>{item.name}</p>
               <p>{item.category}</p>
               <p>${item.price}</p>

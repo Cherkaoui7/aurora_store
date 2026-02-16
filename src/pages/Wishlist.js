@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import { ShopContext } from '../context/ShopContext';
 import ProductCard from '../components/ProductCard/ProductCard';
-import styles from './PageStyles.module.css'; // Reusing your grid styles
+import styles from './PageStyles.module.css';
 
 const Wishlist = () => {
   const { all_products, wishlistItems } = useContext(ShopContext);
 
   // Filter products that are marked True in wishlistItems
-  const savedProducts = all_products.filter((item) => wishlistItems[item.id]);
+  const savedProducts = all_products.filter((item) => wishlistItems[item._id]);
 
   return (
     <div className={styles.pageContainer}>
@@ -20,10 +20,13 @@ const Wishlist = () => {
       ) : (
         <div className={styles.productGrid}>
           {savedProducts.map((product) => (
-            <ProductCard 
-              key={product.id} 
-              id={product.id}
-              {...product} 
+            <ProductCard
+              key={product._id}
+              id={product._id}
+              image={product.image}
+              title={product.name}
+              price={product.price}
+              rating={4}
             />
           ))}
         </div>
