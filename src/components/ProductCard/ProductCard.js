@@ -3,21 +3,24 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { ShopContext } from '../../context/ShopContext';
-import StarRating from '../UI/StarRating'; // Make sure you have this component
+import StarRating from '../UI/StarRating';
 import styles from './ProductCard.module.css';
 
-const ProductCard = ({ id, image, title, price, rating }) => {
+const ProductCard = ({ id, image, title, name, price, rating = 4 }) => {
 
-  // 1. Access Wishlist State
-  const { wishlistItems, toggleWishlist, API_URL } = useContext(ShopContext);
-  const isInWishlist = wishlistItems[id];
+  // 1. Access Wishlist State safely
+  const { wishlistItems = {}, toggleWishlist, API_URL = '' } = useContext(ShopContext) || {};
+  const isInWishlist = Boolean(wishlistItems && wishlistItems[id]);
+  const displayTitle = title || name || 'Product';
 
   // 2. Smart Image Logic (Handles URLs, Base64 data URLs, and Backend Uploads)
   let imageUrl = Array.isArray(image) ? image[0] : image;
 
-  const displayImage = (imageUrl && (imageUrl.startsWith('http') || imageUrl.startsWith('data:')))
-    ? imageUrl
-    : `${API_URL}/images/${imageUrl}`;
+  const displayImage = !imageUrl
+    ? '/placeholder.png'
+    : (imageUrl.startsWith('http') || imageUrl.startsWith('data:'))
+      ? imageUrl
+      : `${API_URL}/images/${imageUrl}`;
 
   // Animation Config
   const springTransition = { type: "spring", stiffness: 350, damping: 25 };
@@ -30,7 +33,9 @@ const ProductCard = ({ id, image, title, price, rating }) => {
         className={styles.wishlistBtn}
         onClick={(e) => {
           e.preventDefault(); // Prevent clicking the card link
-          toggleWishlist(id);
+          if (typeof toggleWishlist === 'function') {
+            toggleWishlist(id);
+          }
         }}
         whileTap={{ scale: 0.8 }}
         whileHover={{ scale: 1.1 }}
@@ -56,7 +61,7 @@ const ProductCard = ({ id, image, title, price, rating }) => {
           <div className={styles.imageContainer}>
             <motion.img
               src={displayImage}
-              alt={title}
+              alt={displayTitle}
               className={styles.image}
               whileHover={{ scale: 1.08 }}
               transition={springTransition}
@@ -75,14 +80,14 @@ const ProductCard = ({ id, image, title, price, rating }) => {
 
           {/* Details Area */}
           <div className={styles.details}>
-            <h3 className={styles.title}>{title}</h3>
+            <h3 className={styles.title}>{displayTitle}</h3>
 
             <div className={styles.ratingWrapper}>
               <StarRating rating={rating} />
             </div>
 
             {/* Safely handle price formatting */}
-            <p className={styles.price}>${Number(price).toFixed(2)}</p>
+            <p className={styles.price}>${Number(price || 0).toFixed(2)}</p>
           </div>
         </motion.div>
       </Link>

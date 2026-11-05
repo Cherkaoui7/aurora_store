@@ -1,26 +1,30 @@
 import React, { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
-import { FiSearch, FiUser, FiHeart, FiShoppingCart, FiX} from 'react-icons/fi'; // Import FiX (Close icon)
+import { Link, useNavigate } from 'react-router-dom';
+import { FiSearch, FiUser, FiHeart, FiShoppingCart, FiX} from 'react-icons/fi';
 import { ShopContext } from '../../context/ShopContext';
 import styles from './Header.module.css';
 
 const Header = () => {
-  // 1. Use Global Search State
-  const { getTotalCartItems, search, setSearch, showSearch, setShowSearch } = useContext(ShopContext);
+  const { getTotalCartItems, search, setSearch, showSearch, setShowSearch, user } = useContext(ShopContext);
   const navigate = useNavigate();
 
-  // 2. Handle Search Logic
   const handleSearch = (e) => {
      setSearch(e.target.value);
-     // Optional: If you want to auto-redirect to shop while typing, uncomment below:
-     // navigate('/shop');
   };
 
   const handleEnterKey = (e) => {
      if (e.key === 'Enter') {
-         navigate('/shop'); // Go to shop page on Enter
-         // Optional: setShowSearch(false); // Close bar after search?
+         navigate('/shop');
      }
+  };
+
+  const handleSearchClick = () => {
+     navigate('/shop');
+  };
+
+  const handleCloseSearch = () => {
+     setShowSearch(false);
+     setSearch('');
   };
 
   return (
@@ -31,7 +35,6 @@ const Header = () => {
       
       <div className={`container ${styles.navContainer}`}>
         <div className={styles.logoContainer}>
-          
           <Link to="/" className={styles.logo}>AURORA</Link>
         </div>
         
@@ -48,16 +51,24 @@ const Header = () => {
 
         <div className={styles.icons}>
           
-          {/* SEARCH SECTION */}
+          {/* SEARCH TRIGGER */}
           <div className={styles.searchWrapper}>
             <FiSearch 
               className={styles.icon} 
               onClick={() => setShowSearch(!showSearch)} 
               style={{ cursor: 'pointer' }}
+              title={showSearch ? "Close search bar" : "Open search bar"}
             />
           </div>
 
-          <Link to="/login"><FiUser className={styles.icon} /></Link>
+          <Link
+            to="/login"
+            className={styles.userIconWrapper}
+            title={user ? `Signed in as ${user.name}` : "Sign In"}
+          >
+            <FiUser className={styles.icon} />
+            {user && <span className={styles.userBadge} />}
+          </Link>
           <Link to="/wishlist"><FiHeart className={styles.icon} /></Link>
           <Link to="/cart" className={styles.cartIconWrapper}>
             <FiShoppingCart className={styles.icon} />
@@ -66,22 +77,31 @@ const Header = () => {
         </div>
       </div>
 
-      {/* 3. THE SEARCH BAR (Full Width Dropdown) */}
+      {/* SEARCH BAR (Full Width Dropdown) */}
       {showSearch && (
          <div className={styles.searchBarContainer}>
              <div className={styles.searchInputWrapper}>
                  <input 
                     type="text" 
-                    placeholder="Search for products..." 
+                    placeholder="Search products by name, category, or description..." 
                     className={styles.realInput}
                     value={search}
                     onChange={handleSearch}
                     onKeyDown={handleEnterKey}
+                    maxLength={100}
                     autoFocus
                  />
-                 <FiSearch className={styles.searchIconInput} />
+                 <FiSearch 
+                    className={styles.searchIconInput} 
+                    onClick={handleSearchClick}
+                    title="Click to search"
+                 />
              </div>
-             <FiX className={styles.closeSearch} onClick={() => setShowSearch(false)} />
+             <FiX 
+                className={styles.closeSearch} 
+                onClick={handleCloseSearch} 
+                title="Close and clear search"
+             />
          </div>
       )}
     </header>

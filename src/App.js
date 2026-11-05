@@ -19,6 +19,7 @@ import Cart from './pages/Cart';
 import Wishlist from './pages/Wishlist';
 import Product from './pages/Product';
 import PlaceOrder from './pages/PlaceOrder';
+import VerifyPayment from './pages/VerifyPayment';
 
 const NotFound = () => (
   <div style={{ textAlign: 'center', padding: '100px 20px' }}>
@@ -46,6 +47,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/place-order" element={<PlaceOrder />} />
+        <Route path="/verify-payment" element={<VerifyPayment />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

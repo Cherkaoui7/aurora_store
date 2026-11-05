@@ -3,8 +3,8 @@ import axios from "axios";
 
 export const ShopContext = createContext(null);
 
-// API_URL: empty string = same-origin (Vercel). For local dev, set REACT_APP_API_URL=http://localhost:4000
-export const API_URL = process.env.REACT_APP_API_URL || '';
+// API_URL: empty string = same-origin (Vercel). For local dev, set VITE_API_URL or REACT_APP_API_URL
+export const API_URL = (import.meta.env && import.meta.env.VITE_API_URL) || (typeof process !== 'undefined' && process.env && process.env.REACT_APP_API_URL) || '';
 
 const ShopContextProvider = (props) => {
 
@@ -13,6 +13,33 @@ const ShopContextProvider = (props) => {
   const [wishlistItems, setWishlistItems] = useState({});
   const [search, setSearch] = useState('');
   const [showSearch, setShowSearch] = useState(false);
+
+  // Customer Authentication State
+  const [token, setToken] = useState(localStorage.getItem('token') || '');
+  const [user, setUser] = useState(() => {
+    try {
+      const savedUser = localStorage.getItem('user');
+      return savedUser ? JSON.parse(savedUser) : null;
+    } catch {
+      return null;
+    }
+  });
+
+  const login = (newToken, newUser) => {
+    setToken(newToken);
+    setUser(newUser);
+    localStorage.setItem('token', newToken);
+    if (newUser) {
+      localStorage.setItem('user', JSON.stringify(newUser));
+    }
+  };
+
+  const logout = () => {
+    setToken('');
+    setUser(null);
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+  };
 
   // Fetch products from Backend
   const getProductsData = async () => {
@@ -24,11 +51,11 @@ const ShopContextProvider = (props) => {
     } catch (error) {
       console.error("Backend Error:", error);
     }
-  }
+  };
 
   useEffect(() => {
     getProductsData();
-  }, [])
+  }, []);
 
   // Cart key format: "productId_size" (e.g. "abc123_M")
   const addToCart = (itemId, size = 'default') => {
@@ -79,6 +106,7 @@ const ShopContextProvider = (props) => {
     toggleWishlist,
     search, setSearch,
     showSearch, setShowSearch,
+    token, user, login, logout,
     API_URL
   };
 

@@ -62,13 +62,14 @@ const Cart = () => {
 
       <div>
         {cartEntries.map(({ cartKey, product, size, quantity }) => {
-          const imgSrc = product.image[0].startsWith('http')
-            ? product.image[0]
-            : `${API_URL}/images/${product.image[0]}`;
+          const rawImg = Array.isArray(product.image) ? product.image[0] : product.image;
+          const imgSrc = (rawImg && (rawImg.startsWith('http') || rawImg.startsWith('data:')))
+            ? rawImg
+            : (rawImg ? `${API_URL}/images/${rawImg}` : '');
 
           return (
             <div key={cartKey} className={styles.cartItem}>
-              <img src={imgSrc} alt="" className={styles.itemImage} />
+              <img src={imgSrc} alt={product.name} className={styles.itemImage} />
 
               <div>
                 <p className={styles.itemName}>{product.name}</p>

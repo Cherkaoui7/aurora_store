@@ -1,32 +1,39 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { ShopContext } from '../context/ShopContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from './PlaceOrder.module.css';
 
 const PlaceOrder = () => {
-  const { all_products, cartItems, clearCart, API_URL } = useContext(ShopContext);
-  const [method, setMethod] = useState('cod');
+  const { all_products, cartItems, clearCart, API_URL, token, user } = useContext(ShopContext);
+  const [method, setMethod] = useState('stripe');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   // State for Address Form
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    email: "",
+    email: user?.email || "",
     street: "",
     city: "",
     state: "",
     zipcode: "",
     country: "",
     phone: ""
-  })
+  });
+
+  useEffect(() => {
+    if (user?.email && !formData.email) {
+      setFormData(prev => ({ ...prev, email: user.email }));
+    }
+  }, [user, formData.email]);
 
   const onChangeHandler = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    setFormData(data => ({ ...data, [name]: value }))
-  }
+    setFormData(data => ({ ...data, [name]: value }));
+  };
 
   // Parse cart key
   const parseCartKey = (key) => {
@@ -58,6 +65,8 @@ const PlaceOrder = () => {
     event.preventDefault();
 
     try {
+      setLoading(true);
+
       // 1. Prepare Order Items Array
       let orderItems = [];
       for (const cartKey in cartItems) {
@@ -75,31 +84,59 @@ const PlaceOrder = () => {
         }
       }
 
+      if (orderItems.length === 0) {
+        alert("Your cart is empty!");
+        setLoading(false);
+        return;
+      }
+
       // 2. Prepare Payload
       let orderData = {
-        userId: "guest_user",
+        userId: user?.id || "guest_user",
         items: orderItems,
         amount: totalAmount,
         address: formData,
         paymentMethod: method
-      }
+      };
 
-      // 3. Send to Backend
-      const response = await axios.post(`${API_URL}/api/order/place`, orderData);
+      const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
 
-      if (response.data.success) {
-        clearCart();
-        alert("Order Placed Successfully!");
-        navigate('/');
+      // 3. Process Payment based on Method
+      if (method === 'stripe') {
+        const response = await axios.post(`${API_URL}/api/order/stripe`, orderData, {
+          headers: authHeaders
+        });
+
+        if (response.data.success && response.data.session_url) {
+          // Keep cart in case user cancels or navigates back, or clear if desired.
+          // In standard checkout, cart is cleared upon verified payment on return page.
+          window.location.replace(response.data.session_url);
+        } else {
+          alert(response.data.message || "Failed to initialize Stripe Checkout.");
+          setLoading(false);
+        }
       } else {
-        alert("Error placing order");
+        // Cash On Delivery
+        const response = await axios.post(`${API_URL}/api/order/place`, orderData, {
+          headers: authHeaders
+        });
+
+        if (response.data.success) {
+          clearCart();
+          alert("Order Placed Successfully!");
+          navigate(token ? '/login' : '/');
+        } else {
+          alert("Error placing order: " + (response.data.message || 'Unknown error'));
+        }
+        setLoading(false);
       }
 
     } catch (error) {
       console.error(error);
-      alert("Error connecting to server");
+      alert(error.response?.data?.message || "Error connecting to server. Please try again.");
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <form className={styles.placeOrder} onSubmit={onSubmitHandler}>
@@ -157,7 +194,9 @@ const PlaceOrder = () => {
             </div>
           </div>
 
-          <button className={styles.placeOrderBtn} type="submit">PLACE ORDER</button>
+          <button className={styles.placeOrderBtn} type="submit" disabled={loading}>
+            {loading ? (method === 'stripe' ? 'REDIRECTING TO STRIPE...' : 'PROCESSING...') : 'PLACE ORDER'}
+          </button>
         </div>
       </div>
     </form>

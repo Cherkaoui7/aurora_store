@@ -1,43 +1,80 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ShopContext } from '../context/ShopContext';
 import ProductCard from '../components/ProductCard/ProductCard';
+import useDebounce from '../hooks/useDebounce';
 import styles from './PageStyles.module.css';
 
 const ShopAll = () => {
-  const { all_products, search } = useContext(ShopContext);
+  const { all_products, search, setSearch } = useContext(ShopContext);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const debouncedSearch = useDebounce(search, 150);
 
   useEffect(() => {
-    if (search === '') {
-        setFilteredProducts(all_products);
+    const query = (debouncedSearch || '').trim().toLowerCase();
+    if (!query) {
+      setFilteredProducts(all_products);
     } else {
-        const filtered = all_products.filter(item => 
-            item.name.toLowerCase().includes(search.toLowerCase()) // changed item.title to item.name
+      const filtered = all_products.filter(item => {
+        if (!item) return false;
+        const name = (item.name || '').toLowerCase();
+        const category = (item.category || '').toLowerCase();
+        const subCategory = (item.subCategory || '').toLowerCase();
+        const description = (item.description || '').toLowerCase();
+
+        return (
+          name.includes(query) ||
+          category.includes(query) ||
+          subCategory.includes(query) ||
+          description.includes(query)
         );
-        setFilteredProducts(filtered);
+      });
+      setFilteredProducts(filtered);
     }
-  }, [search, all_products]);
+  }, [debouncedSearch, all_products]);
+
+  const handleClearSearch = () => {
+    setSearch('');
+  };
+
+  const isSearching = Boolean((search || '').trim());
 
   return (
     <div className={styles.pageContainer}>
-      <h1 className={styles.pageTitle}>
-          {search ? `Results for "${search}"` : 'Shop All Products'}
-      </h1>
-      
+      <div className={styles.shopHeader}>
+        <h1 className={styles.pageTitle}>
+          {isSearching ? `Results for "${search.trim()}"` : 'Shop All Products'}
+        </h1>
+        {isSearching && (
+          <button onClick={handleClearSearch} className={styles.clearSearchBtn}>
+            Clear Search ✕
+          </button>
+        )}
+      </div>
+
       <div className={styles.productGrid}>
         {filteredProducts.length > 0 ? (
-            filteredProducts.map((product) => (
-              <ProductCard 
-                key={product._id}      // ✅ FIX 1: Use _id for React Key
-                id={product._id}       // ✅ FIX 2: Pass _id as the id prop
-                image={product.image}
-                title={product.name}   // ✅ FIX 3: Map DB 'name' to Card 'title'
-                price={product.price}
-                rating={4}             // Default rating until DB has one
-              />
-            ))
+          filteredProducts.map((product) => (
+            <ProductCard
+              key={product._id}
+              id={product._id}
+              image={product.image}
+              title={product.name}
+              price={product.price}
+              rating={4}
+            />
+          ))
         ) : (
-            <p style={{ gridColumn: "1 / -1", textAlign: "center" }}>No products found.</p>
+          <div className={styles.noProductsContainer}>
+            <p className={styles.noProductsText}>
+              No products found matching &ldquo;{search}&rdquo;.
+            </p>
+            <p className={styles.noProductsSubtext}>
+              Try checking your spelling or searching for another term (e.g. jacket, cotton, accessories).
+            </p>
+            <button onClick={handleClearSearch} className={styles.resetBtn}>
+              View All Products
+            </button>
+          </div>
         )}
       </div>
     </div>

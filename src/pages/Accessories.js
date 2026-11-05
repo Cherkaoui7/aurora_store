@@ -1,32 +1,67 @@
 import React, { useContext } from 'react';
-import { ShopContext } from '../context/ShopContext'; // ✅ Import Context
+import { ShopContext } from '../context/ShopContext';
 import ProductCard from '../components/ProductCard/ProductCard';
 import styles from './PageStyles.module.css';
 
 const Accessories = () => {
-  // 1. Get all data from the "Brain"
-  const { all_products } = useContext(ShopContext);
+  const { all_products, search, setSearch } = useContext(ShopContext);
 
-  // 2. Filter only Accessories
-  const accessories = all_products.filter(item => item.category === "Accessories");
+  const query = (search || '').trim().toLowerCase();
+
+  // Filter "Accessories" products with safe query matching across name, subCategory, description
+  const accessories = all_products.filter(item => {
+    if (!item || item.category !== 'Accessories') return false;
+    if (!query) return true;
+    const name = (item.name || '').toLowerCase();
+    const subCategory = (item.subCategory || '').toLowerCase();
+    const description = (item.description || '').toLowerCase();
+    return name.includes(query) || subCategory.includes(query) || description.includes(query);
+  });
+
+  const isSearching = Boolean(query);
+
+  const handleClearSearch = () => {
+    setSearch('');
+  };
 
   return (
     <div className={styles.pageContainer}>
-      <h1 className={styles.pageTitle}>Accessories</h1>
-      
+      <div className={styles.shopHeader}>
+        <h1 className={styles.pageTitle}>
+          {isSearching ? `Accessories - "${search.trim()}"` : "Accessories"}
+        </h1>
+        {isSearching && (
+          <button onClick={handleClearSearch} className={styles.clearSearchBtn}>
+            Clear Search ✕
+          </button>
+        )}
+      </div>
+
       <div className={styles.productGrid}>
         {accessories.length > 0 ? (
-            accessories.map((product) => (
-              <ProductCard 
-                key={product._id} 
-                id={product._id} // ✅ Pass the Database ID
-                {...product} 
-              />
-            ))
+          accessories.map((product) => (
+            <ProductCard
+              key={product._id}
+              id={product._id}
+              image={product.image}
+              title={product.name}
+              price={product.price}
+              rating={4}
+            />
+          ))
         ) : (
-            <p style={{ textAlign: 'center', gridColumn: '1/-1' }}>
-                No accessories found.
+          <div className={styles.noProductsContainer}>
+            <p className={styles.noProductsText}>
+              {isSearching
+                ? `No products found in Accessories matching "${search}".`
+                : "No accessories found."}
             </p>
+            {isSearching && (
+              <button onClick={handleClearSearch} className={styles.resetBtn}>
+                View All Accessories
+              </button>
+            )}
+          </div>
         )}
       </div>
     </div>

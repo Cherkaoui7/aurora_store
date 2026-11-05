@@ -1,5 +1,15 @@
-// jest-dom adds custom jest matchers for asserting on DOM nodes.
-// allows you to do things like:
-// expect(element).toHaveTextContent(/react/i)
-// learn more: https://github.com/testing-library/jest-dom
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
+
+// Mock IntersectionObserver for Framer Motion viewport / useInView features
+class MockIntersectionObserver {
+  constructor(callback) {
+    this.callback = callback;
+  }
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+
+globalThis.IntersectionObserver = MockIntersectionObserver;
+window.IntersectionObserver = MockIntersectionObserver;
+window.scrollTo = () => {};

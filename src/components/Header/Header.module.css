@@ -89,10 +89,8 @@
   justify-content: center;
   align-items: center;
 }
-/* Add this to Header.module.css */
 
 .searchWrapper {
-  /* Ensures the search icon and input stay grouped */
   display: flex;
   align-items: center;
 }
@@ -100,17 +98,16 @@
 .searchInput {
   position: absolute;
   right: 0;
-  top: 30px; /* Pushes it just below the icon */
+  top: 30px;
   padding: 5px 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
   width: 200px;
   background: white;
-  z-index: 100; /* Ensures it floats on top of other content */
+  z-index: 100;
   outline: none;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
-/* Add at the bottom of Header.module.css */
 
 .searchBarContainer {
     width: 100%;
@@ -122,7 +119,6 @@
     align-items: center;
     justify-content: center;
     gap: 20px;
-    /* Optional: Animation */
     animation: slideDown 0.3s ease;
 }
 
@@ -134,11 +130,15 @@
 
 .realInput {
     width: 100%;
-    padding: 10px 40px; /* Space for icon */
+    padding: 10px 40px;
     border-radius: 50px;
     border: 1px solid #ccc;
     outline: none;
-    font-size: 16px;
+    font-size: 15px;
+}
+
+.realInput:focus {
+    border-color: #000;
 }
 
 .searchIconInput {
@@ -146,16 +146,47 @@
     left: 15px;
     top: 50%;
     transform: translateY(-50%);
-    color: #888;
+    color: #666;
+    cursor: pointer;
+    font-size: 18px;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.searchIconInput:hover {
+    color: #000;
+    transform: translateY(-50%) scale(1.15);
 }
 
 .closeSearch {
     font-size: 20px;
     cursor: pointer;
     color: #555;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.closeSearch:hover {
+    color: #000;
+    transform: scale(1.15);
 }
 
 @keyframes slideDown {
     from { transform: translateY(-10px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
+}
+
+.userIconWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.userBadge {
+  position: absolute;
+  top: -2px;
+  right: -3px;
+  width: 8px;
+  height: 8px;
+  background-color: #2e7d32;
+  border-radius: 50%;
+  border: 1.5px solid #fff;
 }

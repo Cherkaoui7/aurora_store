@@ -1,15 +1,24 @@
-// Configuration validation for environment variables
+// Configuration validation for Aurora Backend environment variables
 
-const requiredEnvVars = ['DB_HOST', 'DB_USER', 'DB_PASS', 'API_KEY'];
+const requiredEnvVars = ['MONGODB_URI', 'JWT_SECRET'];
 
-function validateEnvVars() {
+export function validateEnvVars() {
     const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
 
     if (missingVars.length) {
-        console.error('Missing required environment variables:', missingVars.join(', '));
-        process.exit(1);
+        console.warn('⚠️ Missing recommended environment variables:', missingVars.join(', '));
+        console.warn('⚠️ Ensure MONGODB_URI and JWT_SECRET are set in your .env file.');
+    } else {
+        console.log('✅ Required environment variables verified.');
     }
-    console.log('All required environment variables are set.');
+
+    if (!process.env.CLOUDINARY_CLOUD_NAME) {
+        console.log('ℹ️ Cloudinary credentials not detected - falling back to memory/Base64 storage.');
+    }
+
+    if (!process.env.STRIPE_SECRET_KEY) {
+        console.log('ℹ️ Stripe credentials not detected - Stripe Checkout will require STRIPE_SECRET_KEY in backend/.env.');
+    }
 }
 
-validateEnvVars();
+export default validateEnvVars;
