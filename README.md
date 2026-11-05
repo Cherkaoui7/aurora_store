@@ -1,5 +1,5 @@
 # ✨ AURORA | E-Commerce Haut de Gamme MERN Stack
-## 📋 Rapport Complet du Projet & Cahier des Charges
+## 📋 Rapport Complet du Projet, Cahier des Charges & Modélisation Avancée
 
 ![Aurora Banner](https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2070&auto=format&fit=crop)
 
@@ -17,21 +17,30 @@
    - [2.1. Fonctionnalités Boutique Client (Storefront)](#21-fonctionnalités-boutique-client-storefront)
    - [2.2. Fonctionnalités Espace d'Administration (Dashboard)](#22-fonctionnalités-espace-dadministration-dashboard)
    - [2.3. Exigences Non-Fonctionnelles & Performance](#23-exigences-non-fonctionnelles--performance)
-3. [Architecture Globale & Schémas Techniques](#3-architecture-globale--schémas-techniques)
-4. [Bilan Exhaustif des Travaux & Réalisations](#4-bilan-exhaustif-des-travaux--réalisations)
-   - [4.1. Migration Create React App vers Vite 7 & React 19](#41-migration-create-react-app-vers-vite-7--react-19)
-   - [4.2. Système d'Authentification Client Complet](#42-système-dauthentification-client-complet)
-   - [4.3. Intégration Sécurisée de la Passerelle Stripe](#43-intégration-sécurisée-de-la-passerelle-stripe)
-   - [4.4. Refonte Ergonomique & Sécurisation de la Recherche](#44-refonte-ergonomique--sécurisation-de-la-recherche)
-   - [4.5. Sécurité : Élimination de l'Élévation de Privilèges (SEC-1)](#45-sécurité--élimination-de-lélévation-de-privilèges-sec-1)
-   - [4.6. Durcissement du Dashboard Admin contre les Crashs (ADM-1 à 3)](#46-durcissement-du-dashboard-admin-contre-les-crashs-adm-1-à-3)
-   - [4.7. Protection contre les Injections NoSQL & Attaques ReDoS](#47-protection-contre-les-injections-nosql--attaques-redos)
-   - [4.8. Prévention des CastError MongoDB (BE-1)](#48-prévention-des-casterror-mongodb-be-1)
-   - [4.9. En-têtes HTTP de Sécurité & Confidentialité du Cache](#49-en-têtes-http-de-sécurité--confidentialité-du-cache)
-5. [Modèles de Données (Schémas Mongoose)](#5-modèles-de-données-schémas-mongoose)
-6. [Suite de Tests Automatisée & Assurance Qualité](#6-suite-de-tests-automatisée--assurance-qualité)
-7. [Guide d'Installation & Déploiement Local](#7-guide-dinstallation--déploiement-local)
-8. [Conclusion & Perspectives](#8-conclusion--perspectives)
+3. [Modélisation UML & Conception du Système](#3-modélisation-uml--conception-du-système)
+   - [3.1. Diagramme des Cas d'Utilisation (Use Case Diagram)](#31-diagramme-des-cas-dutilisation-use-case-diagram)
+   - [3.2. Diagramme de Classes (Class Diagram)](#32-diagramme-de-classes-class-diagram)
+4. [Gestion de Projet Agile & Planification Opérationnelle](#4-gestion-de-projet-agile--planification-opérationnelle)
+   - [4.1. Simulation Interactive du Tableau Trello (Kanban Agile)](#41-simulation-interactive-du-tableau-trello-kanban-agile)
+   - [4.2. Planification Prévisionnelle : 2 Diagrammes de Gantt](#42-planification-prévisionnelle--2-diagrammes-de-gantt)
+   - [4.3. Réseaux PERT & Analyse du Chemin Critique : 2 Diagrammes PERT](#43-réseaux-pert--analyse-du-chemin-critique--2-diagrammes-pert)
+5. [Architecture Globale & Schémas Techniques](#5-architecture-globale--schémas-techniques)
+   - [5.1. Schéma d'Architecture Système](#51-schéma-darchitecture-système)
+   - [5.2. Diagramme de Séquence : Tunnel de Paiement Stripe](#52-diagramme-de-séquence--tunnel-de-paiement-stripe)
+6. [Bilan Exhaustif des Travaux & Réalisations](#6-bilan-exhaustif-des-travaux--réalisations)
+   - [6.1. Migration Create React App vers Vite 7 & React 19](#61-migration-create-react-app-vers-vite-7--react-19)
+   - [6.2. Système d'Authentification Client Complet](#62-système-dauthentification-client-complet)
+   - [6.3. Intégration Sécurisée de la Passerelle Stripe](#63-intégration-sécurisée-de-la-passerelle-stripe)
+   - [6.4. Refonte Ergonomique & Sécurisation de la Recherche](#64-refonte-ergonomique--sécurisation-de-la-recherche)
+   - [6.5. Sécurité : Élimination de l'Élévation de Privilèges (SEC-1)](#65-sécurité--élimination-de-lélévation-de-privilèges-sec-1)
+   - [6.6. Durcissement du Dashboard Admin contre les Crashs (ADM-1 à 3)](#66-durcissement-du-dashboard-admin-contre-les-crashs-adm-1-à-3)
+   - [6.7. Protection contre les Injections NoSQL & Attaques ReDoS](#67-protection-contre-les-injections-nosql--attaques-redos)
+   - [6.8. Prévention des CastError MongoDB (BE-1)](#68-prévention-des-casterror-mongodb-be-1)
+   - [6.9. En-têtes HTTP de Sécurité & Confidentialité du Cache](#69-en-têtes-http-de-sécurité--confidentialité-du-cache)
+7. [Modèles de Données (Schémas Mongoose)](#7-modèles-de-données-schémas-mongoose)
+8. [Suite de Tests Automatisée & Assurance Qualité](#8-suite-de-tests-automatisée--assurance-qualité)
+9. [Guide d'Installation & Déploiement Local](#9-guide-dinstallation--déploiement-local)
+10. [Conclusion & Perspectives](#10-conclusion--perspectives)
 
 ---
 
@@ -77,9 +86,380 @@ Le projet repose sur une architecture découplée associant :
 
 ---
 
-## 3. Architecture Globale & Schémas Techniques
+## 3. Modélisation UML & Conception du Système
 
-### Schéma d'Architecture Système (Mermaid)
+### 3.1. Diagramme des Cas d'Utilisation (Use Case Diagram)
+
+Ce diagramme synthétise les interactions entre les acteurs (Visiteur anonyme, Client connecté, Administrateur, Plateforme Stripe) et le système AURORA.
+
+```mermaid
+flowchart LR
+    subgraph Acteurs ["Acteurs du Système"]
+        Guest["👤 Visiteur Non Authentifié"]
+        Customer["🛍️ Client Authentifié"]
+        Admin["🛡️ Administrateur E-Commerce"]
+        StripeSys["💳 Système Tiers : Stripe API"]
+    end
+
+    subgraph AuroraSystem ["Système AURORA E-Commerce"]
+        UC1(["Consulter le catalogue"])
+        UC2(["Rechercher & filtrer des articles"])
+        UC3(["Gérer le panier & la wishlist"])
+        UC4(["Créer un compte & se connecter"])
+        UC5(["Passer commande en Cash on Delivery"])
+        UC6(["Payer en ligne par Carte Bancaire"])
+        UC7(["Consulter l'historique des commandes"])
+        UC8(["S'authentifier en tant qu'Admin"])
+        UC9(["Gérer le catalogue d'articles"])
+        UC10(["Superviser & modifier les commandes"])
+        UC11(["Créer & valider la session Stripe"])
+    end
+
+    Guest --> UC1
+    Guest --> UC2
+    Guest --> UC3
+    Guest --> UC4
+    Guest --> UC5
+
+    Customer --> UC1
+    Customer --> UC2
+    Customer --> UC3
+    Customer --> UC6
+    Customer --> UC7
+
+    Admin --> UC8
+    Admin --> UC9
+    Admin --> UC10
+
+    UC6 -.->|inclut| UC11
+    UC11 --> StripeSys
+```
+
+---
+
+### 3.2. Diagramme de Classes (Class Diagram)
+
+Ce diagramme illustre les structures d'objets, leurs propriétés, méthodes et relations de cardinalité.
+
+```mermaid
+classDiagram
+    class User {
+        +String _id
+        +String name
+        +String email
+        +String password
+        +String role
+        +Number date
+        +register(name, email, password)
+        +login(email, password)
+        +getProfile()
+    }
+
+    class Product {
+        +String _id
+        +String name
+        +String description
+        +Number price
+        +List~String~ image
+        +String category
+        +String subCategory
+        +List~String~ sizes
+        +Boolean bestseller
+        +Number date
+        +addProduct(formData)
+        +listProducts()
+        +searchProducts(query)
+        +removeProduct(id)
+    }
+
+    class Order {
+        +String _id
+        +String userId
+        +List~OrderItem~ items
+        +Number amount
+        +Address address
+        +String status
+        +String paymentMethod
+        +Boolean payment
+        +Number date
+        +placeOrder()
+        +placeOrderStripe()
+        +updateStatus(status)
+    }
+
+    class OrderItem {
+        +String id
+        +String name
+        +Number price
+        +Number quantity
+        +String size
+    }
+
+    class Address {
+        +String firstName
+        +String lastName
+        +String street
+        +String city
+        +String state
+        +String country
+        +String zipcode
+        +String phone
+    }
+
+    class CartManager {
+        +Map~String, Number~ cartItems
+        +addToCart(id, size)
+        +removeFromCart(compositeKey)
+        +updateQuantity(compositeKey, qty)
+        +getTotalCartAmount()
+        +getTotalCartItems()
+    }
+
+    class StripeSession {
+        +String sessionId
+        +String orderId
+        +String sessionUrl
+        +String paymentStatus
+        +createCheckoutSession()
+        +verifyPayment()
+    }
+
+    User "1" --> "*" Order : "passe"
+    Order "1" *-- "*" OrderItem : "contient"
+    Order "1" *-- "1" Address : "livree a"
+    Product "1" <-- "*" OrderItem : "reference"
+    User "1" --> "1" CartManager : "gere"
+    Order "1" ..> StripeSession : "regle via"
+```
+
+---
+
+## 4. Gestion de Projet Agile & Planification Opérationnelle
+
+### 4.1. Simulation Interactive du Tableau Trello (Kanban Agile)
+
+Voici la projection réaliste du tableau de bord Trello utilisé pour orchestrer les sprints de développement, de durcissement et d'assurance qualité du projet AURORA :
+
+| 📋 Backlog Produit | 🏗️ Prêt / En Spécification | 💻 En Cours de Dév | 🧪 Revue de Code & QA | ✅ Terminé & Déployé (Done) |
+| :--- | :--- | :--- | :--- | :--- |
+| **[P2 - Évolution]**<br/>Internationalisation i18n (FR / EN)<br/>*👤 @Abdessamad*<br/>*🏷️ #Feature #Frontend* | **[P1 - Amélioration]**<br/>Pagination serveur catalogue (`limit`/`skip`)<br/>*👤 @Abdessamad*<br/>*🏷️ #Backend #Database* | **[P1 - Intégration]**<br/>Webhooks Stripe asynchrones (`checkout.session.completed`)<br/>*👤 @Abdessamad*<br/>*🏷️ #Stripe #Webhook* | **[P0 - Audit]**<br/>Audit de performance Lighthouse & bundle analyzer<br/>*👤 @Abdessamad*<br/>*🏷️ #QA #Performance* | **[P0 - Terminé]**<br/>Migration CRA vers Vite 7 + React 19<br/>*☑️ 4/4 sous-tâches validées*<br/>*🏷️ #Core #Tooling* |
+| **[P2 - Évolution]**<br/>Passerelle PayPal complémentaire<br/>*👤 @Abdessamad*<br/>*🏷️ #Paiement* | **[P1 - Amélioration]**<br/>Notifications SMS expédition commande (Twilio)<br/>*👤 @Abdessamad*<br/>*🏷️ #DevOps* | | | **[P0 - Terminé]**<br/>Authentification client JWT + salage bcryptjs<br/>*☑️ 5/5 sous-tâches validées*<br/>*🏷️ #Security #Auth* |
+| | | | | **[P0 - Terminé]**<br/>Intégration Stripe Checkout API + Vérification<br/>*☑️ 3/3 sous-tâches validées*<br/>*🏷️ #Stripe #Payment* |
+| | | | | **[P0 - Terminé]**<br/>Refonte recherche (debouncing, multi-champs, reset)<br/>*☑️ 4/4 sous-tâches validées*<br/>*🏷️ #UX #Search* |
+| | | | | **[P0 - Terminé]**<br/>Sécurisation adminAuth (Correctif SEC-1 HTTP 403)<br/>*☑️ 3/3 sous-tâches validées*<br/>*🏷️ #Security #Vulnerability* |
+| | | | | **[P0 - Terminé]**<br/>Durcissement NoSQL, ReDoS & ObjectId guards<br/>*☑️ 4/4 sous-tâches validées*<br/>*🏷️ #CyberAttack #Defense* |
+| | | | | **[P0 - Terminé]**<br/>Suite de tests Vitest (29 tests unitaires passants)<br/>*☑️ 9/9 suites validées*<br/>*🏷️ #Testing #Vitest* |
+
+---
+
+### 4.2. Planification Prévisionnelle : 2 Diagrammes de Gantt
+
+> [!NOTE]
+> Conformément aux standards de restitution visuelle, les chronogrammes de Gantt sont représentés ci-dessous sous double forme : un **tableau de bord chronologique complet** (tâches, dates, marges et jalons) et un **diagramme de flux temporel horizontal (`flowchart LR`)**.
+
+#### 📅 Diagramme de Gantt 1 : Cycle Global de Développement Initial (8 Semaines)
+
+##### Tableau Chronologique (Gantt 1)
+| ID | Phase / Tâche | Durée | Début | Fin | Dépendances | Statut | Jalon Associé |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
+| **T01** | Cadrage du projet & Cahier des charges | 5j | S01-J1 | S01-J5 | - | 100% | 🏁 Validation Spécifications |
+| **T02** | Prototypage UI/UX Figma & Charte AURORA | 5j | S02-J1 | S02-J5 | T01 | 100% | 🎨 Maquettes Validées |
+| **T03** | Modélisation base de données MongoDB & Mongoose | 4j | S03-J1 | S03-J4 | T01 | 100% | 🗄️ Schémas Déployés |
+| **T04** | Développement API REST Express 5 (Produits & Commandes) | 8j | S03-J5 | S05-J2 | T03 | 100% | 🔌 Endpoints Opérationnels |
+| **T05** | Développement Storefront React (Navigation, Panier, Wishlist) | 12j | S04-J1 | S06-J2 | T02, T04 | 100% | 🛍️ Vitrine Interactive |
+| **T06** | Développement Dashboard Admin (Catalogue & Commandes) | 7j | S05-J3 | S06-J4 | T04 | 100% | 🛡️ Back-Office Livré |
+| **T07** | Intégration passerelle de test & validation locale | 4j | S07-J1 | S07-J4 | T05, T06 | 100% | 🧪 V1 Fonctionnelle |
+| **T08** | Déploiement V1 & Démo initiale | 3j | S08-J1 | S08-J3 | T07 | 100% | 🚀 Livraison Release V1 |
+
+##### Visualisation Graphique Temporelle (Gantt 1)
+```mermaid
+flowchart LR
+    subgraph S01_S02 ["Semaines 1-2 : Cadrage & Design"]
+        T01["T01: Cadrage & Spécifications (5j)"] --> T02["T02: Prototypage UI/UX Figma (5j)"]
+    end
+
+    subgraph S03_S05 ["Semaines 3-5 : Socle Backend & API"]
+        T01 --> T03["T03: Schémas MongoDB Atlas (4j)"]
+        T03 --> T04["T04: API REST Express 5 (8j)"]
+    end
+
+    subgraph S04_S06 ["Semaines 4-6 : Frontend & Dashboard"]
+        T02 --> T05["T05: Storefront React & Framer Motion (12j)"]
+        T04 --> T05
+        T04 --> T06["T06: Admin Dashboard React (7j)"]
+    end
+
+    subgraph S07_S08 ["Semaines 7-8 : Recette & Livraison V1"]
+        T05 --> T07["T07: Intégration Locale & Recette (4j)"]
+        T06 --> T07
+        T07 --> T08["T08: Déploiement V1 & Démo Finale (3j)"]
+    end
+```
+
+---
+
+#### 📅 Diagramme de Gantt 2 : Sprint d'Audit, Modernisation Vite 7 & Sécurité (4 Semaines)
+
+##### Tableau Chronologique (Gantt 2)
+| ID | Tâche du Sprint | Durée | Début | Fin | Dépendances | Statut | Jalon |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
+| **M01** | Audit forensique de vulnérabilités & bugs de recherche | 2j | J01 | J02 | - | 100% | 🔍 Rapport d'Audit Établi |
+| **M02** | Migration Create React App vers Vite 7 + React 19 | 3j | J03 | J05 | M01 | 100% | ⚡ HMR & Build < 4s |
+| **M03** | Conception Auth Client (User Model, bcryptjs, JWT, Login UI) | 4j | J06 | J09 | M02 | 100% | 👤 Comptes Clients Actifs |
+| **M04** | Intégration Stripe Checkout API & page VerifyPayment | 4j | J08 | J11 | M02 | 100% | 💳 Paiement CB Validé |
+| **M05** | Refonte Recherche (Multi-champs, debouncing 150ms, reset) | 3j | J10 | J12 | M02 | 100% | 🔎 Recherche Fluide |
+| **M06** | Sécurisation adminAuth (Correctif SEC-1 élévation privilèges) | 2j | J12 | J13 | M03 | 100% | 🛡️ Protection 403 Active |
+| **M07** | Durcissement Dashboard Admin (Crash adresses, Bestseller, Images) | 3j | J13 | J15 | M06 | 100% | 📦 Admin 100% Stable |
+| **M08** | Cyberdéfense : NoSQL injection, ReDoS, ObjectId validation | 3j | J15 | J17 | M06 | 100% | 🔒 Backend Blindé |
+| **M09** | Suite de tests automatisée Vitest (29 tests) & Validation Builds | 2j | J18 | J19 | M07, M08 | 100% | ✅ 100% Tests Passants |
+| **M10** | Rédaction Rapport technique & Cahier des charges (README) | 1j | J20 | J20 | M09 | 100% | 📚 Documentation V2 |
+
+##### Visualisation Graphique Temporelle (Gantt 2)
+```mermaid
+flowchart LR
+    subgraph W1 ["Semaine 1 : Diagnostic & Migration"]
+        M01["M01: Audit Forensique (2j)"] --> M02["M02: Migration Vite 7 (3j)"]
+    end
+
+    subgraph W2 ["Semaine 2 : Auth Client & Paiements"]
+        M02 --> M03["M03: Authentification Client (4j)"]
+        M02 --> M04["M04: Stripe Checkout API (4j)"]
+    end
+
+    subgraph W3 ["Semaine 3 : Recherche & Contrôle d'Accès"]
+        M02 --> M05["M05: Refonte Recherche & Debounce (3j)"]
+        M03 --> M06["M06: Middleware adminAuth SEC-1 (2j)"]
+        M06 --> M07["M07: Durcissement Dashboard Admin (3j)"]
+    end
+
+    subgraph W4 ["Semaine 4 : Cybersécurité & Assurance Qualité"]
+        M06 --> M08["M08: Défense NoSQL, ReDoS, CastError (3j)"]
+        M07 --> M09["M09: Suite Tests Vitest 29/29 (2j)"]
+        M08 --> M09
+        M09 --> M10["M10: Documentation & Cahier des charges (1j)"]
+    end
+```
+
+---
+
+### 4.3. Réseaux PERT & Analyse du Chemin Critique : 2 Diagrammes PERT
+
+La méthode **PERT** (*Program Evaluation and Review Technique*) permet d'identifier l'ordonnancement optimal des tâches, les dates au plus tôt (DTO), dates au plus tard (DTA), les marges libres/totales, et surtout le **Chemin Critique** (série de tâches sans aucune marge dont tout retard retarde la livraison du projet).
+
+---
+
+#### 🔀 Réseau PERT 1 : Développement Initial du Projet AURORA
+
+##### Tableau des Tâches et Marges (PERT 1)
+| Réf | Tâche | Durée | Antécédents | DTO (Plus tôt) | DTA (Plus tard) | Marge Totale (MT) | Critique ? |
+| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **A** | Cadrage & Cahier des charges | 5 | - | 0 | 0 | 0 | **OUI (Critique)** |
+| **B** | Modélisation Base de données | 4 | A | 5 | 5 | 0 | **OUI (Critique)** |
+| **C** | Prototypage UI/UX Figma | 5 | A | 5 | 7 | 2 | Non |
+| **D** | API REST Express 5 Core | 8 | B | 9 | 9 | 0 | **OUI (Critique)** |
+| **E** | Storefront React Core | 12 | C, D | 17 | 17 | 0 | **OUI (Critique)** |
+| **F** | Admin Dashboard React | 7 | D | 17 | 22 | 5 | Non |
+| **G** | Recette intégrée & Tests | 4 | E, F | 29 | 29 | 0 | **OUI (Critique)** |
+| **H** | Déploiement & Livraison | 3 | G | 33 | 33 | 0 | **OUI (Critique)** |
+
+> **Chemin Critique Initial :** `A → B → D → E → G → H` (Durée incompressible : **36 jours ouvrés**).
+
+##### Graphique Réseau PERT 1
+```mermaid
+flowchart LR
+    A["[A] Cadrage<br/>Durée: 5j | DTO: 0 | DTA: 0"]
+    B["[B] Schémas BDD<br/>Durée: 4j | DTO: 5 | DTA: 5"]
+    C["[C] Prototypage UI<br/>Durée: 5j | DTO: 5 | DTA: 7 (Marge: 2j)"]
+    D["[D] API REST Core<br/>Durée: 8j | DTO: 9 | DTA: 9"]
+    E["[E] Storefront React<br/>Durée: 12j | DTO: 17 | DTA: 17"]
+    F["[F] Admin Dashboard<br/>Durée: 7j | DTO: 17 | DTA: 22 (Marge: 5j)"]
+    G["[G] Recette Intégrée<br/>Durée: 4j | DTO: 29 | DTA: 29"]
+    H["[H] Déploiement Final<br/>Durée: 3j | DTO: 33 | DTA: 33"]
+
+    A ==>|Chemin Critique| B
+    A --> C
+    B ==>|Chemin Critique| D
+    C --> E
+    D ==>|Chemin Critique| E
+    D --> F
+    E ==>|Chemin Critique| G
+    F --> G
+    G ==>|Chemin Critique| H
+
+    style A fill:#ffcccc,stroke:#d9534f,stroke-width:3px
+    style B fill:#ffcccc,stroke:#d9534f,stroke-width:3px
+    style D fill:#ffcccc,stroke:#d9534f,stroke-width:3px
+    style E fill:#ffcccc,stroke:#d9534f,stroke-width:3px
+    style G fill:#ffcccc,stroke:#d9534f,stroke-width:3px
+    style H fill:#ffcccc,stroke:#d9534f,stroke-width:3px
+    style C fill:#e6f2ff,stroke:#0275d8,stroke-width:1px
+    style F fill:#e6f2ff,stroke:#0275d8,stroke-width:1px
+```
+
+---
+
+#### 🔀 Réseau PERT 2 : Sprint de Modernisation, Audit & Cybersécurité
+
+##### Tableau des Tâches et Marges (PERT 2)
+| Réf | Tâche du Sprint | Durée | Antécédents | DTO (Plus tôt) | DTA (Plus tard) | Marge Totale | Critique ? |
+| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **S1** | Audit Forensique & Détection Failles | 2 | - | 0 | 0 | 0 | **OUI (Critique)** |
+| **S2** | Migration Vite 7 & React 19 | 3 | S1 | 2 | 2 | 0 | **OUI (Critique)** |
+| **S3** | Refonte Recherche (Debounce, Multi-champs) | 3 | S2 | 5 | 8 | 3 | Non |
+| **S4** | Authentification Client (User, bcrypt, JWT) | 4 | S2 | 5 | 5 | 0 | **OUI (Critique)** |
+| **S5** | Stripe Checkout API & VerifyPayment | 4 | S2 | 5 | 7 | 2 | Non |
+| **S6** | Middleware adminAuth (Correctif SEC-1) | 2 | S4 | 9 | 9 | 0 | **OUI (Critique)** |
+| **S7** | Durcissement Admin (ADM-1 à 3) | 3 | S6 | 11 | 12 | 1 | Non |
+| **S8** | Cyberdéfense NoSQL, ReDoS & CastError (BE-1) | 3 | S6 | 11 | 11 | 0 | **OUI (Critique)** |
+| **S9** | Suite de Tests Vitest (29 tests unitaires) | 2 | S3, S5, S7, S8 | 14 | 14 | 0 | **OUI (Critique)** |
+| **S10**| Finalisation Documentation & Commit | 1 | S9 | 16 | 16 | 0 | **OUI (Critique)** |
+
+> **Chemin Critique du Sprint :** `S1 → S2 → S4 → S6 → S8 → S9 → S10` (Durée totale : **17 jours ouvrés**).
+
+##### Graphique Réseau PERT 2
+```mermaid
+flowchart LR
+    S1["[S1] Audit Forensique<br/>Durée: 2j | DTO: 0 | DTA: 0"]
+    S2["[S2] Migration Vite 7<br/>Durée: 3j | DTO: 2 | DTA: 2"]
+    S3["[S3] Refonte Recherche<br/>Durée: 3j | DTO: 5 | DTA: 8 (Marge: 3j)"]
+    S4["[S4] Auth Client JWT<br/>Durée: 4j | DTO: 5 | DTA: 5"]
+    S5["[S5] Stripe Checkout<br/>Durée: 4j | DTO: 5 | DTA: 7 (Marge: 2j)"]
+    S6["[S6] Middleware adminAuth<br/>Durée: 2j | DTO: 9 | DTA: 9"]
+    S7["[S7] Durcissement Admin<br/>Durée: 3j | DTO: 11 | DTA: 12 (Marge: 1j)"]
+    S8["[S8] Cyberdéfense NoSQL/ReDoS<br/>Durée: 3j | DTO: 11 | DTA: 11"]
+    S9["[S9] Tests Vitest 29/29<br/>Durée: 2j | DTO: 14 | DTA: 14"]
+    S10["[S10] Documentation & Commit<br/>Durée: 1j | DTO: 16 | DTA: 16"]
+
+    S1 ==>|Chemin Critique| S2
+    S2 --> S3
+    S2 ==>|Chemin Critique| S4
+    S2 --> S5
+    S4 ==>|Chemin Critique| S6
+    S6 --> S7
+    S6 ==>|Chemin Critique| S8
+    S3 --> S9
+    S5 --> S9
+    S7 --> S9
+    S8 ==>|Chemin Critique| S9
+    S9 ==>|Chemin Critique| S10
+
+    style S1 fill:#ffcccc,stroke:#d9534f,stroke-width:3px
+    style S2 fill:#ffcccc,stroke:#d9534f,stroke-width:3px
+    style S4 fill:#ffcccc,stroke:#d9534f,stroke-width:3px
+    style S6 fill:#ffcccc,stroke:#d9534f,stroke-width:3px
+    style S8 fill:#ffcccc,stroke:#d9534f,stroke-width:3px
+    style S9 fill:#ffcccc,stroke:#d9534f,stroke-width:3px
+    style S10 fill:#ffcccc,stroke:#d9534f,stroke-width:3px
+    style S3 fill:#e6f2ff,stroke:#0275d8,stroke-width:1px
+    style S5 fill:#e6f2ff,stroke:#0275d8,stroke-width:1px
+    style S7 fill:#e6f2ff,stroke:#0275d8,stroke-width:1px
+```
+
+---
+
+## 5. Architecture Globale & Schémas Techniques
+
+### 5.1. Schéma d'Architecture Système
 
 ```mermaid
 graph TD
@@ -109,7 +489,9 @@ graph TD
     EXP --> CLD
 ```
 
-### Diagramme de Séquence : Tunnel de Paiement Stripe
+---
+
+### 5.2. Diagramme de Séquence : Tunnel de Paiement Stripe
 
 ```mermaid
 sequenceDiagram
@@ -133,11 +515,11 @@ sequenceDiagram
 
 ---
 
-## 4. Bilan Exhaustif des Travaux & Réalisations
+## 6. Bilan Exhaustif des Travaux & Réalisations
 
 Au cours de cet audit et de cette session de modernisation, l'ensemble des couches techniques a été restructuré, corrigé et validé. Voici le rapport détaillé des interventions techniques :
 
-### 4.1. Migration Create React App vers Vite 7 & React 19
+### 6.1. Migration Create React App vers Vite 7 & React 19
 - **Problématique initiale :** Le storefront reposait sur `react-scripts` (CRA), un outil déprécié souffrant de vulnérabilités critiques de build, d'une lenteur de compilation et d'une incompatibilité avec l'écosystème React 19.
 - **Réalisation :** 
   - Configuration de `vite.config.js` avec le plugin `@vitejs/plugin-react` et support JSX complet.
@@ -145,21 +527,21 @@ Au cours de cet audit et de cette session de modernisation, l'ensemble des couch
   - Déplacement de `public/index.html` à la racine et transition vers l'entrée ESM `src/index.jsx`.
   - Résultat : un build de production compilé en **3.7 secondes** contre plus de 45 secondes précédemment.
 
-### 4.2. Système d'Authentification Client Complet
+### 6.2. Système d'Authentification Client Complet
 - **Problématique initiale :** Le modèle utilisateur client n'existait pas ; les commandes étaient enregistrées avec un `userId` arbitraire ou fictif.
 - **Réalisation :**
   - Conception de `backend/models/userModel.js` avec validation d'email normalisé (`validator.isEmail`) et salage de mot de passe (`bcryptjs`, 10 tours).
   - Contrôleurs `loginUser`, `registerUser` et `getUserProfile` délivrant un token JWT signé contenant `{ id: user._id, role: 'customer' }`.
   - Page de connexion/inscription réactive [`Login.js`](file:///c:/Users/USER/Documents/aurora_store/src/pages/Login.js) avec gestion de session dans le `ShopContext` et badge d'état connecté dans l'en-tête.
 
-### 4.3. Intégration Sécurisée de la Passerelle Stripe
+### 6.3. Intégration Sécurisée de la Passerelle Stripe
 - **Problématique initiale :** Seul le paiement à la livraison ("COD") était actif dans l'application.
 - **Réalisation :**
   - Intégration du SDK Stripe dans `backend/controllers/orderController.js`.
   - Implémentation du contrôleur `placeOrderStripe` préparant les `line_items` typés et créant les sessions de paiement Stripe avec métadonnées sécurisées.
   - Création du composant [`VerifyPayment.js`](file:///c:/Users/USER/Documents/aurora_store/src/pages/VerifyPayment.js) pour valider l'authenticité de la transaction au retour de Stripe et nettoyer les commandes abandonnées.
 
-### 4.4. Refonte Ergonomique & Sécurisation de la Recherche
+### 6.4. Refonte Ergonomique & Sécurisation de la Recherche
 - **Problématique initiale :**
   1. *Bug S-1 :* Fermer la barre de recherche avec l'icône `FiX` masquait le champ sans réinitialiser la requête, laissant le catalogue filtré sans possibilité de retour.
   2. *Bug S-2 :* L'appel `item.name.toLowerCase()` provoquait un plantage fatal (`TypeError`) dès qu'un produit n'avait pas de nom.
@@ -171,7 +553,7 @@ Au cours de cet audit et de cette session de modernisation, l'ensemble des couch
   - Création du hook [`useDebounce.js`](file:///c:/Users/USER/Documents/aurora_store/src/hooks/useDebounce.js) temporisant les filtrages de 150ms pour supprimer les saccades d'interface lors de saisies rapides.
   - Limitation de la saisie à 100 caractères via l'attribut `maxLength={100}`.
 
-### 4.5. Sécurité : Élimination de l'Élévation de Privilèges (SEC-1)
+### 6.5. Sécurité : Élimination de l'Élévation de Privilèges (SEC-1)
 - **Problématique critique :** L'ancien middleware `authMiddleware` validait n'importe quel token signé par `JWT_SECRET`. Étant donné que les clients recevaient un token valide lors de leur inscription, **un simple client pouvait interroger l'endpoint `GET /api/order/list` et accéder aux noms, adresses postales et numéros de téléphone de tous les clients**.
 - **Réalisation :**
   - Création du middleware dédié [`adminAuth.js`](file:///c:/Users/USER/Documents/aurora_store/backend/middleware/adminAuth.js).
@@ -179,7 +561,7 @@ Au cours de cet audit et de cette session de modernisation, l'ensemble des couch
   - Rejet immédiat par **HTTP 403 Forbidden** avec le message `"Access Forbidden. Admin privileges required."` pour tout token client tentant d'accéder aux routes d'administration.
   - Protection des routes `GET /api/order/list`, `POST /api/order/status`, `POST /api/product/add` et `POST /api/product/remove`.
 
-### 4.6. Durcissement du Dashboard Admin contre les Crashs (ADM-1 à 3)
+### 6.6. Durcissement du Dashboard Admin contre les Crashs (ADM-1 à 3)
 - **Problématique initiale :**
   1. *ADM-1 :* L'accès direct `order.address.firstName` faisait planter toute la page des commandes (écran blanc React) si une commande contenait une adresse partielle ou manquante.
   2. *ADM-2 :* Le hook `const [bestseller] = useState(false)` n'avait pas de mutateur ni de case à cocher, rendant impossible la création d'articles best-sellers.
@@ -189,20 +571,20 @@ Au cours de cet audit et de cette session de modernisation, l'ensemble des couch
   - Intégration du mutateur `[bestseller, setBestseller]` et d'une case à cocher stylisée dans [`Add.jsx`](file:///c:/Users/USER/Documents/aurora_store/admin/src/pages/Add/Add.jsx).
   - Contrôle d'image obligatoire côté client et côté serveur, associé à l'affichage d'un placeholder de secours dans [`List.jsx`](file:///c:/Users/USER/Documents/aurora_store/admin/src/pages/list/List.jsx).
 
-### 4.7. Protection contre les Injections NoSQL & Attaques ReDoS
+### 6.7. Protection contre les Injections NoSQL & Attaques ReDoS
 - **Problématique :** Les requêtes pouvaient être vulnérables aux opérateurs d'injection MongoDB (ex: `{"email": {"$gt": ""}}`) ou au gel du CPU par expressions régulières malicieuses (ReDoS).
 - **Réalisation :**
   - Création du middleware [`sanitizeInput.js`](file:///c:/Users/USER/Documents/aurora_store/backend/middleware/sanitizeInput.js) nettoyant récursivement tout objet `req.body`, `req.query` ou `req.params` comportant des clés préfixées par `$` ou contenant des points `.`.
   - Fonction de neutralisation d'expressions régulières `escapeRegex` dans `productController.js` et création de l'endpoint dédié `GET /api/product/search` protégé contre les requêtes supérieures à 100 caractères.
   - Vérification systématique du type string (`typeof === 'string'`) sur les identifiants d'authentification.
 
-### 4.8. Prévention des CastError MongoDB (BE-1)
+### 6.8. Prévention des CastError MongoDB (BE-1)
 - **Problématique :** L'envoi d'identifiants non hexadécimaux ou corrompus générait une exception Mongoose non interceptée (`CastError`), provoquant une réponse serveur 500 au lieu d'un code client 400.
 - **Réalisation :**
   - Vérification systématique `mongoose.Types.ObjectId.isValid(id)` sur `removeProduct`, `verifyStripePayment`, `updateStatus` et `getUserProfile`.
   - Renvoi systématique d'erreurs HTTP 400 claires en cas de format invalide, et 404 si le document n'existe pas.
 
-### 4.9. En-têtes HTTP de Sécurité & Confidentialité du Cache
+### 6.9. En-têtes HTTP de Sécurité & Confidentialité du Cache
 - **Réalisation :**
   - Création du middleware [`securityHeaders.js`](file:///c:/Users/USER/Documents/aurora_store/backend/middleware/securityHeaders.js) appliquant :
     - `X-Content-Type-Options: nosniff` (anti-reniflage de type MIME).
@@ -213,7 +595,7 @@ Au cours de cet audit et de cette session de modernisation, l'ensemble des couch
 
 ---
 
-## 5. Modèles de Données (Schémas Mongoose)
+## 7. Modèles de Données (Schémas Mongoose)
 
 ### 1. Utilisateur (`userModel`)
 ```javascript
@@ -257,7 +639,7 @@ const orderSchema = new mongoose.Schema({
 
 ---
 
-## 6. Suite de Tests Automatisée & Assurance Qualité
+## 8. Suite de Tests Automatisée & Assurance Qualité
 
 Une suite de tests automatisés moderne sous **Vitest** et **Testing Library** a été configurée pour garantir la non-régression de l'écosystème :
 
@@ -282,7 +664,7 @@ Test Files  9 passés (9)
 
 ---
 
-## 7. Guide d'Installation & Déploiement Local
+## 9. Guide d'Installation & Déploiement Local
 
 ### Prérequis
 - **Node.js** v18.0.0 ou supérieur
@@ -360,7 +742,7 @@ npm test
 
 ---
 
-## 8. Conclusion & Perspectives
+## 10. Conclusion & Perspectives
 
 Le projet **AURORA** a franchi avec succès toutes les étapes de durcissement, d'optimisation et de fiabilisation :
 1. L'expérience client est désormais fluide, instantanée et exempte de plantages d'affichage.
