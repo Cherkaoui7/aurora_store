@@ -1,0 +1,255 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 760" width="100%" height="100%">
+  <defs>
+    <!-- Standard arrow markers -->
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9" fill="none" stroke="#9a3868" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9" fill="none" stroke="#7e9936" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </marker>
+    <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9" fill="none" stroke="#c28b26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </marker>
+    <marker id="arrow-fictive" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9" fill="none" stroke="#83a137" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </marker>
+    <marker id="arrow-crit" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9" fill="none" stroke="#b3261e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+    </marker>
+  </defs>
+
+  <!-- Clean Background -->
+  <rect width="100%" height="100%" fill="#ffffff" />
+
+  <!-- ==================== EXPLANATORY LEGEND CIRCLE (TOP RIGHT) ==================== -->
+  <g id="legend-circle" transform="translate(830, 115)">
+    <circle cx="0" cy="0" r="54" fill="#ffffff" stroke="#708090" stroke-width="1.8" />
+    <line x1="-54" y1="0" x2="54" y2="0" stroke="#708090" stroke-width="1.5" />
+    <line x1="0" y1="-54" x2="0" y2="0" stroke="#708090" stroke-width="1.5" />
+    <text x="-27" y="-24" font-family="Arial, sans-serif" font-size="11" fill="#555555" text-anchor="middle">Date au</text>
+    <text x="-27" y="-9" font-family="Arial, sans-serif" font-size="11" fill="#555555" text-anchor="middle">plus tôt</text>
+    <text x="27" y="-24" font-family="Arial, sans-serif" font-size="11" fill="#a04020" text-anchor="middle">Date au</text>
+    <text x="27" y="-9" font-family="Arial, sans-serif" font-size="11" fill="#a04020" text-anchor="middle">plus tard</text>
+    <text x="0" y="32" font-family="Arial, sans-serif" font-size="14" font-weight="600" fill="#1b8a8f" text-anchor="middle">Marge</text>
+  </g>
+
+  <!-- ==================== BOTTOM LEFT LEGENDS ==================== -->
+  <!-- Tâche Fictive Legend -->
+  <g id="legend-fictive">
+    <text x="75" y="682" font-family="Arial, sans-serif" font-size="13" font-weight="500" fill="#7e9936">tâche fictive</text>
+    <line x1="110" y1="695" x2="110" y2="738" stroke="#83a137" stroke-width="1.8" stroke-dasharray="4,4" marker-end="url(#arrow-fictive)" />
+  </g>
+
+  <!-- Chemin Critique Legend -->
+  <g id="legend-critical">
+    <text x="215" y="696" font-family="Arial, sans-serif" font-size="13.5" font-weight="bold" fill="#b3261e">Chemin critique</text>
+    <line x1="180" y1="712" x2="310" y2="712" stroke="#b3261e" stroke-width="6" stroke-linecap="round" />
+  </g>
+
+  <!-- ==================== START NODE ==================== -->
+  <g id="node-start">
+    <text x="70" y="360" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#3b7899" text-anchor="middle">DÉBUT DU PROJET</text>
+    <circle cx="70" cy="410" r="36" fill="#ffffff" stroke="#708090" stroke-width="1.8" />
+    <line x1="34" y1="410" x2="106" y2="410" stroke="#708090" stroke-width="1.5" />
+    <line x1="70" y1="374" x2="70" y2="410" stroke="#708090" stroke-width="1.5" />
+    <text x="52" y="399" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#111111" text-anchor="middle">0</text>
+    <text x="88" y="399" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#a04020" text-anchor="middle">0</text>
+  </g>
+
+  <!-- ==================== TOP ROW NODES (cy = 115) ==================== -->
+  <!-- Node 1: (20, 39, 19) -->
+  <g id="node-top-1">
+    <circle cx="230" cy="115" r="36" fill="#ffffff" stroke="#708090" stroke-width="1.8" />
+    <line x1="194" y1="115" x2="266" y2="115" stroke="#708090" stroke-width="1.5" />
+    <line x1="230" y1="79" x2="230" y2="115" stroke="#708090" stroke-width="1.5" />
+    <text x="212" y="104" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#111111" text-anchor="middle">20</text>
+    <text x="248" y="104" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#a04020" text-anchor="middle">39</text>
+    <text x="230" y="137" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1b8a8f" text-anchor="middle">19</text>
+  </g>
+
+  <!-- Node 2: (23, 42, 19) -->
+  <g id="node-top-2">
+    <circle cx="410" cy="115" r="36" fill="#ffffff" stroke="#708090" stroke-width="1.8" />
+    <line x1="374" y1="115" x2="446" y2="115" stroke="#708090" stroke-width="1.5" />
+    <line x1="410" y1="79" x2="410" y2="115" stroke="#708090" stroke-width="1.5" />
+    <text x="392" y="104" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#111111" text-anchor="middle">23</text>
+    <text x="428" y="104" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#a04020" text-anchor="middle">42</text>
+    <text x="410" y="137" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1b8a8f" text-anchor="middle">19</text>
+  </g>
+
+  <!-- Node 3: (33, 52, 19) -->
+  <g id="node-top-3">
+    <circle cx="590" cy="115" r="36" fill="#ffffff" stroke="#708090" stroke-width="1.8" />
+    <line x1="554" y1="115" x2="626" y2="115" stroke="#708090" stroke-width="1.5" />
+    <line x1="590" y1="79" x2="590" y2="115" stroke="#708090" stroke-width="1.5" />
+    <text x="572" y="104" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#111111" text-anchor="middle">33</text>
+    <text x="608" y="104" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#a04020" text-anchor="middle">52</text>
+    <text x="590" y="137" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1b8a8f" text-anchor="middle">19</text>
+  </g>
+
+  <!-- ==================== MIDDLE ROW NODES (cy = 410) ==================== -->
+  <!-- Node 4: (30, 46, 16) -->
+  <g id="node-mid-4">
+    <circle cx="240" cy="410" r="36" fill="#ffffff" stroke="#708090" stroke-width="1.8" />
+    <line x1="204" y1="410" x2="276" y2="410" stroke="#708090" stroke-width="1.5" />
+    <line x1="240" y1="374" x2="240" y2="410" stroke="#708090" stroke-width="1.5" />
+    <text x="222" y="399" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#111111" text-anchor="middle">30</text>
+    <text x="258" y="399" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#a04020" text-anchor="middle">46</text>
+    <text x="240" y="432" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1b8a8f" text-anchor="middle">16</text>
+  </g>
+
+  <!-- Node 5: (33, 49, 16) -->
+  <g id="node-mid-5">
+    <circle cx="410" cy="410" r="36" fill="#ffffff" stroke="#708090" stroke-width="1.8" />
+    <line x1="374" y1="410" x2="446" y2="410" stroke="#708090" stroke-width="1.5" />
+    <line x1="410" y1="374" x2="410" y2="410" stroke="#708090" stroke-width="1.5" />
+    <text x="392" y="399" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#111111" text-anchor="middle">33</text>
+    <text x="428" y="399" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#a04020" text-anchor="middle">49</text>
+    <text x="410" y="432" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1b8a8f" text-anchor="middle">16</text>
+  </g>
+
+  <!-- Node 6: (36, 52, 16) -->
+  <g id="node-mid-6">
+    <circle cx="580" cy="410" r="36" fill="#ffffff" stroke="#708090" stroke-width="1.8" />
+    <line x1="544" y1="410" x2="616" y2="410" stroke="#708090" stroke-width="1.5" />
+    <line x1="580" y1="374" x2="580" y2="410" stroke="#708090" stroke-width="1.5" />
+    <text x="562" y="399" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#111111" text-anchor="middle">36</text>
+    <text x="598" y="399" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#a04020" text-anchor="middle">52</text>
+    <text x="580" y="432" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1b8a8f" text-anchor="middle">16</text>
+  </g>
+
+  <!-- Node 7: (43, 59, 16) -->
+  <g id="node-mid-7">
+    <circle cx="750" cy="410" r="36" fill="#ffffff" stroke="#708090" stroke-width="1.8" />
+    <line x1="714" y1="410" x2="786" y2="410" stroke="#708090" stroke-width="1.5" />
+    <line x1="750" y1="374" x2="750" y2="410" stroke="#708090" stroke-width="1.5" />
+    <text x="732" y="399" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#111111" text-anchor="middle">43</text>
+    <text x="768" y="399" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#a04020" text-anchor="middle">59</text>
+    <text x="750" y="432" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1b8a8f" text-anchor="middle">16</text>
+  </g>
+
+  <!-- ==================== BOTTOM ROW NODES (CRITICAL PATH: cy = 630) ==================== -->
+  <!-- Node 8: (10, 10, 0) -->
+  <g id="node-bot-8">
+    <circle cx="240" cy="630" r="36" fill="#ffffff" stroke="#708090" stroke-width="1.8" />
+    <line x1="204" y1="630" x2="276" y2="630" stroke="#708090" stroke-width="1.5" />
+    <line x1="240" y1="594" x2="240" y2="630" stroke="#708090" stroke-width="1.5" />
+    <text x="222" y="619" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#111111" text-anchor="middle">10</text>
+    <text x="258" y="619" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#a04020" text-anchor="middle">10</text>
+    <text x="240" y="652" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1b8a8f" text-anchor="middle">0</text>
+  </g>
+
+  <!-- Node 9: (40, 40, 0) -->
+  <g id="node-bot-9">
+    <circle cx="410" cy="630" r="36" fill="#ffffff" stroke="#708090" stroke-width="1.8" />
+    <line x1="374" y1="630" x2="446" y2="630" stroke="#708090" stroke-width="1.5" />
+    <line x1="410" y1="594" x2="410" y2="630" stroke="#708090" stroke-width="1.5" />
+    <text x="392" y="619" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#111111" text-anchor="middle">40</text>
+    <text x="428" y="619" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#a04020" text-anchor="middle">40</text>
+    <text x="410" y="652" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1b8a8f" text-anchor="middle">0</text>
+  </g>
+
+  <!-- Node 10: (55, 55, 0) -->
+  <g id="node-bot-10">
+    <circle cx="580" cy="630" r="36" fill="#ffffff" stroke="#708090" stroke-width="1.8" />
+    <line x1="544" y1="630" x2="616" y2="630" stroke="#708090" stroke-width="1.5" />
+    <line x1="580" y1="594" x2="580" y2="630" stroke="#708090" stroke-width="1.5" />
+    <text x="562" y="619" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#111111" text-anchor="middle">55</text>
+    <text x="598" y="619" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#a04020" text-anchor="middle">55</text>
+    <text x="580" y="652" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1b8a8f" text-anchor="middle">0</text>
+  </g>
+
+  <!-- Node 11: (59, 59, 0) -->
+  <g id="node-bot-11">
+    <circle cx="750" cy="630" r="36" fill="#ffffff" stroke="#708090" stroke-width="1.8" />
+    <line x1="714" y1="630" x2="786" y2="630" stroke="#708090" stroke-width="1.5" />
+    <line x1="750" y1="594" x2="750" y2="630" stroke="#708090" stroke-width="1.5" />
+    <text x="732" y="619" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#111111" text-anchor="middle">59</text>
+    <text x="768" y="619" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#a04020" text-anchor="middle">59</text>
+    <text x="750" y="652" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1b8a8f" text-anchor="middle">0</text>
+  </g>
+
+  <!-- Node 12: (60, 60, 0) -->
+  <g id="node-bot-12">
+    <circle cx="920" cy="630" r="36" fill="#ffffff" stroke="#708090" stroke-width="1.8" />
+    <line x1="884" y1="630" x2="956" y2="630" stroke="#708090" stroke-width="1.5" />
+    <line x1="920" y1="594" x2="920" y2="630" stroke="#708090" stroke-width="1.5" />
+    <text x="902" y="619" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#111111" text-anchor="middle">60</text>
+    <text x="938" y="619" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#a04020" text-anchor="middle">60</text>
+    <text x="920" y="652" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1b8a8f" text-anchor="middle">0</text>
+  </g>
+
+  <!-- ==================== ARROWS & EDGES ==================== -->
+
+  <!-- A(20): Start -> Top 1 -->
+  <line x1="94" y1="365" x2="208" y2="148" stroke="#9a3868" stroke-width="1.8" marker-end="url(#arrow-purple)" />
+  <text x="120" y="245" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#9a3868">A(20)</text>
+
+  <!-- B(30): Start -> Mid 4 -->
+  <line x1="107" y1="410" x2="201" y2="410" stroke="#9a3868" stroke-width="1.8" marker-end="url(#arrow-purple)" />
+  <text x="145" y="401" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#9a3868">B(30)</text>
+
+  <!-- C(10): Start -> Bot 8 (CRITICAL PATH) -->
+  <!-- Thick critical path line underneath -->
+  <line x1="92" y1="440" x2="212" y2="600" stroke="#b3261e" stroke-width="6" stroke-linecap="round" />
+  <!-- Purple arrow on top -->
+  <line x1="94" y1="443" x2="216" y2="602" stroke="#9a3868" stroke-width="1.8" marker-end="url(#arrow-purple)" />
+  <text x="175" y="525" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#9a3868">C(10)</text>
+
+  <!-- D(3): Top 1 -> Top 2 -->
+  <line x1="267" y1="115" x2="371" y2="115" stroke="#7e9936" stroke-width="1.8" marker-end="url(#arrow-green)" />
+  <text x="320" y="103" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#7e9936">D(3)</text>
+
+  <!-- J(10): Top 2 -> Top 3 -->
+  <line x1="447" y1="115" x2="551" y2="115" stroke="#c28b26" stroke-width="1.8" marker-end="url(#arrow-amber)" />
+  <text x="500" y="103" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#c28b26">J(10)</text>
+
+  <!-- D'(0): Top 2 -> Mid 5 (Fictive) -->
+  <line x1="410" y1="152" x2="410" y2="371" stroke="#83a137" stroke-width="1.8" stroke-dasharray="4,4" marker-end="url(#arrow-fictive)" />
+  <text x="424" y="255" font-family="Arial, sans-serif" font-size="13.5" font-weight="bold" fill="#7e9936">D'(0)</text>
+
+  <!-- J'(0): Top 3 -> Mid 6 (Fictive) -->
+  <line x1="590" y1="152" x2="582" y2="371" stroke="#83a137" stroke-width="1.8" stroke-dasharray="4,4" marker-end="url(#arrow-fictive)" />
+  <text x="600" y="255" font-family="Arial, sans-serif" font-size="13.5" font-weight="bold" fill="#7e9936">J'(0)</text>
+
+  <!-- E(3): Mid 4 -> Mid 5 -->
+  <line x1="277" y1="410" x2="371" y2="410" stroke="#7e9936" stroke-width="1.8" marker-end="url(#arrow-green)" />
+  <text x="325" y="398" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#7e9936">E(3)</text>
+
+  <!-- F(3): Mid 5 -> Mid 6 -->
+  <line x1="447" y1="410" x2="541" y2="410" stroke="#7e9936" stroke-width="1.8" marker-end="url(#arrow-green)" />
+  <text x="495" y="398" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#7e9936">F(3)</text>
+
+  <!-- K(7): Mid 6 -> Mid 7 -->
+  <line x1="617" y1="410" x2="711" y2="410" stroke="#7e9936" stroke-width="1.8" marker-end="url(#arrow-green)" />
+  <text x="665" y="398" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#7e9936">K(7)</text>
+
+  <!-- F'(0): Mid 6 -> Bot 10 (Fictive) -->
+  <line x1="580" y1="447" x2="580" y2="591" stroke="#83a137" stroke-width="1.8" stroke-dasharray="4,4" marker-end="url(#arrow-fictive)" />
+  <text x="594" y="515" font-family="Arial, sans-serif" font-size="13.5" font-weight="bold" fill="#7e9936">F'(0)</text>
+
+  <!-- K'(0): Mid 7 -> Bot 11 (Fictive) -->
+  <line x1="750" y1="447" x2="750" y2="591" stroke="#83a137" stroke-width="1.8" stroke-dasharray="4,4" marker-end="url(#arrow-fictive)" />
+  <text x="764" y="515" font-family="Arial, sans-serif" font-size="13.5" font-weight="bold" fill="#7e9936">K'(0)</text>
+
+  <!-- G(30): Bot 8 -> Bot 9 (CRITICAL PATH) -->
+  <line x1="277" y1="630" x2="371" y2="630" stroke="#7e9936" stroke-width="1.8" marker-end="url(#arrow-green)" />
+  <line x1="277" y1="645" x2="374" y2="645" stroke="#b3261e" stroke-width="6" stroke-linecap="round" />
+  <text x="325" y="618" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#7e9936">G(30)</text>
+
+  <!-- H(15): Bot 9 -> Bot 10 (CRITICAL PATH) -->
+  <line x1="447" y1="630" x2="541" y2="630" stroke="#7e9936" stroke-width="1.8" marker-end="url(#arrow-green)" />
+  <line x1="447" y1="645" x2="544" y2="645" stroke="#b3261e" stroke-width="6" stroke-linecap="round" />
+  <text x="495" y="618" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#7e9936">H(15)</text>
+
+  <!-- I(4): Bot 10 -> Bot 11 (CRITICAL PATH) -->
+  <line x1="617" y1="630" x2="711" y2="630" stroke="#7e9936" stroke-width="1.8" marker-end="url(#arrow-green)" />
+  <line x1="617" y1="645" x2="714" y2="645" stroke="#b3261e" stroke-width="6" stroke-linecap="round" />
+  <text x="665" y="618" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#7e9936">I(4)</text>
+
+  <!-- L(1): Bot 11 -> Bot 12 (CRITICAL PATH) -->
+  <line x1="787" y1="630" x2="881" y2="630" stroke="#7e9936" stroke-width="1.8" marker-end="url(#arrow-green)" />
+  <line x1="787" y1="645" x2="884" y2="645" stroke="#b3261e" stroke-width="6" stroke-linecap="round" />
+  <text x="835" y="618" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#7e9936">L(1)</text>
+
+</svg>

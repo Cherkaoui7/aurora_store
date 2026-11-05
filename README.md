@@ -375,115 +375,154 @@ flowchart LR
 
 ### 4.3. Réseaux PERT & Analyse du Chemin Critique : 2 Diagrammes PERT
 
-La méthode **PERT** (*Program Evaluation and Review Technique*) permet d'identifier l'ordonnancement optimal des tâches, les dates au plus tôt (DTO), dates au plus tard (DTA), les marges libres/totales, et surtout le **Chemin Critique** (série de tâches sans aucune marge dont tout retard retarde la livraison du projet).
+La méthode **PERT** (*Program Evaluation and Review Technique*) permet de modéliser avec une rigueur mathématique l'ordonnancement des tâches, le calcul des dates au plus tôt, des dates au plus tard, des marges libres et totales, et la mise en évidence sans équivoque du **Chemin Critique** (ensemble des étapes à marge nulle conditionnant la durée incompressible du projet).
+
+Conformément à la convention standardisée représentée ci-dessous, chaque étape / jalon du réseau est matérialisé par un **cercle divisé en trois compartiments** :
+- **Quadrant supérieur gauche :** **Date au plus tôt** ($T_{tôt}$ / DTO)
+- **Quadrant supérieur droit :** **Date au plus tard** ($T_{tard}$ / DTA)
+- **Demi-cercle inférieur :** **Marge totale** ($M = T_{tard} - T_{tôt}$)
+- **Flèches vertes en pointillés (`X'(0)`) :** Tâches fictives de synchronisation à durée nulle.
+- **Soulignement rouge épais :** **Chemin critique** ($M = 0$).
 
 ---
 
-#### 🔀 Réseau PERT 1 : Développement Initial du Projet AURORA
+#### 🔀 Réseau PERT 1 : Développement Initial du Projet AURORA (Format Standard Normalisé)
 
-##### Tableau des Tâches et Marges (PERT 1)
-| Réf | Tâche | Durée | Antécédents | DTO (Plus tôt) | DTA (Plus tard) | Marge Totale (MT) | Critique ? |
+##### Rendu Graphique Haute Définition (Vecteur SVG Conforme au Gabarit)
+
+![Réseau PERT 1 — Développement AURORA](./aurora_pert_network_1.svg)
+
+##### Tableau des Tâches, Dépendances et Marges (PERT 1)
+
+| Réf | Intitulé de la Tâche Métier | Durée | Antécédents | Date au plus tôt | Date au plus tard | Marge Totale | Statut Critique |
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **A** | Cadrage & Cahier des charges | 5 | - | 0 | 0 | 0 | **OUI (Critique)** |
-| **B** | Modélisation Base de données | 4 | A | 5 | 5 | 0 | **OUI (Critique)** |
-| **C** | Prototypage UI/UX Figma | 5 | A | 5 | 7 | 2 | Non |
-| **D** | API REST Express 5 Core | 8 | B | 9 | 9 | 0 | **OUI (Critique)** |
-| **E** | Storefront React Core | 12 | C, D | 17 | 17 | 0 | **OUI (Critique)** |
-| **F** | Admin Dashboard React | 7 | D | 17 | 22 | 5 | Non |
-| **G** | Recette intégrée & Tests | 4 | E, F | 29 | 29 | 0 | **OUI (Critique)** |
-| **H** | Déploiement & Livraison | 3 | G | 33 | 33 | 0 | **OUI (Critique)** |
+| **A** | Spécifications UI/UX & Design System Storefront | 20 j | — | 0 | 19 | 19 j | Flottante |
+| **B** | Architecture Microservices & Backoffice Admin | 30 j | — | 0 | 16 | 16 j | Flottante |
+| **C** | Cadrage Stratégique, Modélisation NoSQL & Init Projet | 10 j | — | 0 | 0 | 0 j | **CRITIQUE** |
+| **D** | Maquettage des Composants Mobiles & Wishlist | 3 j | A | 20 | 39 | 19 j | Flottante |
+| **E** | Implémentation du Middleware RBAC Admin | 3 j | B, D'(0) | 30 | 46 | 16 j | Flottante |
+| **F** | Intégration du Panel de Gestion des Stocks | 3 j | E, J'(0) | 33 | 49 | 16 j | Flottante |
+| **G** | Développement Core Engine Express & API Produits | 30 j | C | 10 | 10 | 0 j | **CRITIQUE** |
+| **H** | Implémentation Tunnel Panier & Checkout Stripe | 15 j | G, F'(0) | 40 | 40 | 0 j | **CRITIQUE** |
+| **I** | Suite de Tests Vitest, E2E & Audit de Sécurité | 4 j | H, K'(0) | 55 | 55 | 0 j | **CRITIQUE** |
+| **J** | Tests d'Intégration UI/UX & Responsive Web Design | 10 j | D | 23 | 42 | 19 j | Flottante |
+| **K** | Recette Fonctionnelle du Module Admin & Livraisons | 7 j | F | 36 | 52 | 16 j | Flottante |
+| **L** | Déploiement en Production & Mise en Ligne AURORA | 1 j | I | 59 | 59 | 0 j | **CRITIQUE** |
+| *D'(0)* | *Synchronisation maquettage mobile vers Admin* | 0 j | D | 23 | 49 | 26 j | *Tâche Fictive* |
+| *J'(0)* | *Synchronisation intégration UI vers Stocks* | 0 j | J | 33 | 52 | 19 j | *Tâche Fictive* |
+| *F'(0)* | *Synchronisation panel stocks vers Checkout* | 0 j | F | 36 | 55 | 19 j | *Tâche Fictive* |
+| *K'(0)* | *Synchronisation recette admin vers Tests Globaux* | 0 j | K | 43 | 59 | 16 j | *Tâche Fictive* |
 
-> **Chemin Critique Initial :** `A → B → D → E → G → H` (Durée incompressible : **36 jours ouvrés**).
+> **Chemin Critique PERT 1 :** `C(10) → G(30) → H(15) → I(4) → L(1)` (Durée incompressible : **60 jours ouvrés**).
 
-##### Graphique Réseau PERT 1
+##### Graphique Réseau PERT 1 (Notation Compartimentée)
+
 ```mermaid
 flowchart LR
-    A["[A] Cadrage<br/>Durée: 5j | DTO: 0 | DTA: 0"]
-    B["[B] Schémas BDD<br/>Durée: 4j | DTO: 5 | DTA: 5"]
-    C["[C] Prototypage UI<br/>Durée: 5j | DTO: 5 | DTA: 7 (Marge: 2j)"]
-    D["[D] API REST Core<br/>Durée: 8j | DTO: 9 | DTA: 9"]
-    E["[E] Storefront React<br/>Durée: 12j | DTO: 17 | DTA: 17"]
-    F["[F] Admin Dashboard<br/>Durée: 7j | DTO: 17 | DTA: 22 (Marge: 5j)"]
-    G["[G] Recette Intégrée<br/>Durée: 4j | DTO: 29 | DTA: 29"]
-    H["[H] Déploiement Final<br/>Durée: 3j | DTO: 33 | DTA: 33"]
+    classDef critNode fill:#ffebee,stroke:#b3261e,stroke-width:3px;
+    classDef floatNode fill:#ffffff,stroke:#708090,stroke-width:1.5px;
 
-    A ==>|Chemin Critique| B
-    A --> C
-    B ==>|Chemin Critique| D
-    C --> E
-    D ==>|Chemin Critique| E
-    D --> F
-    E ==>|Chemin Critique| G
-    F --> G
-    G ==>|Chemin Critique| H
+    Start["Étape 0<br/>[ 0 | 0 ]<br/>Marge: 0"]:::critNode
+    
+    subgraph Voie_Haute ["Voie Haute : Frontend & Design System"]
+        N1["Étape 1 (A)<br/>[ 20 | 39 ]<br/>Marge: 19"]:::floatNode
+        N2["Étape 2 (D)<br/>[ 23 | 42 ]<br/>Marge: 19"]:::floatNode
+        N3["Étape 3 (J)<br/>[ 33 | 52 ]<br/>Marge: 19"]:::floatNode
+    end
 
-    style A fill:#ffcccc,stroke:#d9534f,stroke-width:3px
-    style B fill:#ffcccc,stroke:#d9534f,stroke-width:3px
-    style D fill:#ffcccc,stroke:#d9534f,stroke-width:3px
-    style E fill:#ffcccc,stroke:#d9534f,stroke-width:3px
-    style G fill:#ffcccc,stroke:#d9534f,stroke-width:3px
-    style H fill:#ffcccc,stroke:#d9534f,stroke-width:3px
-    style C fill:#e6f2ff,stroke:#0275d8,stroke-width:1px
-    style F fill:#e6f2ff,stroke:#0275d8,stroke-width:1px
+    subgraph Voie_Mediane ["Voie Médiane : Architecture & Module Admin"]
+        N4["Étape 4 (B)<br/>[ 30 | 46 ]<br/>Marge: 16"]:::floatNode
+        N5["Étape 5 (E)<br/>[ 33 | 49 ]<br/>Marge: 16"]:::floatNode
+        N6["Étape 6 (F)<br/>[ 36 | 52 ]<br/>Marge: 16"]:::floatNode
+        N7["Étape 7 (K)<br/>[ 43 | 59 ]<br/>Marge: 16"]:::floatNode
+    end
+
+    subgraph Voie_Basse ["Voie Basse : CHEMIN CRITIQUE (Marge = 0)"]
+        N8["Étape 8 (C)<br/>[ 10 | 10 ]<br/>Marge: 0"]:::critNode
+        N9["Étape 9 (G)<br/>[ 40 | 40 ]<br/>Marge: 0"]:::critNode
+        N10["Étape 10 (H)<br/>[ 55 | 55 ]<br/>Marge: 0"]:::critNode
+        N11["Étape 11 (I)<br/>[ 59 | 59 ]<br/>Marge: 0"]:::critNode
+        N12["Étape 12 (L)<br/>[ 60 | 60 ]<br/>Marge: 0"]:::critNode
+    end
+
+    Start -->|"A (20)"| N1
+    N1 -->|"D (3)"| N2
+    N2 -->|"J (10)"| N3
+
+    Start -->|"B (30)"| N4
+    N4 -->|"E (3)"| N5
+    N5 -->|"F (3)"| N6
+    N6 -->|"K (7)"| N7
+
+    N2 -.->|"D' (0)"| N5
+    N3 -.->|"J' (0)"| N6
+
+    Start ==>|"C (10)"| N8
+    N8 ==>|"G (30)"| N9
+    N6 -.->|"F' (0)"| N10
+    N9 ==>|"H (15)"| N10
+    N7 -.->|"K' (0)"| N11
+    N10 ==>|"I (4)"| N11
+    N11 ==>|"L (1)"| N12
 ```
 
 ---
 
 #### 🔀 Réseau PERT 2 : Sprint de Modernisation, Audit & Cybersécurité
 
-##### Tableau des Tâches et Marges (PERT 2)
-| Réf | Tâche du Sprint | Durée | Antécédents | DTO (Plus tôt) | DTA (Plus tard) | Marge Totale | Critique ? |
+##### Rendu Graphique Haute Définition (Vecteur SVG Conforme au Gabarit)
+
+![Réseau PERT 2 — Sprint Modernisation & Cybersécurité](./aurora_pert_network_2.svg)
+
+##### Tableau des Tâches, Dépendances et Marges (PERT 2)
+
+| Réf | Tâche du Sprint | Durée | Antécédents | Date au plus tôt | Date au plus tard | Marge Totale | Statut Critique |
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **S1** | Audit Forensique & Détection Failles | 2 | - | 0 | 0 | 0 | **OUI (Critique)** |
-| **S2** | Migration Vite 7 & React 19 | 3 | S1 | 2 | 2 | 0 | **OUI (Critique)** |
-| **S3** | Refonte Recherche (Debounce, Multi-champs) | 3 | S2 | 5 | 8 | 3 | Non |
-| **S4** | Authentification Client (User, bcrypt, JWT) | 4 | S2 | 5 | 5 | 0 | **OUI (Critique)** |
-| **S5** | Stripe Checkout API & VerifyPayment | 4 | S2 | 5 | 7 | 2 | Non |
-| **S6** | Middleware adminAuth (Correctif SEC-1) | 2 | S4 | 9 | 9 | 0 | **OUI (Critique)** |
-| **S7** | Durcissement Admin (ADM-1 à 3) | 3 | S6 | 11 | 12 | 1 | Non |
-| **S8** | Cyberdéfense NoSQL, ReDoS & CastError (BE-1) | 3 | S6 | 11 | 11 | 0 | **OUI (Critique)** |
-| **S9** | Suite de Tests Vitest (29 tests unitaires) | 2 | S3, S5, S7, S8 | 14 | 14 | 0 | **OUI (Critique)** |
-| **S10**| Finalisation Documentation & Commit | 1 | S9 | 16 | 16 | 0 | **OUI (Critique)** |
+| **S1** | Audit Forensique & Détection Failles | 2 j | — | 0 | 0 | 0 j | **CRITIQUE** |
+| **S2** | Migration Vite 7 & React 19 | 3 j | S1 | 2 | 2 | 0 j | **CRITIQUE** |
+| **S3** | Refonte Recherche (Debounce, Multi-champs) | 3 j | S2 | 5 | 11 | 6 j | Flottante |
+| **S4** | Authentification Client (User, bcrypt, JWT) | 4 j | S2 | 5 | 5 | 0 j | **CRITIQUE** |
+| **S5** | Stripe Checkout API & VerifyPayment | 4 j | S2 | 5 | 10 | 5 j | Flottante |
+| **S6** | Middleware adminAuth (Correctif SEC-1 HTTP 403) | 2 j | S4 | 9 | 9 | 0 j | **CRITIQUE** |
+| **S7** | Durcissement Admin Panel (ADM-1 à 3) | 2 j | S6 | 11 | 12 | 1 j | Flottante |
+| **S8** | Cyberdéfense NoSQL, ReDoS & CastError (BE-1) | 3 j | S6 | 11 | 11 | 0 j | **CRITIQUE** |
+| **S9** | Suite de Tests Vitest (29 tests unitaires) | 2 j | S8, S3', S5', S7' | 14 | 14 | 0 j | **CRITIQUE** |
+| **S10**| Finalisation Documentation & Commit Git | 1 j | S9 | 16 | 16 | 0 j | **CRITIQUE** |
 
-> **Chemin Critique du Sprint :** `S1 → S2 → S4 → S6 → S8 → S9 → S10` (Durée totale : **17 jours ouvrés**).
+> **Chemin Critique PERT 2 :** `S1(2) → S2(3) → S4(4) → S6(2) → S8(3) → S9(2) → S10(1)` (Durée totale : **17 jours ouvrés**).
 
-##### Graphique Réseau PERT 2
+##### Graphique Réseau PERT 2 (Notation Compartimentée)
+
 ```mermaid
 flowchart LR
-    S1["[S1] Audit Forensique<br/>Durée: 2j | DTO: 0 | DTA: 0"]
-    S2["[S2] Migration Vite 7<br/>Durée: 3j | DTO: 2 | DTA: 2"]
-    S3["[S3] Refonte Recherche<br/>Durée: 3j | DTO: 5 | DTA: 8 (Marge: 3j)"]
-    S4["[S4] Auth Client JWT<br/>Durée: 4j | DTO: 5 | DTA: 5"]
-    S5["[S5] Stripe Checkout<br/>Durée: 4j | DTO: 5 | DTA: 7 (Marge: 2j)"]
-    S6["[S6] Middleware adminAuth<br/>Durée: 2j | DTO: 9 | DTA: 9"]
-    S7["[S7] Durcissement Admin<br/>Durée: 3j | DTO: 11 | DTA: 12 (Marge: 1j)"]
-    S8["[S8] Cyberdéfense NoSQL/ReDoS<br/>Durée: 3j | DTO: 11 | DTA: 11"]
-    S9["[S9] Tests Vitest 29/29<br/>Durée: 2j | DTO: 14 | DTA: 14"]
-    S10["[S10] Documentation & Commit<br/>Durée: 1j | DTO: 16 | DTA: 16"]
+    classDef critNode2 fill:#ffebee,stroke:#b3261e,stroke-width:3px;
+    classDef floatNode2 fill:#ffffff,stroke:#708090,stroke-width:1.5px;
 
-    S1 ==>|Chemin Critique| S2
-    S2 --> S3
-    S2 ==>|Chemin Critique| S4
-    S2 --> S5
-    S4 ==>|Chemin Critique| S6
-    S6 --> S7
-    S6 ==>|Chemin Critique| S8
-    S3 --> S9
-    S5 --> S9
-    S7 --> S9
-    S8 ==>|Chemin Critique| S9
-    S9 ==>|Chemin Critique| S10
+    Start2["Début Sprint<br/>[ 0 | 0 ]<br/>Marge: 0"]:::critNode2
+    NS1["Étape S1<br/>[ 2 | 2 ]<br/>Marge: 0"]:::critNode2
+    NS2["Étape S2<br/>[ 5 | 5 ]<br/>Marge: 0"]:::critNode2
+    NS3["Étape S3<br/>[ 8 | 14 ]<br/>Marge: 6"]:::floatNode2
+    NS4["Étape S4<br/>[ 9 | 9 ]<br/>Marge: 0"]:::critNode2
+    NS5["Étape S5<br/>[ 9 | 14 ]<br/>Marge: 5"]:::floatNode2
+    NS6["Étape S6<br/>[ 11 | 11 ]<br/>Marge: 0"]:::critNode2
+    NS7["Étape S7<br/>[ 13 | 14 ]<br/>Marge: 1"]:::floatNode2
+    NS8["Étape S8<br/>[ 14 | 14 ]<br/>Marge: 0"]:::critNode2
+    NS9["Étape S9<br/>[ 16 | 16 ]<br/>Marge: 0"]:::critNode2
+    NS10["Étape S10<br/>[ 17 | 17 ]<br/>Marge: 0"]:::critNode2
 
-    style S1 fill:#ffcccc,stroke:#d9534f,stroke-width:3px
-    style S2 fill:#ffcccc,stroke:#d9534f,stroke-width:3px
-    style S4 fill:#ffcccc,stroke:#d9534f,stroke-width:3px
-    style S6 fill:#ffcccc,stroke:#d9534f,stroke-width:3px
-    style S8 fill:#ffcccc,stroke:#d9534f,stroke-width:3px
-    style S9 fill:#ffcccc,stroke:#d9534f,stroke-width:3px
-    style S10 fill:#ffcccc,stroke:#d9534f,stroke-width:3px
-    style S3 fill:#e6f2ff,stroke:#0275d8,stroke-width:1px
-    style S5 fill:#e6f2ff,stroke:#0275d8,stroke-width:1px
-    style S7 fill:#e6f2ff,stroke:#0275d8,stroke-width:1px
+    Start2 ==>|"S1 (2)"| NS1
+    NS1 ==>|"S2 (3)"| NS2
+    NS2 -->|"S3 (3)"| NS3
+    NS2 -->|"S5 (4)"| NS5
+    NS2 ==>|"S4 (4)"| NS4
+    NS4 ==>|"S6 (2)"| NS6
+    NS6 -->|"S7 (2)"| NS7
+    NS6 ==>|"S8 (3)"| NS8
+    NS3 -.->|"S3' (0)"| NS9
+    NS5 -.->|"S5' (0)"| NS9
+    NS7 -.->|"S7' (0)"| NS9
+    NS8 ==>|"S9 (2)"| NS9
+    NS9 ==>|"S10 (1)"| NS10
 ```
 
 ---
