@@ -84,6 +84,15 @@ Le projet repose sur une architecture découplée associant :
 - **Haute Tolérance aux Pannes :** Gestion robuste des connexions MongoDB avec mécanisme de reconnexion automatique (5 tentatives exponentielles).
 - **Protection des Données Personnelles :** Ségrégation stricte des rôles interdisant à un client d'accéder aux données postales ou téléphoniques des autres acheteurs.
 
+### 2.4. Mode Démo & Résilience Hors-Ligne (Moteur LocalStorage)
+
+Afin de permettre l'exploration, la soutenance et le test complet de l'application sans déploiement payant du backend (carte bancaire non requise) :
+- **Amorçage immédiat du catalogue :** Amorçage instantané via `src/assets/all_products.js` et persistance dans `localStorage.getItem('aurora_products')`.
+- **Tolérance totale aux pannes HTTP 500 / AxiosError :** Toute interruption de service backend ou erreur 500 bascule de manière invisible vers le stockage local sans lever d'erreur bloquante dans la console.
+- **Simulation d'authentification complète :** Inscription et connexion clients (`aurora_mock_users`) et administrateurs avec génération de jetons JWT simulés et profils persistants.
+- **Cycle complet de commande :** Enregistrement des commandes (Paiement à la livraison ou redirection simulée Stripe) dans `localStorage.getItem('aurora_orders')`, consultation de l'historique dans l'Espace Client et traitement des statuts dans le tableau de bord Admin.
+- **Administration autonome hors-ligne :** Ajout de produits avec conversion d'images en Base64, suppression d'articles et actualisation des statuts de commande sans aucun serveur actif.
+
 ---
 
 ## 3. Modélisation UML & Conception du Système
