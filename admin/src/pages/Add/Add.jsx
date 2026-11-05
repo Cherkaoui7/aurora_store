@@ -41,7 +41,8 @@ const Add = ({ token }) => {
             formData.append("image1", image);
 
             const response = await axios.post(`${API_URL}/api/product/add`, formData, {
-                headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${token}` }
+                headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${token}` },
+                timeout: 4000
             });
 
             if (response.data.success) {
@@ -52,12 +53,52 @@ const Add = ({ token }) => {
                 setImage(false);
                 setSizes([]);
                 setBestseller(false);
+                setLoading(false);
+                return;
             } else {
                 toast.error(response.data.message || "Failed to add product");
             }
         } catch (error) {
-            console.error("Add product error:", error);
-            toast.error(error.response?.data?.message || error.message || "Failed to add product");
+            // Offline fallback: convert image file to Base64 data URL and save in localStorage
+            console.info("[AURORA Admin] Backend indisponible. Enregistrement du produit dans LocalStorage.");
+            try {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    const dataUrl = reader.result;
+                    const newProd = {
+                        _id: 'prod_' + Date.now(),
+                        id: 'prod_' + Date.now(),
+                        name: name.trim(),
+                        title: name.trim(),
+                        description: desc.trim(),
+                        price: Number(price),
+                        category,
+                        subCategory,
+                        bestseller,
+                        sizes: sizes.length > 0 ? sizes : ["S", "M", "L", "XL"],
+                        image: [dataUrl],
+                        rating: 5,
+                        date: Date.now()
+                    };
+
+                    const localProds = JSON.parse(localStorage.getItem('aurora_products') || '[]');
+                    localProds.unshift(newProd);
+                    localStorage.setItem('aurora_products', JSON.stringify(localProds));
+
+                    toast.success("Produit ajouté avec succès (Mode Démo LocalStorage) !");
+                    setName("");
+                    setDesc("");
+                    setPrice("");
+                    setImage(false);
+                    setSizes([]);
+                    setBestseller(false);
+                    setLoading(false);
+                };
+                reader.readAsDataURL(image);
+                return;
+            } catch (err) {
+                toast.error("Impossible d'ajouter le produit en mode local.");
+            }
         } finally {
             setLoading(false);
         }

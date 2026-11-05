@@ -13,16 +13,20 @@ const List = ({ token }) => {
   const fetchList = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${API_URL}/api/product/list`);
+      const response = await axios.get(`${API_URL}/api/product/list`, { timeout: 3500 });
 
-      if (response.data.success) {
-        setList(response.data.products || []);
-      } else {
-        toast.error("Backend says: " + response.data.message);
+      if (response?.data?.success && Array.isArray(response.data.products)) {
+        setList(response.data.products);
+        localStorage.setItem('aurora_products', JSON.stringify(response.data.products));
+        return;
       }
     } catch (error) {
-      toast.error(error.message);
+      console.info("[AURORA Admin] Backend indisponible. Chargement depuis LocalStorage.");
     } finally {
+      const local = JSON.parse(localStorage.getItem('aurora_products') || '[]');
+      if (local && local.length > 0) {
+        setList(local);
+      }
       setLoading(false);
     }
   }
@@ -30,24 +34,26 @@ const List = ({ token }) => {
   const removeProduct = async (productId) => {
     try {
       const response = await axios.post(`${API_URL}/api/product/remove`, { id: productId }, {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { 'Authorization': `Bearer ${token}` },
+        timeout: 3500
       });
-      if (response.data.success) {
+      if (response?.data?.success) {
         toast.success(response.data.message);
         await fetchList();
-      } else {
-        toast.error(response.data.message || "Failed to remove product");
+        return;
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || error.message || "Error");
+      // Offline fallback: remove from localStorage
+      const local = JSON.parse(localStorage.getItem('aurora_products') || '[]');
+      const updated = local.filter(item => String(item._id || item.id) !== String(productId));
+      localStorage.setItem('aurora_products', JSON.stringify(updated));
+      setList(updated);
+      toast.success("Produit supprimé (Mode Démo LocalStorage)");
     }
   }
 
   useEffect(() => {
-    const loadList = async () => {
-      await fetchList();
-    };
-    loadList();
+    fetchList();
   }, [])
 
   return (
@@ -75,12 +81,12 @@ const List = ({ token }) => {
                 : `${API_URL}/images/${rawImg}`;
 
             return (
-              <div key={item._id} className='list-table-format'>
-                <img src={imgSrc} alt={item.name || 'Product'} />
-                <p>{item.name || 'Untitled'}</p>
+              <div key={item._id || item.id} className='list-table-format'>
+                <img src={imgSrc} alt={item.name || item.title || 'Product'} />
+                <p>{item.name || item.title || 'Untitled'}</p>
                 <p>{item.category || '-'}</p>
                 <p>${Number(item.price || 0).toFixed(2)}</p>
-                <p onClick={() => removeProduct(item._id)} className='cursor' title="Delete product">X</p>
+                <p onClick={() => removeProduct(item._id || item.id)} className='cursor' title="Delete product">X</p>
               </div>
             )
           })

@@ -14,47 +14,55 @@ const Orders = ({ token }) => {
         try {
             setLoading(true);
             const response = await axios.get(`${API_URL}/api/order/list`, {
-                headers: { 'Authorization': `Bearer ${token}` }
+                headers: { 'Authorization': `Bearer ${token}` },
+                timeout: 3500
             });
-            if (response.data.success) {
-                setOrders(response.data.data || []);
-            } else {
-                toast.error(response.data.message || "Failed to fetch orders");
+            if (response?.data?.success && Array.isArray(response.data.data)) {
+                setOrders(response.data.data);
+                return;
             }
         } catch (error) {
-            console.error("Fetch orders error:", error);
-            toast.error(error.response?.data?.message || "Error fetching orders");
+            console.info("[AURORA Admin] Backend indisponible. Chargement des commandes depuis LocalStorage.");
         } finally {
+            const local = JSON.parse(localStorage.getItem('aurora_orders') || '[]');
+            setOrders(prev => (prev && prev.length > 0 ? prev : local));
             setLoading(false);
         }
     }
 
     // 2. Update Status Handler
     const statusHandler = async (event, orderId) => {
+        const newStatus = event.target.value;
         try {
             const response = await axios.post(`${API_URL}/api/order/status`, {
                 orderId,
-                status: event.target.value
+                status: newStatus
             }, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            })
-            if (response.data.success) {
-                toast.success("Order status updated");
-                await fetchAllOrders(); // Refresh list
-            } else {
-                toast.error(response.data.message || "Failed to update status");
+                headers: { 'Authorization': `Bearer ${token}` },
+                timeout: 3500
+            });
+            if (response?.data?.success) {
+                toast.success("Statut mis à jour");
+                await fetchAllOrders();
+                return;
             }
         } catch (error) {
-            console.error("Error updating status:", error);
-            toast.error(error.response?.data?.message || "Error updating status");
+            // Offline fallback: update status in localStorage
+            const local = JSON.parse(localStorage.getItem('aurora_orders') || '[]');
+            const updated = local.map(ord => {
+                if (String(ord._id) === String(orderId)) {
+                    return { ...ord, status: newStatus };
+                }
+                return ord;
+            });
+            localStorage.setItem('aurora_orders', JSON.stringify(updated));
+            setOrders(updated);
+            toast.success("Statut mis à jour (Mode Démo LocalStorage)");
         }
     }
 
     useEffect(() => {
-        const loadOrders = async () => {
-            await fetchAllOrders();
-        };
-        loadOrders();
+        fetchAllOrders();
     }, [token])
 
     return (
@@ -87,7 +95,7 @@ const Orders = ({ token }) => {
                                             items.map((item, itemIdx) => {
                                                 const sizeLabel = item.size && item.size !== 'default' ? ` (${item.size})` : '';
                                                 const separator = itemIdx === items.length - 1 ? '' : ', ';
-                                                return `${item.name || 'Item'}${sizeLabel} x ${item.quantity || 1}${separator}`;
+                                                return `${item.name || item.title || 'Item'}${sizeLabel} x ${item.quantity || 1}${separator}`;
                                             })
                                         ) : (
                                             'No items specified'

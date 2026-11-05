@@ -22,7 +22,7 @@ const Cart = () => {
     for (const cartKey in cartItems) {
       if (cartItems[cartKey] > 0) {
         const { productId } = parseCartKey(cartKey);
-        let itemInfo = all_products.find((product) => String(product._id) === String(productId));
+        let itemInfo = all_products.find((product) => String(product._id || product.id) === String(productId));
         if (itemInfo) {
           totalAmount += itemInfo.price * cartItems[cartKey];
         }
@@ -49,7 +49,7 @@ const Cart = () => {
     .filter(key => cartItems[key] > 0)
     .map(cartKey => {
       const { productId, size } = parseCartKey(cartKey);
-      const product = all_products.find(p => String(p._id) === String(productId));
+      const product = all_products.find(p => String(p._id || p.id) === String(productId));
       return product ? { cartKey, product, size, quantity: cartItems[cartKey] } : null;
     })
     .filter(Boolean);

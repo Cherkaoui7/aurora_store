@@ -7,7 +7,7 @@ const Wishlist = () => {
   const { all_products, wishlistItems } = useContext(ShopContext);
 
   // Filter products that are marked True in wishlistItems
-  const savedProducts = all_products.filter((item) => wishlistItems[item._id]);
+  const savedProducts = all_products.filter((item) => wishlistItems[item._id] || wishlistItems[item.id]);
 
   return (
     <div className={styles.pageContainer}>

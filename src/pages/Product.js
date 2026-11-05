@@ -15,7 +15,7 @@ const Product = () => {
 
   useEffect(() => {
     if (all_products.length > 0) {
-      const product = all_products.find((item) => String(item._id) === String(productId));
+      const product = all_products.find((item) => String(item._id || item.id) === String(productId));
 
       if (product) {
         setProductData(product);
@@ -34,7 +34,7 @@ const Product = () => {
       alert('Please select a size before adding to cart.');
       return;
     }
-    addToCart(productData._id, size || 'default');
+    addToCart(productData._id || productData.id, size || 'default');
   };
 
   return (
@@ -45,13 +45,13 @@ const Product = () => {
           <img src={image} className={`${styles.thumbnail} ${styles.activeThumbnail}`} alt="" />
         </div>
         <div className={styles.mainImageContainer}>
-          <img src={image} className={styles.mainImage} alt={productData.name} />
+          <img src={image} className={styles.mainImage} alt={productData.name || productData.title} />
         </div>
       </div>
 
       {/* INFO */}
       <div className={styles.info}>
-        <h1 className={styles.title}>{productData.name}</h1>
+        <h1 className={styles.title}>{productData.name || productData.title}</h1>
 
         <div className={styles.rating}>
           <StarRating rating={4} />

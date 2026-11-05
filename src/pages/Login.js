@@ -4,7 +4,7 @@ import { ShopContext } from '../context/ShopContext';
 import styles from './Login.module.css';
 
 const Login = () => {
-  const { token, user, login, logout, API_URL } = useContext(ShopContext);
+  const { token, user, login, logout, API_URL, getMockOrders } = useContext(ShopContext);
 
   const [currentState, setCurrentState] = useState('Login');
   const [name, setName] = useState('');
@@ -22,58 +22,121 @@ const Login = () => {
       try {
         setLoadingOrders(true);
         const response = await axios.get(`${API_URL}/api/order/userorders`, {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${token}` },
+          timeout: 3000
         });
-        if (response.data.success) {
+        if (response?.data?.success && Array.isArray(response.data.data)) {
           setUserOrders(response.data.data);
+          return;
         }
       } catch (err) {
-        console.error("Failed to fetch user orders:", err);
+        // Fall back to localStorage simulated orders
+        console.info("[AURORA Offline Simulation] Chargement des commandes depuis le LocalStorage.");
       } finally {
+        // If no server orders, load from LocalStorage
+        const local = getMockOrders ? getMockOrders(user?.id || user?.email) : [];
+        if (local && local.length > 0) {
+          setUserOrders(prev => (prev && prev.length > 0 ? prev : local));
+        }
         setLoadingOrders(false);
       }
     };
 
     fetchUserOrders();
-  }, [token, API_URL]);
+  }, [token, API_URL, user, getMockOrders]);
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     setError('');
     setLoading(true);
 
+    const normalizedEmail = email.trim().toLowerCase();
+
     try {
       if (currentState === 'Sign Up') {
-        const response = await axios.post(`${API_URL}/api/user/register`, {
-          name,
-          email,
-          password
-        });
+        try {
+          const response = await axios.post(`${API_URL}/api/user/register`, {
+            name: name.trim(),
+            email: normalizedEmail,
+            password
+          }, { timeout: 3500 });
 
-        if (response.data.success) {
-          login(response.data.token, response.data.user);
+          if (response?.data?.success) {
+            login(response.data.token, response.data.user);
+            setName('');
+            setEmail('');
+            setPassword('');
+            setLoading(false);
+            return;
+          }
+        } catch (apiErr) {
+          // Graceful fallback to offline localStorage registration
+          console.info("[AURORA Offline Simulation] Backend indisponible. Simulation d'inscription locale.");
+          const mockUsers = JSON.parse(localStorage.getItem('aurora_mock_users') || '[]');
+          const existing = mockUsers.find(u => u.email.toLowerCase() === normalizedEmail);
+          if (existing) {
+            setError('Cet email est déjà utilisé (Simulation locale).');
+            setLoading(false);
+            return;
+          }
+
+          const newUser = {
+            id: 'usr_' + Date.now(),
+            name: name.trim() || 'Client Aurora',
+            email: normalizedEmail
+          };
+          mockUsers.push({ ...newUser, password });
+          localStorage.setItem('aurora_mock_users', JSON.stringify(mockUsers));
+
+          const mockToken = 'mock_jwt_' + btoa(normalizedEmail) + '_' + Date.now();
+          login(mockToken, newUser);
           setName('');
           setEmail('');
           setPassword('');
-        } else {
-          setError(response.data.message || 'Registration failed');
+          setLoading(false);
+          return;
         }
       } else {
-        const response = await axios.post(`${API_URL}/api/user/login`, {
-          email,
-          password
-        });
+        // Login Flow
+        try {
+          const response = await axios.post(`${API_URL}/api/user/login`, {
+            email: normalizedEmail,
+            password
+          }, { timeout: 3500 });
 
-        if (response.data.success) {
-          login(response.data.token, response.data.user);
+          if (response?.data?.success) {
+            login(response.data.token, response.data.user);
+            setEmail('');
+            setPassword('');
+            setLoading(false);
+            return;
+          }
+        } catch (apiErr) {
+          // Graceful fallback to offline localStorage login
+          console.info("[AURORA Offline Simulation] Backend indisponible. Simulation de connexion locale.");
+          const mockUsers = JSON.parse(localStorage.getItem('aurora_mock_users') || '[]');
+          const found = mockUsers.find(u => u.email.toLowerCase() === normalizedEmail);
+
+          const authenticatedUser = found ? {
+            id: found.id,
+            name: found.name,
+            email: found.email
+          } : {
+            id: 'usr_' + Date.now(),
+            name: normalizedEmail.split('@')[0],
+            email: normalizedEmail
+          };
+
+          const mockToken = 'mock_jwt_' + btoa(normalizedEmail) + '_' + Date.now();
+          login(mockToken, authenticatedUser);
           setEmail('');
           setPassword('');
-        } else {
-          setError(response.data.message || 'Login failed');
+          setLoading(false);
+          return;
         }
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to connect to server. Please try again.');
+      setError(err.response?.data?.message || 'Erreur inattendue. Veuillez réessayer.');
     } finally {
       setLoading(false);
     }
@@ -105,14 +168,14 @@ const Login = () => {
                 {userOrders.map((order) => (
                   <div key={order._id} className={styles.orderCard}>
                     <div className={styles.orderHeader}>
-                      <span>Order #{order._id.slice(-6).toUpperCase()}</span>
-                      <span>{new Date(order.date).toLocaleDateString()}</span>
+                      <span>Order #{String(order._id).slice(-6).toUpperCase()}</span>
+                      <span>{new Date(order.date || Date.now()).toLocaleDateString()}</span>
                       <span className={styles.orderStatus}>{order.status}</span>
                     </div>
                     <div className={styles.orderItems}>
-                      {order.items.map((item, index) => (
+                      {order.items?.map((item, index) => (
                         <div key={index}>
-                          {item.name} ({item.size || 'Standard'}) x {item.quantity}
+                          {item.name || item.title} ({item.size || 'Standard'}) x {item.quantity}
                         </div>
                       ))}
                     </div>

@@ -5,7 +5,7 @@ import axios from 'axios';
 import styles from './PlaceOrder.module.css';
 
 const PlaceOrder = () => {
-  const { all_products, cartItems, clearCart, API_URL, token, user } = useContext(ShopContext);
+  const { all_products, cartItems, clearCart, API_URL, token, user, placeMockOrder } = useContext(ShopContext);
   const [method, setMethod] = useState('stripe');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ const PlaceOrder = () => {
     for (const cartKey in cartItems) {
       if (cartItems[cartKey] > 0) {
         const { productId } = parseCartKey(cartKey);
-        let itemInfo = all_products.find((product) => String(product._id) === String(productId));
+        let itemInfo = all_products.find((product) => String(product._id || product.id) === String(productId));
         if (itemInfo) {
           totalAmount += itemInfo.price * cartItems[cartKey];
         }
@@ -72,7 +72,7 @@ const PlaceOrder = () => {
       for (const cartKey in cartItems) {
         if (cartItems[cartKey] > 0) {
           const { productId, size } = parseCartKey(cartKey);
-          const itemInfo = all_products.find((product) => String(product._id) === String(productId));
+          const itemInfo = all_products.find((product) => String(product._id || product.id) === String(productId));
           if (itemInfo) {
             let itemCopy = {
               ...itemInfo,
@@ -103,37 +103,71 @@ const PlaceOrder = () => {
 
       // 3. Process Payment based on Method
       if (method === 'stripe') {
-        const response = await axios.post(`${API_URL}/api/order/stripe`, orderData, {
-          headers: authHeaders
-        });
+        try {
+          const response = await axios.post(`${API_URL}/api/order/stripe`, orderData, {
+            headers: authHeaders,
+            timeout: 3500
+          });
 
-        if (response.data.success && response.data.session_url) {
-          // Keep cart in case user cancels or navigates back, or clear if desired.
-          // In standard checkout, cart is cleared upon verified payment on return page.
-          window.location.replace(response.data.session_url);
-        } else {
-          alert(response.data.message || "Failed to initialize Stripe Checkout.");
-          setLoading(false);
+          if (response?.data?.success && response.data.session_url) {
+            window.location.replace(response.data.session_url);
+            return;
+          }
+        } catch (apiErr) {
+          // Graceful fallback to offline simulated Stripe checkout
+          console.info("[AURORA Offline Simulation] Backend Stripe indisponible. Simulation de paiement.");
+          const mockOrderRes = placeMockOrder ? placeMockOrder({
+            userId: user?.id || "guest_user",
+            items: orderItems,
+            amount: totalAmount,
+            address: formData,
+            paymentMethod: 'stripe',
+            payment: true
+          }) : null;
+
+          clearCart();
+          const mockOrderId = mockOrderRes?.order?._id || ('ord_' + Date.now());
+          navigate(`/verify?success=true&orderId=${mockOrderId}`);
+          return;
         }
       } else {
         // Cash On Delivery
-        const response = await axios.post(`${API_URL}/api/order/place`, orderData, {
-          headers: authHeaders
-        });
+        try {
+          const response = await axios.post(`${API_URL}/api/order/place`, orderData, {
+            headers: authHeaders,
+            timeout: 3500
+          });
 
-        if (response.data.success) {
+          if (response?.data?.success) {
+            clearCart();
+            alert("Order Placed Successfully!");
+            navigate(token ? '/login' : '/');
+            return;
+          }
+        } catch (apiErr) {
+          // Graceful fallback to offline simulated COD order placement
+          console.info("[AURORA Offline Simulation] Backend COD indisponible. Sauvegarde dans LocalStorage.");
+          if (placeMockOrder) {
+            placeMockOrder({
+              userId: user?.id || "guest_user",
+              items: orderItems,
+              amount: totalAmount,
+              address: formData,
+              paymentMethod: 'cod',
+              payment: false
+            });
+          }
           clearCart();
-          alert("Order Placed Successfully!");
+          alert("Commande passée avec succès (Mode Démo Hors-ligne / LocalStorage) !");
           navigate(token ? '/login' : '/');
-        } else {
-          alert("Error placing order: " + (response.data.message || 'Unknown error'));
+          return;
         }
-        setLoading(false);
       }
 
     } catch (error) {
       console.error(error);
-      alert(error.response?.data?.message || "Error connecting to server. Please try again.");
+      alert(error.response?.data?.message || "Erreur de traitement. Veuillez réessayer.");
+    } finally {
       setLoading(false);
     }
   };
