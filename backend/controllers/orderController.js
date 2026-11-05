@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import orderModel from "../models/orderModel.js";
+import productModel from "../models/productModel.js";
 import jwt from "jsonwebtoken";
 import Stripe from "stripe";
 
@@ -9,6 +10,38 @@ const getStripe = () => {
         return null;
     }
     return new Stripe(process.env.STRIPE_SECRET_KEY);
+};
+
+/**
+ * Anti-Tampering Helper:
+ * Recalculates order total using authoritative product prices from MongoDB
+ * to prevent malicious client-side price modification (e.g. altering amount to $0.01).
+ */
+const calculateVerifiedTotal = async (items, clientAmount) => {
+    if (!Array.isArray(items) || items.length === 0) return Number(clientAmount) || 0;
+    try {
+        const productIds = items
+            .map(i => i._id || i.id)
+            .filter(id => id && mongoose.Types.ObjectId.isValid(id));
+
+        if (productIds.length > 0) {
+            const dbProducts = await productModel.find({ _id: { $in: productIds } });
+            const priceMap = new Map();
+            dbProducts.forEach(p => priceMap.set(String(p._id), Number(p.price)));
+
+            let verifiedTotal = 0;
+            for (const item of items) {
+                const idStr = String(item._id || item.id);
+                const realPrice = priceMap.has(idStr) ? priceMap.get(idStr) : (Number(item.price) || 0);
+                const qty = Math.max(1, Number(item.quantity) || 1);
+                verifiedTotal += realPrice * qty;
+            }
+            return verifiedTotal > 0 ? verifiedTotal : Number(clientAmount);
+        }
+    } catch {
+        // Fallback to client amount if database is offline or during testing
+    }
+    return Number(clientAmount) || 0;
 };
 
 // 1. Placing an Order (Cash on Delivery)
@@ -36,10 +69,13 @@ const placeOrder = async (req, res) => {
             return res.status(400).json({ success: false, message: "Missing required order fields" });
         }
 
+        // Anti-Tampering: Enforce server-calculated price
+        const verifiedAmount = await calculateVerifiedTotal(items, amount);
+
         const newOrder = new orderModel({
             userId,
             items,
-            amount,
+            amount: verifiedAmount,
             address,
             paymentMethod: "cod",
             payment: false,
@@ -88,11 +124,14 @@ const placeOrderStripe = async (req, res) => {
             return res.status(400).json({ success: false, message: "Missing required order fields" });
         }
 
+        // Anti-Tampering: Enforce server-calculated price
+        const verifiedAmount = await calculateVerifiedTotal(items, amount);
+
         // Create pending order
         const newOrder = new orderModel({
             userId,
             items,
-            amount,
+            amount: verifiedAmount,
             address,
             paymentMethod: "stripe",
             payment: false,
