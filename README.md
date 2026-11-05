@@ -3,10 +3,21 @@
 
 ![Aurora Banner](https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2070&auto=format&fit=crop)
 
+<p align="center">
+  <a href="https://github.com/Cherkaoui7/aurora_store/actions/workflows/ci.yml">
+    <img src="https://github.com/Cherkaoui7/aurora_store/actions/workflows/ci.yml/badge.svg" alt="CI / CD - Tests & Builds" />
+  </a>
+  <img src="https://img.shields.io/badge/Vitest-29%2F29%20passed-brightgreen?logo=vitest&logoColor=white" alt="Vitest 29/29 passed" />
+  <img src="https://img.shields.io/badge/React-19.2-blue?logo=react&logoColor=white" alt="React 19" />
+  <img src="https://img.shields.io/badge/Vite-7.3-646CFF?logo=vite&logoColor=white" alt="Vite 7" />
+  <img src="https://img.shields.io/badge/Node.js-20%2B-green?logo=node.js&logoColor=white" alt="Node.js 20" />
+  <img src="https://img.shields.io/badge/Security-Audited%20%26%20Patched-success?logo=shield&logoColor=white" alt="Security Audited" />
+</p>
+
 > **Projet :** AURORA E-Commerce (`aurora_store`)  
 > **Auteur / Développeur :** Abdessamad Cherkaoui  
 > **Stack Technique :** MERN (MongoDB, Express 5, React 19, Node.js ESM) + Vite 7 + Stripe SDK + Vitest  
-> **Statut du Projet :** Production Ready — 100% Audité, Sécurisé et Testé (29 tests passants)  
+> **Statut du Projet :** Production Ready — 100% Audité, Sécurisé, Testé (29 tests passants) et Intégration Continue (CI/CD) active  
 
 ---
 
@@ -715,6 +726,18 @@ Test Files  9 passés (9)
 - **Validation des Builds de Production :**
   - **Vitrine Client (Vite 7) :** `✓ built in 3.75s` (431 kB JS gzippé à 141 kB)
   - **Dashboard Admin (Vite 7) :** `✓ built in 1.64s` (308 kB JS gzippé à 100 kB)
+
+### 8.1. Pipeline d'Intégration Continue (GitHub Actions CI/CD)
+
+Un pipeline d'intégration continue automatisé a été configuré dans `.github/workflows/ci.yml`. À chaque commande `git push` ou ouverture de *Pull Request* sur les branches principales (`main` / `master`), GitHub Actions exécute automatiquement les étapes suivantes dans un environnement Linux virtuel isolé (`ubuntu-latest`) :
+
+1. **Clonage du référentiel (`actions/checkout@v4`)**
+2. **Initialisation de l'environnement Node.js 20.x (`actions/setup-node@v4`) avec mise en cache des dépendances npm**
+3. **Installation hermétique et déterministe des dépendances (`npm ci`)** pour le noyau, le backend et le tableau de bord d'administration
+4. **Exécution de la suite complète des 29 tests Vitest** (couvrant la sécurité, l'authentification, le panier et les contrôleurs)
+5. **Compilation des bundles de production (Vite 7)** pour la vitrine client et le tableau de bord administrateur
+6. **Mise à jour en temps réel du badge officiel de statut CI** affiché en tête du `README.md` :  
+   [![CI / CD - Tests & Builds](https://github.com/Cherkaoui7/aurora_store/actions/workflows/ci.yml/badge.svg)](https://github.com/Cherkaoui7/aurora_store/actions/workflows/ci.yml)
 
 ---
 
