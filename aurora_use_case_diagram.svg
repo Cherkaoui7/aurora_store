@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 780" width="100%" height="100%">
+  <defs>
+    <!-- Arrow marker for <<include>> and <<extend>> -->
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9" fill="none" stroke="#222222" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="#ffffff" />
+
+  <!-- ==================== SYSTEM BOUNDARY BOX ==================== -->
+  <rect x="230" y="25" width="690" height="730" rx="12" ry="12" fill="#ffffff" stroke="#222222" stroke-width="2.5" />
+  <text x="575" y="62" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#111111">
+    Website Use Case Diagram — AURORA E-Commerce
+  </text>
+
+  <!-- ==================== ACTOR 1: SITE USER (CLIENT) ==================== -->
+  <g id="actor-site-user">
+    <!-- Head -->
+    <circle cx="105" cy="180" r="18" fill="#ffffff" stroke="#111111" stroke-width="2.5" />
+    <!-- Body -->
+    <line x1="105" y1="198" x2="105" y2="255" stroke="#111111" stroke-width="2.5" />
+    <!-- Arms -->
+    <line x1="65" y1="218" x2="145" y2="218" stroke="#111111" stroke-width="2.5" />
+    <!-- Left Leg -->
+    <line x1="105" y1="255" x2="75" y2="310" stroke="#111111" stroke-width="2.5" />
+    <!-- Right Leg -->
+    <line x1="105" y1="255" x2="135" y2="310" stroke="#111111" stroke-width="2.5" />
+    <!-- Label -->
+    <text x="105" y="338" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="bold" text-anchor="middle" fill="#111111">Site user</text>
+    <text x="105" y="356" font-family="Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#555555">(Client Acheteur)</text>
+  </g>
+
+  <!-- ==================== ACTOR 2: WEBMASTER (ADMIN) ==================== -->
+  <g id="actor-webmaster">
+    <!-- Head -->
+    <circle cx="105" cy="515" r="18" fill="#ffffff" stroke="#111111" stroke-width="2.5" />
+    <!-- Body -->
+    <line x1="105" y1="533" x2="105" y2="590" stroke="#111111" stroke-width="2.5" />
+    <!-- Arms -->
+    <line x1="65" y1="553" x2="145" y2="553" stroke="#111111" stroke-width="2.5" />
+    <!-- Left Leg -->
+    <line x1="105" y1="590" x2="75" y2="645" stroke="#111111" stroke-width="2.5" />
+    <!-- Right Leg -->
+    <line x1="105" y1="590" x2="135" y2="645" stroke="#111111" stroke-width="2.5" />
+    <!-- Label -->
+    <text x="105" y="673" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="bold" text-anchor="middle" fill="#111111">Webmaster</text>
+    <text x="105" y="691" font-family="Arial, Helvetica, sans-serif" font-size="12" text-anchor="middle" fill="#555555">(Administrateur)</text>
+  </g>
+
+  <!-- ==================== PRIMARY USE CASES (COLUMN 1: cx = 390) ==================== -->
+  <!-- 1. Search products -->
+  <ellipse cx="390" cy="115" rx="115" ry="24" fill="#ffffff" stroke="#222222" stroke-width="2" />
+  <text x="390" y="120" font-family="Arial, sans-serif" font-size="13.5" font-weight="600" text-anchor="middle" fill="#111111">Search products - full text</text>
+
+  <!-- 2. Browse catalog -->
+  <ellipse cx="390" cy="185" rx="115" ry="24" fill="#ffffff" stroke="#222222" stroke-width="2" />
+  <text x="390" y="190" font-family="Arial, sans-serif" font-size="13.5" font-weight="600" text-anchor="middle" fill="#111111">Browse catalog &amp; categories</text>
+
+  <!-- 3. Manage cart & wishlist -->
+  <ellipse cx="390" cy="255" rx="115" ry="24" fill="#ffffff" stroke="#222222" stroke-width="2" />
+  <text x="390" y="260" font-family="Arial, sans-serif" font-size="13.5" font-weight="600" text-anchor="middle" fill="#111111">Manage cart &amp; wishlist</text>
+
+  <!-- 4. Log in / Register -->
+  <ellipse cx="390" cy="325" rx="115" ry="24" fill="#ffffff" stroke="#222222" stroke-width="2" />
+  <text x="390" y="330" font-family="Arial, sans-serif" font-size="13.5" font-weight="600" text-anchor="middle" fill="#111111">Log in / Register</text>
+
+  <!-- 5. Place order -->
+  <ellipse cx="390" cy="395" rx="115" ry="24" fill="#ffffff" stroke="#222222" stroke-width="2" />
+  <text x="390" y="400" font-family="Arial, sans-serif" font-size="13.5" font-weight="600" text-anchor="middle" fill="#111111">Place order (Checkout)</text>
+
+  <!-- 6. View order history -->
+  <ellipse cx="390" cy="465" rx="115" ry="24" fill="#ffffff" stroke="#222222" stroke-width="2" />
+  <text x="390" y="470" font-family="Arial, sans-serif" font-size="13.5" font-weight="600" text-anchor="middle" fill="#111111">View my order history</text>
+
+  <!-- 7. Upload products (Admin) -->
+  <ellipse cx="390" cy="545" rx="115" ry="24" fill="#ffffff" stroke="#222222" stroke-width="2" />
+  <text x="390" y="550" font-family="Arial, sans-serif" font-size="13.5" font-weight="600" text-anchor="middle" fill="#111111">Upload products (Catalog)</text>
+
+  <!-- 8. Manage orders & status (Admin) -->
+  <ellipse cx="390" cy="615" rx="115" ry="24" fill="#ffffff" stroke="#222222" stroke-width="2" />
+  <text x="390" y="620" font-family="Arial, sans-serif" font-size="13.5" font-weight="600" text-anchor="middle" fill="#111111">Manage orders &amp; status</text>
+
+  <!-- 9. Add / Admin user control -->
+  <ellipse cx="390" cy="685" rx="115" ry="24" fill="#ffffff" stroke="#222222" stroke-width="2" />
+  <text x="390" y="690" font-family="Arial, sans-serif" font-size="13.5" font-weight="600" text-anchor="middle" fill="#111111">Add / Manage admin user</text>
+
+
+  <!-- ==================== SECONDARY USE CASES (COLUMN 2: cx = 770) ==================== -->
+  <!-- Filter results -->
+  <ellipse cx="770" cy="115" rx="115" ry="24" fill="#ffffff" stroke="#222222" stroke-width="2" />
+  <text x="770" y="120" font-family="Arial, sans-serif" font-size="13" font-weight="600" text-anchor="middle" fill="#111111">Filter by category &amp; price</text>
+
+  <!-- Preview doc / product -->
+  <ellipse cx="770" cy="185" rx="115" ry="24" fill="#ffffff" stroke="#222222" stroke-width="2" />
+  <text x="770" y="190" font-family="Arial, sans-serif" font-size="13" font-weight="600" text-anchor="middle" fill="#111111">Preview product details</text>
+
+  <!-- Pay online Stripe -->
+  <ellipse cx="770" cy="365" rx="115" ry="24" fill="#ffffff" stroke="#222222" stroke-width="2" />
+  <text x="770" y="370" font-family="Arial, sans-serif" font-size="13" font-weight="600" text-anchor="middle" fill="#111111">Pay online (Stripe CB)</text>
+
+  <!-- Pay COD -->
+  <ellipse cx="770" cy="425" rx="115" ry="24" fill="#ffffff" stroke="#222222" stroke-width="2" />
+  <text x="770" y="430" font-family="Arial, sans-serif" font-size="13" font-weight="600" text-anchor="middle" fill="#111111">Pay on delivery (COD)</text>
+
+  <!-- Upload image & Bestseller -->
+  <ellipse cx="770" cy="545" rx="115" ry="24" fill="#ffffff" stroke="#222222" stroke-width="2" />
+  <text x="770" y="550" font-family="Arial, sans-serif" font-size="13" font-weight="600" text-anchor="middle" fill="#111111">Upload image &amp; Bestseller</text>
+
+  <!-- Update status -->
+  <ellipse cx="770" cy="615" rx="115" ry="24" fill="#ffffff" stroke="#222222" stroke-width="2" />
+  <text x="770" y="620" font-family="Arial, sans-serif" font-size="13" font-weight="600" text-anchor="middle" fill="#111111">Update delivery status</text>
+
+
+  <!-- ==================== ACTOR ASSOCIATIONS (SOLID LINES) ==================== -->
+  <!-- Site User to Primary Cases -->
+  <line x1="145" y1="218" x2="275" y2="115" stroke="#333333" stroke-width="1.8" />
+  <line x1="145" y1="218" x2="275" y2="185" stroke="#333333" stroke-width="1.8" />
+  <line x1="145" y1="218" x2="275" y2="255" stroke="#333333" stroke-width="1.8" />
+  <line x1="145" y1="218" x2="275" y2="325" stroke="#333333" stroke-width="1.8" />
+  <line x1="145" y1="218" x2="275" y2="395" stroke="#333333" stroke-width="1.8" />
+  <line x1="145" y1="218" x2="275" y2="465" stroke="#333333" stroke-width="1.8" />
+
+  <!-- Webmaster to Cases -->
+  <line x1="145" y1="553" x2="275" y2="325" stroke="#333333" stroke-width="1.8" />
+  <line x1="145" y1="553" x2="275" y2="545" stroke="#333333" stroke-width="1.8" />
+  <line x1="145" y1="553" x2="275" y2="615" stroke="#333333" stroke-width="1.8" />
+  <line x1="145" y1="553" x2="275" y2="685" stroke="#333333" stroke-width="1.8" />
+
+
+  <!-- ==================== <<include>> & <<extend>> RELATIONSHIPS ==================== -->
+
+  <!-- 1. Search -> Filter (include) -->
+  <line x1="505" y1="115" x2="650" y2="115" stroke="#222222" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#arrow)" />
+  <rect x="548" y="99" width="70" height="16" fill="#ffffff" />
+  <text x="583" y="111" font-family="Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" fill="#333333">&lt;&lt;include&gt;&gt;</text>
+
+  <!-- 2. Search -> Preview (Right-angle include, exactly as in reference image) -->
+  <path d="M 400 139 L 400 156 L 770 156 L 770 161" fill="none" stroke="#222222" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#arrow)" />
+  <rect x="548" y="148" width="70" height="16" fill="#ffffff" />
+  <text x="583" y="160" font-family="Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" fill="#333333">&lt;&lt;include&gt;&gt;</text>
+
+  <!-- 3. Browse -> Preview (include) -->
+  <line x1="505" y1="185" x2="650" y2="185" stroke="#222222" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#arrow)" />
+  <rect x="548" y="174" width="70" height="16" fill="#ffffff" />
+  <text x="583" y="186" font-family="Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" fill="#333333">&lt;&lt;include&gt;&gt;</text>
+
+  <!-- 4. Place order -> Pay online Stripe (include) -->
+  <line x1="500" y1="385" x2="655" y2="370" stroke="#222222" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#arrow)" />
+  <rect x="548" y="365" width="70" height="16" fill="#ffffff" />
+  <text x="583" y="377" font-family="Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" fill="#333333">&lt;&lt;include&gt;&gt;</text>
+
+  <!-- 5. Place order -> Pay COD (extend) -->
+  <line x1="500" y1="405" x2="655" y2="420" stroke="#222222" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#arrow)" />
+  <rect x="550" y="405" width="66" height="16" fill="#ffffff" />
+  <text x="583" y="417" font-family="Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" fill="#333333">&lt;&lt;extend&gt;&gt;</text>
+
+  <!-- 6. Upload products -> Upload image (extend) -->
+  <line x1="505" y1="545" x2="650" y2="545" stroke="#222222" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#arrow)" />
+  <rect x="550" y="534" width="66" height="16" fill="#ffffff" />
+  <text x="583" y="546" font-family="Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" fill="#333333">&lt;&lt;extend&gt;&gt;</text>
+
+  <!-- 7. Manage orders -> Update status (extend) -->
+  <line x1="505" y1="615" x2="650" y2="615" stroke="#222222" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#arrow)" />
+  <rect x="550" y="604" width="66" height="16" fill="#ffffff" />
+  <text x="583" y="616" font-family="Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" fill="#333333">&lt;&lt;extend&gt;&gt;</text>
+</svg>

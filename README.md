@@ -90,50 +90,81 @@ Le projet repose sur une architecture découplée associant :
 
 ### 3.1. Diagramme des Cas d'Utilisation (Use Case Diagram)
 
-Ce diagramme synthétise les interactions entre les acteurs (Visiteur anonyme, Client connecté, Administrateur, Plateforme Stripe) et le système AURORA.
+Ce diagramme reproduit fidèlement l'architecture UML standard du système selon la structure du gabarit de référence : acteurs externes positionnés à gauche (`Site user`, `Webmaster`), frontière du système (`Website Use Case Diagram`), cas d'utilisation primaires alignés verticalement, et cas secondaires rattachés via les stéréotypes `<<include>>` et `<<extend>>`.
+
+#### Rendu Graphique Haute Définition (Vecteur SVG)
+
+![Website Use Case Diagram — AURORA](./aurora_use_case_diagram.svg)
+
+#### Rendu Dynamique Mermaid
 
 ```mermaid
 flowchart LR
-    subgraph Acteurs ["Acteurs du Système"]
-        Guest["👤 Visiteur Non Authentifié"]
-        Customer["🛍️ Client Authentifié"]
-        Admin["🛡️ Administrateur E-Commerce"]
-        StripeSys["💳 Système Tiers : Stripe API"]
+    classDef actorStyle fill:#f8fafc,stroke:#334155,stroke-width:2px;
+    classDef primaryCase fill:#ffffff,stroke:#0f172a,stroke-width:2px;
+    classDef secondaryCase fill:#f1f5f9,stroke:#475569,stroke-width:2px;
+
+    subgraph Actors ["Acteurs (UML Actors)"]
+        User["👤 Site user<br/>(Client Acheteur)"]:::actorStyle
+        Admin["🛡️ Webmaster<br/>(Administrateur)"]:::actorStyle
     end
 
-    subgraph AuroraSystem ["Système AURORA E-Commerce"]
-        UC1(["Consulter le catalogue"])
-        UC2(["Rechercher & filtrer des articles"])
-        UC3(["Gérer le panier & la wishlist"])
-        UC4(["Créer un compte & se connecter"])
-        UC5(["Passer commande en Cash on Delivery"])
-        UC6(["Payer en ligne par Carte Bancaire"])
-        UC7(["Consulter l'historique des commandes"])
-        UC8(["S'authentifier en tant qu'Admin"])
-        UC9(["Gérer le catalogue d'articles"])
-        UC10(["Superviser & modifier les commandes"])
-        UC11(["Créer & valider la session Stripe"])
+    subgraph SystemBoundary ["Website Use Case Diagram — AURORA E-Commerce"]
+        subgraph PrimaryCases ["Cas d'Utilisation Principaux"]
+            UC1(["Search products - full text"]):::primaryCase
+            UC2(["Browse catalog & categories"]):::primaryCase
+            UC3(["Manage cart & wishlist"]):::primaryCase
+            UC4(["Log in / Register"]):::primaryCase
+            UC5(["Place order (Checkout)"]):::primaryCase
+            UC6(["View my order history"]):::primaryCase
+            UC7(["Upload products (Catalog)"]):::primaryCase
+            UC8(["Manage orders & status"]):::primaryCase
+            UC9(["Add / Manage admin user"]):::primaryCase
+        end
+
+        subgraph SecondaryCases ["Sous-Cas Spécifiques"]
+            UC1_Filter(["Filter by category & price"]):::secondaryCase
+            UC2_Preview(["Preview product details"]):::secondaryCase
+            UC5_Stripe(["Pay online (Stripe CB)"]):::secondaryCase
+            UC5_COD(["Pay on delivery (COD)"]):::secondaryCase
+            UC7_Img(["Upload image & Bestseller"]):::secondaryCase
+            UC8_Status(["Update delivery status"]):::secondaryCase
+        end
     end
 
-    Guest --> UC1
-    Guest --> UC2
-    Guest --> UC3
-    Guest --> UC4
-    Guest --> UC5
+    User --> UC1
+    User --> UC2
+    User --> UC3
+    User --> UC4
+    User --> UC5
+    User --> UC6
 
-    Customer --> UC1
-    Customer --> UC2
-    Customer --> UC3
-    Customer --> UC6
-    Customer --> UC7
-
+    Admin --> UC4
+    Admin --> UC7
     Admin --> UC8
     Admin --> UC9
-    Admin --> UC10
 
-    UC6 -.->|inclut| UC11
-    UC11 --> StripeSys
+    UC1 -.->|"<<include>>"| UC1_Filter
+    UC1 -.->|"<<include>>"| UC2_Preview
+    UC2 -.->|"<<include>>"| UC2_Preview
+    UC5 -.->|"<<include>>"| UC5_Stripe
+    UC5 -.->|"<<extend>>"| UC5_COD
+    UC7 -.->|"<<extend>>"| UC7_Img
+    UC8 -.->|"<<extend>>"| UC8_Status
 ```
+
+#### Matrice des Relations & Stéréotypes UML
+
+| Acteur / Source | Cas d'Utilisation Principal | Relation | Cas Cible / Extension | Description & Règle Métier |
+| :--- | :--- | :---: | :--- | :--- |
+| **Site user** | `Search products - full text` | `<<include>>` | `Filter by category & price` | Tout filtrage multi-critère affine obligatoirement la recherche textuelle. |
+| **Site user** | `Search products - full text` | `<<include>>` | `Preview product details` | L'accès à la fiche détaillée s'effectue directement depuis les résultats. |
+| **Site user** | `Browse catalog & categories` | `<<include>>` | `Preview product details` | La navigation dans les rayons inclut la prévisualisation modale ou page produit. |
+| **Site user** | `Place order (Checkout)` | `<<include>>` | `Pay online (Stripe CB)` | Le tunnel de commande standard intègre le flux de paiement sécurisé par carte bancaire. |
+| **Site user** | `Place order (Checkout)` | `<<extend>>` | `Pay on delivery (COD)` | Option d'extension permettant le paiement en espèces à la livraison. |
+| **Webmaster** | `Upload products (Catalog)` | `<<extend>>` | `Upload image & Bestseller` | Option d'enrichissement avec upload multipart sur Cloudinary et flag `bestseller`. |
+| **Webmaster** | `Manage orders & status` | `<<extend>>` | `Update delivery status` | Mise à jour conditionnelle du statut logistique (`Order Placed`, `Shipped`, `Delivered`). |
+| **Webmaster** | `Add / Manage admin user` | — | — | Gestion des identifiants et accès du panneau d'administration. |
 
 ---
 
