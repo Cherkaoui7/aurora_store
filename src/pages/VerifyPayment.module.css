@@ -10,7 +10,7 @@
     background: #ffffff;
     border: 1px solid #eaeaea;
     border-radius: 12px;
-    padding: 40px;
+    padding: clamp(24px, 5vw, 40px);
     max-width: 480px;
     width: 100%;
     text-align: center;

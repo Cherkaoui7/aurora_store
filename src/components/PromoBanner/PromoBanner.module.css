@@ -1,68 +1,93 @@
 .bannerContainer {
     display: flex;
     align-items: center;
-    background-color: #f9f9f9; /* Light grey background from screenshot */
+    background-color: #f9f9f9;
     overflow: hidden;
-    margin: 80px 0; /* Space above and below section */
+    margin: clamp(40px, 7vw, 80px) 0;
+    border-radius: 8px;
 }
 
 .imageWrapper {
     flex: 1;
-    height: 500px; /* Fixed height for consistency */
+    height: clamp(300px, 45vh, 500px);
 }
 
 .bannerImage {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ensures image covers area without stretching */
+    object-fit: cover;
+    display: block;
 }
 
 .contentWrapper {
     flex: 1;
-    padding: 0 60px;
+    padding: clamp(30px, 5vw, 60px);
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
 .title {
-    font-size: 42px;
-    font-family: serif; /* Aurora brand font */
+    font-size: clamp(26px, 5.5vw, 42px);
+    font-family: serif;
     font-weight: 600;
     line-height: 1.2;
-    margin-bottom: 10px;
-    color: #000;
+    margin-bottom: 12px;
+    color: #000000;
+}
+
+.subtitle {
+    font-size: clamp(14px, 2.5vw, 16px);
+    color: #555555;
+    line-height: 1.5;
 }
 
 .btnContainer {
-    margin-top: 30px;
+    margin-top: clamp(20px, 4vw, 30px);
 }
 
 .shopBtn {
-    padding: 15px 40px;
+    padding: 14px clamp(24px, 4vw, 40px);
     background-color: transparent;
-    border: 1px solid black;
-    color: black;
+    border: 1.5px solid #000000;
+    color: #000000;
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;
     letter-spacing: 1px;
     transition: all 0.3s ease;
+    border-radius: 2px;
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
+.shopBtn:hover {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+/* Tablet & Mobile Responsiveness */
+@media (max-width: 860px) {
     .bannerContainer {
         flex-direction: column;
     }
     
     .imageWrapper {
         width: 100%;
-        height: 300px;
+        height: clamp(240px, 35vh, 340px);
     }
 
     .contentWrapper {
-        padding: 50px 20px;
+        padding: clamp(25px, 5vw, 40px) clamp(16px, 4vw, 24px);
         text-align: center;
+        width: 100%;
+    }
+
+    .btnContainer {
+        display: flex;
+        justify-content: center;
+    }
+
+    .shopBtn {
+        width: 100%;
+        max-width: 280px;
     }
 }

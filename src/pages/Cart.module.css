@@ -1,125 +1,141 @@
 /* src/pages/Cart.module.css */
 
 .cartPage {
-    padding: 80px 20px;
+    padding: clamp(30px, 6vw, 70px) clamp(14px, 3vw, 20px);
     max-width: 1200px;
     margin: 0 auto;
-    background-color: #f8f9fa; /* Very light grey background to make white cards pop */
-    min-height: 100vh;
+    background-color: #f8f9fa;
+    min-height: 80vh;
+    width: 100%;
 }
 
 .cartTitle {
     text-align: center;
-    font-size: 32px;
-    margin-bottom: 50px;
+    font-size: clamp(24px, 5vw, 32px);
+    margin-bottom: clamp(25px, 5vw, 45px);
     font-family: serif;
     font-weight: 600;
     letter-spacing: 0.5px;
 }
 
 .cartTitle h1 {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    font-size: inherit;
 }
 
-/* Hide the old table header for a cleaner look */
 .cartHeader {
     display: none; 
 }
 
-/* --- THE NEW BUBBLE ITEM --- */
+/* Cart Item Bubble */
 .cartItem {
     display: grid;
-    grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr 0.5fr;
+    grid-template-columns: 80px 2fr 1fr 1fr 1fr 40px;
     align-items: center;
-    background: white;
-    margin-bottom: 20px; /* Space between bubbles */
-    padding: 20px;
-    border-radius: 24px; /* Super round "Emoji" corners */
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); /* Soft floating shadow */
+    background: #ffffff;
+    margin-bottom: 16px;
+    padding: clamp(14px, 2.5vw, 20px);
+    border-radius: clamp(16px, 3vw, 24px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    gap: 15px;
 }
 
 .cartItem:hover {
-    transform: translateY(-3px); /* Tiny floating effect on hover */
-    box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
 }
 
 .itemImage {
-    width: 70px;
-    height: 70px;
+    width: clamp(60px, 12vw, 75px);
+    height: clamp(60px, 12vw, 75px);
     object-fit: cover;
-    border-radius: 16px; /* Rounded image */
+    border-radius: 12px;
     background-color: #f0f0f0;
 }
 
 .itemName {
     font-weight: 700;
-    font-size: 16px;
-    color: #222;
+    font-size: clamp(14px, 2.5vw, 16px);
+    color: #222222;
+    margin-bottom: 4px;
 }
 
 .itemMeta span {
-    background-color: #f0f0f0;
-    padding: 4px 12px;
-    border-radius: 20px;
+    background-color: #f1f5f9;
+    padding: 3px 10px;
+    border-radius: 16px;
     font-size: 12px;
     font-weight: 600;
-    color: #555;
+    color: #475569;
+    display: inline-block;
 }
 
-/* Quantity Badge */
+/* Quantity Input */
 .quantityInput {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    border: 2px solid #f0f0f0;
-    background: white;
-    font-weight: bold;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    border: 1.5px solid #e2e8f0;
+    background: #ffffff;
+    font-weight: 700;
+    font-size: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto;
-    color: #333;
+    color: #1e293b;
+    outline: none;
+    text-align: center;
+}
+
+.quantityInput:focus {
+    border-color: #0f172a;
 }
 
 /* Delete Button */
 .deleteIcon {
     cursor: pointer;
-    color: #ff4d4d; /* Soft red */
-    font-size: 18px;
-    transition: transform 0.2s;
-    background: #fff0f0;
+    color: #ef4444;
+    background: #fef2f2;
     padding: 8px;
-    border-radius: 50%; /* Circular button */
-    width: 34px;
-    height: 34px;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s, background-color 0.15s, color 0.15s;
+    border: none;
 }
 
 .deleteIcon:hover {
     transform: scale(1.1);
-    background: #ff3333;
-    color: white;
+    background: #ef4444;
+    color: #ffffff;
 }
 
-/* --- CART TOTALS BUBBLE --- */
+/* Cart Totals */
 .cartBottom {
     display: flex;
     justify-content: flex-end;
-    margin-top: 60px;
+    margin-top: clamp(30px, 6vw, 60px);
 }
 
 .cartTotal {
     width: 100%;
     max-width: 450px;
-    background: white;
-    padding: 35px;
-    border-radius: 30px; /* Super round card */
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    padding: clamp(20px, 4vw, 35px);
+    border-radius: clamp(20px, 4vw, 30px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
 }
 
 .cartTotal h2 {
-    font-size: 22px;
-    margin-bottom: 25px;
+    font-size: clamp(20px, 4vw, 22px);
+    margin-bottom: 20px;
     font-weight: 700;
     font-family: serif;
 }
@@ -127,62 +143,73 @@
 .totalRow {
     display: flex;
     justify-content: space-between;
-    padding: 12px 0;
-    color: #555;
+    padding: 10px 0;
+    color: #555555;
     font-weight: 500;
+    font-size: 14.5px;
 }
 
 .bold {
     font-weight: 800;
-    font-size: 20px;
-    color: black;
-    margin-top: 10px;
-    padding-top: 15px;
-    border-top: 2px dashed #eee; /* Dashed line looks friendlier */
+    font-size: 18px;
+    color: #000000;
+    margin-top: 8px;
+    padding-top: 14px;
+    border-top: 2px dashed #eeeeee;
 }
 
 .checkoutBtn {
     width: 100%;
-    background-color: black;
-    color: white;
-    padding: 18px;
-    margin-top: 30px;
+    background-color: #000000;
+    color: #ffffff;
+    padding: 16px;
+    margin-top: 25px;
     border: none;
     cursor: pointer;
     font-weight: 700;
     font-size: 14px;
     letter-spacing: 1px;
-    border-radius: 50px; /* Pill Button */
-    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: 50px;
+    min-height: 48px;
+    transition: transform 0.2s, background-color 0.2s;
 }
 
 .checkoutBtn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    background-color: #222;
+    background-color: #222222;
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
+/* Tablet Layout (641px - 860px) */
+@media (max-width: 860px) and (min-width: 641px) {
     .cartItem {
-        grid-template-columns: 80px 1fr auto; /* Image, Info, Delete */
-        gap: 15px;
+        grid-template-columns: 70px 2fr 1fr 1fr auto;
+        gap: 12px;
+    }
+}
+
+/* Mobile Responsiveness (<= 640px) */
+@media (max-width: 640px) {
+    .cartItem {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
         position: relative;
+        padding-right: 50px;
     }
 
-    /* Hide Price/Total columns on mobile for space, show only key info */
-    .cartItem > p:nth-child(3), 
-    .cartItem > p:nth-child(5) {
-        display: none;
+    .itemImage {
+        width: 65px;
+        height: 65px;
     }
 
-    .quantityInput {
-        margin: 0; /* Reset auto margin */
-    }
-    
     .deleteIcon {
         position: absolute;
-        top: 15px;
-        right: 15px;
+        top: 14px;
+        right: 14px;
+    }
+
+    .cartTotal {
+        max-width: 100%;
     }
 }

@@ -1,24 +1,57 @@
 .banner {
-  background-color: var(--light-gray);
-  padding: 20px 0;
-  border-bottom: 1px solid var(--border-color);
+  background-color: var(--light-gray, #f8fafc);
+  padding: clamp(16px, 3vw, 24px) 0;
+  border-top: 1px solid var(--border-color, #e2e8f0);
+  border-bottom: 1px solid var(--border-color, #e2e8f0);
 }
 
 .grid {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
+  align-items: center;
 }
 
 .feature {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 14px;
+  gap: 12px;
+  font-size: clamp(12.5px, 2vw, 14px);
+  color: #334155;
+  font-weight: 500;
 }
 
 .icon {
-  font-size: 20px;
-  color: var(--secondary-color);
+  font-size: 22px;
+  color: #0f172a;
+  flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px 10px;
+  }
+  
+  .feature {
+    gap: 8px;
+    font-size: 12px;
+  }
+
+  .icon {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 320px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
 }

@@ -27,11 +27,12 @@ const Login = ({ onLogin }) => {
     return (
         <div style={{
             display: 'flex', justifyContent: 'center', alignItems: 'center',
-            minHeight: '100vh', background: '#f5f5f5'
+            minHeight: '100vh', background: '#f5f5f5', padding: '16px', boxSizing: 'border-box'
         }}>
             <form onSubmit={handleSubmit} style={{
-                background: 'white', padding: '40px', borderRadius: '12px',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.08)', width: '100%', maxWidth: '400px'
+                background: 'white', padding: 'clamp(24px, 5vw, 40px)', borderRadius: '12px',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.08)', width: '100%', maxWidth: '400px',
+                boxSizing: 'border-box'
             }}>
                 <h2 style={{ marginBottom: '24px', textAlign: 'center', fontFamily: 'inherit' }}>
                     AURORA Admin

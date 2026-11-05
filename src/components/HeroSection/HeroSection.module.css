@@ -1,28 +1,22 @@
 /* src/components/HeroSection/HeroSection.module.css */
 
 .hero {
-    /* 1. Make sure the section takes full height */
-    height: 100vh; /* Or 90vh if you want to see a bit of the next section */
+    min-height: 520px;
+    height: clamp(520px, 88vh, 880px);
     width: 100%;
     
-    /* 2. Background Image Settings */
-    background-image: url('https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1920&q=80'); /* ⚠️ CHECK THIS PATH */
-    /* If you don't have a local image yet, use this URL to test: */
-    /* background-image: url('https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2070&auto=format&fit=crop'); */
-    
+    background-image: url('https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1920&q=80');
     background-size: cover;
-    background-position: center;
+    background-position: center 30%;
     background-repeat: no-repeat;
     
-    /* 3. Layout Centering */
     display: flex;
-    align-items: center; /* Vertical Center */
-    justify-content: center; /* Horizontal Center */ /* Changed to center for better look */
+    align-items: center;
+    justify-content: center;
     
     position: relative;
 }
 
-/* Optional: Dark Overlay to make text pop */
 .hero::before {
     content: '';
     position: absolute;
@@ -30,53 +24,83 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.3); /* 30% Dark tint */
-    z-index: 1; /* Sits above image, below text */
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.45) 100%);
+    z-index: 1;
 }
 
 .content {
     position: relative;
-    z-index: 2; /* 4. CRITICAL: Ensures text sits on top of overlay/image */
-    text-align: center; /* Centers text inside the animation wrapper */
+    z-index: 2;
+    text-align: center;
     max-width: 800px;
-    padding: 0 20px;
-    color: white;
+    padding: 0 clamp(16px, 4vw, 24px);
+    color: #ffffff;
+    width: 100%;
 }
 
 .title {
-    font-size: 60px;
+    font-size: clamp(32px, 7vw, 60px);
     font-weight: 700;
-    line-height: 1.1;
-    margin-bottom: 20px;
-    font-family: serif; /* Matches your Aurora brand */
+    line-height: 1.15;
+    margin-bottom: clamp(14px, 3vw, 20px);
+    font-family: serif;
+    letter-spacing: -0.5px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .subtitle {
-    font-size: 18px;
+    font-size: clamp(14px, 3vw, 18px);
     font-weight: 400;
-    margin-bottom: 30px;
-    color: #f0f0f0;
+    margin-bottom: clamp(20px, 4vw, 30px);
+    color: #f1f5f9;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
 }
 
 .ctaButton {
-    padding: 15px 40px;
-    background-color: white;
-    color: black;
+    padding: clamp(12px, 2.5vw, 16px) clamp(28px, 6vw, 42px);
+    background-color: #ffffff;
+    color: #000000;
     border: none;
-    font-size: 16px;
+    font-size: clamp(13px, 2.5vw, 15px);
     font-weight: 600;
     cursor: pointer;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.2px;
+    border-radius: 2px;
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+.ctaButton:hover {
+    background-color: #f8fafc;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.ctaButton:active {
+    transform: translateY(0);
 }
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
-    .title {
-        font-size: 40px;
+    .hero {
+        min-height: 480px;
+        height: 75vh;
+        background-position: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        min-height: 440px;
+        height: 70vh;
     }
     
-    .hero {
-        height: 80vh; /* Slightly smaller on mobile */
+    .ctaButton {
+        width: 100%;
+        max-width: 280px;
     }
 }

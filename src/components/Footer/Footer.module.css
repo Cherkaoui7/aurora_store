@@ -1,66 +1,70 @@
 .footer {
-    background-color: #111; /* Deep black/charcoal */
-    color: #fff;
-    padding-top: 80px;
-    margin-top: 100px; /* Separation from content above */
+    background-color: #111111;
+    color: #ffffff;
+    padding-top: clamp(40px, 7vw, 80px);
+    margin-top: clamp(50px, 8vw, 100px);
+    width: 100%;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 clamp(16px, 3vw, 24px);
     display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr 1.5fr; /* Custom column widths */
-    gap: 40px;
-    padding-bottom: 60px;
+    grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+    gap: clamp(24px, 4vw, 40px);
+    padding-bottom: clamp(35px, 5vw, 60px);
 }
 
 /* LOGO & TEXT */
 .logo {
-    font-size: 28px;
+    font-size: clamp(22px, 3.5vw, 28px);
     font-family: serif;
     letter-spacing: 1px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
+    font-weight: 700;
 }
 
 .text {
-    color: #a1a1a1; /* Soft gray text is easier to read on black */
+    color: #a1a1a1;
     line-height: 1.6;
     font-size: 14px;
     margin-bottom: 20px;
-    max-width: 300px;
+    max-width: 320px;
 }
 
 /* SOCIAL ICONS */
 .socials {
     display: flex;
-    gap: 15px;
+    gap: 12px;
 }
 
 .socialIcon {
-    width: 35px;
-    height: 35px;
-    background-color: #222;
+    width: 36px;
+    height: 36px;
+    background-color: #222222;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.3s ease;
+    color: #ffffff;
 }
 
 .socialIcon:hover {
-    background-color: #fff;
-    color: #000;
-    transform: translateY(-3px);
+    background-color: #ffffff;
+    color: #000000;
+    transform: translateY(-2px);
 }
 
 /* LINKS COLUMNS */
 .heading {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 .links {
@@ -77,12 +81,13 @@
     color: #a1a1a1;
     text-decoration: none;
     font-size: 14px;
-    transition: color 0.2s;
+    transition: color 0.2s, padding-left 0.2s;
+    display: inline-block;
 }
 
 .links a:hover {
-    color: #fff;
-    padding-left: 5px; /* Subtle slide effect on hover */
+    color: #ffffff;
+    padding-left: 4px;
 }
 
 /* NEWSLETTER INPUT */
@@ -90,58 +95,76 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 100%;
 }
 
 .inputGroup input {
-    padding: 12px;
-    background-color: #222;
-    border: 1px solid #333;
-    color: white;
+    padding: 12px 14px;
+    background-color: #222222;
+    border: 1px solid #333333;
+    color: #ffffff;
     outline: none;
     border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
 }
 
 .inputGroup input:focus {
-    border-color: #555;
+    border-color: #666666;
 }
 
 .inputGroup button {
     padding: 12px;
-    background-color: white;
-    color: black;
+    background-color: #ffffff;
+    color: #000000;
     font-weight: 700;
     border: none;
     cursor: pointer;
     border-radius: 4px;
-    transition: background 0.3s;
+    transition: background-color 0.2s;
+    font-size: 14px;
+    min-height: 44px;
 }
 
 .inputGroup button:hover {
-    background-color: #ddd;
+    background-color: #e5e5e5;
 }
 
 /* BOTTOM BAR */
 .copyright {
-    border-top: 1px solid #222;
+    border-top: 1px solid #222222;
     text-align: center;
-    padding: 20px 0;
-    font-size: 13px;
-    color: #666;
+    padding: 20px clamp(16px, 3vw, 24px);
+    font-size: 12.5px;
+    color: #777777;
+    line-height: 1.5;
 }
 
-/* MOBILE RESPONSIVE */
-@media (max-width: 768px) {
+/* TABLET RESPONSIVE (641px - 1024px) */
+@media (max-width: 1024px) and (min-width: 641px) {
     .container {
-        grid-template-columns: 1fr; /* Stack everything */
-        gap: 40px;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px 30px;
+    }
+}
+
+/* MOBILE RESPONSIVE (<= 640px) */
+@media (max-width: 640px) {
+    .container {
+        grid-template-columns: 1fr;
+        gap: 35px;
         text-align: center;
     }
     
     .text {
-        margin: 0 auto 20px auto; /* Center the text block */
+        margin: 0 auto 20px auto;
     }
 
     .socials {
         justify-content: center;
+    }
+
+    .links a:hover {
+        padding-left: 0;
     }
 }

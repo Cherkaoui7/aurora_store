@@ -1,5 +1,6 @@
 .card {
-  height: 400px;
+  height: clamp(260px, 35vw, 400px);
+  min-height: 220px;
   background-size: cover;
   background-position: center;
   position: relative;
@@ -7,6 +8,13 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
 }
 
 .overlay {
@@ -15,20 +23,23 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.32);
   transition: background 0.3s;
 }
 
 .card:hover .overlay {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.48);
 }
 
 .title {
   position: relative;
   z-index: 1;
   color: #fff;
-  font-size: 24px;
+  font-size: clamp(18px, 3.5vw, 24px);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 2px;
+  text-align: center;
+  padding: 0 16px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
 }
