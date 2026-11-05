@@ -386,9 +386,9 @@ Conformément à la convention standardisée représentée ci-dessous, chaque é
 
 ---
 
-#### 🔀 Réseau PERT 1 : Développement Initial du Projet AURORA (Format Standard Normalisé)
+#### 🔀 Réseau PERT 1 : Développement Initial du Projet AURORA (Cycle Global de 36 Jours)
 
-##### Rendu Graphique Haute Définition (Vecteur SVG Conforme au Gabarit)
+##### Rendu Graphique Haute Définition (Vecteur SVG Normalisé AURORA)
 
 ![Réseau PERT 1 — Développement AURORA](./aurora_pert_network_1.svg)
 
@@ -396,24 +396,18 @@ Conformément à la convention standardisée représentée ci-dessous, chaque é
 
 | Réf | Intitulé de la Tâche Métier | Durée | Antécédents | Date au plus tôt | Date au plus tard | Marge Totale | Statut Critique |
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **A** | Spécifications UI/UX & Design System Storefront | 20 j | — | 0 | 19 | 19 j | Flottante |
-| **B** | Architecture Microservices & Backoffice Admin | 30 j | — | 0 | 16 | 16 j | Flottante |
-| **C** | Cadrage Stratégique, Modélisation NoSQL & Init Projet | 10 j | — | 0 | 0 | 0 j | **CRITIQUE** |
-| **D** | Maquettage des Composants Mobiles & Wishlist | 3 j | A | 20 | 39 | 19 j | Flottante |
-| **E** | Implémentation du Middleware RBAC Admin | 3 j | B, D'(0) | 30 | 46 | 16 j | Flottante |
-| **F** | Intégration du Panel de Gestion des Stocks | 3 j | E, J'(0) | 33 | 49 | 16 j | Flottante |
-| **G** | Développement Core Engine Express & API Produits | 30 j | C | 10 | 10 | 0 j | **CRITIQUE** |
-| **H** | Implémentation Tunnel Panier & Checkout Stripe | 15 j | G, F'(0) | 40 | 40 | 0 j | **CRITIQUE** |
-| **I** | Suite de Tests Vitest, E2E & Audit de Sécurité | 4 j | H, K'(0) | 55 | 55 | 0 j | **CRITIQUE** |
-| **J** | Tests d'Intégration UI/UX & Responsive Web Design | 10 j | D | 23 | 42 | 19 j | Flottante |
-| **K** | Recette Fonctionnelle du Module Admin & Livraisons | 7 j | F | 36 | 52 | 16 j | Flottante |
-| **L** | Déploiement en Production & Mise en Ligne AURORA | 1 j | I | 59 | 59 | 0 j | **CRITIQUE** |
-| *D'(0)* | *Synchronisation maquettage mobile vers Admin* | 0 j | D | 23 | 49 | 26 j | *Tâche Fictive* |
-| *J'(0)* | *Synchronisation intégration UI vers Stocks* | 0 j | J | 33 | 52 | 19 j | *Tâche Fictive* |
-| *F'(0)* | *Synchronisation panel stocks vers Checkout* | 0 j | F | 36 | 55 | 19 j | *Tâche Fictive* |
-| *K'(0)* | *Synchronisation recette admin vers Tests Globaux* | 0 j | K | 43 | 59 | 16 j | *Tâche Fictive* |
+| **T01** | Cadrage du projet & Cahier des charges | 5 j | — | 0 | 0 | 0 j | **CRITIQUE** |
+| **T02** | Prototypage UI/UX Figma & Charte AURORA | 5 j | T01 | 5 | 12 | 7 j | Flottante |
+| **T03** | Modélisation base de données MongoDB & Mongoose | 4 j | T01 | 5 | 5 | 0 j | **CRITIQUE** |
+| **T04** | Développement API REST Express 5 (Produits & Commandes) | 8 j | T03 | 9 | 9 | 0 j | **CRITIQUE** |
+| **T05** | Développement Storefront React (Navigation, Panier, Wishlist) | 12 j | T04, T02'(0) | 17 | 17 | 0 j | **CRITIQUE** |
+| **T06** | Développement Dashboard Admin (Catalogue & Commandes) | 7 j | T04 | 17 | 22 | 5 j | Flottante |
+| **T07** | Intégration passerelle de test & validation locale | 4 j | T05, T06'(0) | 29 | 29 | 0 j | **CRITIQUE** |
+| **T08** | Déploiement V1 & Démo initiale | 3 j | T07 | 33 | 33 | 0 j | **CRITIQUE** |
+| *T02'(0)* | *Synchronisation maquettes UI vers Storefront React* | 0 j | T02 | 10 | 17 | 7 j | *Tâche Fictive* |
+| *T06'(0)* | *Synchronisation Dashboard Admin vers Recette Globale* | 0 j | T06 | 24 | 29 | 5 j | *Tâche Fictive* |
 
-> **Chemin Critique PERT 1 :** `C(10) → G(30) → H(15) → I(4) → L(1)` (Durée incompressible : **60 jours ouvrés**).
+> **Chemin Critique PERT 1 :** `T01(5) → T03(4) → T04(8) → T05(12) → T07(4) → T08(3)` (Durée incompressible : **36 jours ouvrés**).
 
 ##### Graphique Réseau PERT 1 (Notation Compartimentée)
 
@@ -422,74 +416,55 @@ flowchart LR
     classDef critNode fill:#ffebee,stroke:#b3261e,stroke-width:3px;
     classDef floatNode fill:#ffffff,stroke:#708090,stroke-width:1.5px;
 
-    Start["Étape 0<br/>[ 0 | 0 ]<br/>Marge: 0"]:::critNode
-    
-    subgraph Voie_Haute ["Voie Haute : Frontend & Design System"]
-        N1["Étape 1 (A)<br/>[ 20 | 39 ]<br/>Marge: 19"]:::floatNode
-        N2["Étape 2 (D)<br/>[ 23 | 42 ]<br/>Marge: 19"]:::floatNode
-        N3["Étape 3 (J)<br/>[ 33 | 52 ]<br/>Marge: 19"]:::floatNode
-    end
+    Start["Étape 0 (Début)<br/>[ 0 | 0 ]<br/>Marge: 0"]:::critNode
+    N1["Étape 1 (T01)<br/>[ 5 | 5 ]<br/>Marge: 0"]:::critNode
+    N2["Étape 2 (T02 Figma)<br/>[ 10 | 17 ]<br/>Marge: 7"]:::floatNode
+    N3["Étape 3 (T03 MongoDB)<br/>[ 9 | 9 ]<br/>Marge: 0"]:::critNode
+    N4["Étape 4 (T04 API Core)<br/>[ 17 | 17 ]<br/>Marge: 0"]:::critNode
+    N6["Étape 6 (T06 Admin)<br/>[ 24 | 29 ]<br/>Marge: 5"]:::floatNode
+    N5["Étape 5 (T05 Storefront)<br/>[ 29 | 29 ]<br/>Marge: 0"]:::critNode
+    N7["Étape 7 (T07 Recette)<br/>[ 33 | 33 ]<br/>Marge: 0"]:::critNode
+    N8["Étape 8 (T08 Livraison)<br/>[ 36 | 36 ]<br/>Marge: 0"]:::critNode
 
-    subgraph Voie_Mediane ["Voie Médiane : Architecture & Module Admin"]
-        N4["Étape 4 (B)<br/>[ 30 | 46 ]<br/>Marge: 16"]:::floatNode
-        N5["Étape 5 (E)<br/>[ 33 | 49 ]<br/>Marge: 16"]:::floatNode
-        N6["Étape 6 (F)<br/>[ 36 | 52 ]<br/>Marge: 16"]:::floatNode
-        N7["Étape 7 (K)<br/>[ 43 | 59 ]<br/>Marge: 16"]:::floatNode
-    end
-
-    subgraph Voie_Basse ["Voie Basse : CHEMIN CRITIQUE (Marge = 0)"]
-        N8["Étape 8 (C)<br/>[ 10 | 10 ]<br/>Marge: 0"]:::critNode
-        N9["Étape 9 (G)<br/>[ 40 | 40 ]<br/>Marge: 0"]:::critNode
-        N10["Étape 10 (H)<br/>[ 55 | 55 ]<br/>Marge: 0"]:::critNode
-        N11["Étape 11 (I)<br/>[ 59 | 59 ]<br/>Marge: 0"]:::critNode
-        N12["Étape 12 (L)<br/>[ 60 | 60 ]<br/>Marge: 0"]:::critNode
-    end
-
-    Start -->|"A (20)"| N1
-    N1 -->|"D (3)"| N2
-    N2 -->|"J (10)"| N3
-
-    Start -->|"B (30)"| N4
-    N4 -->|"E (3)"| N5
-    N5 -->|"F (3)"| N6
-    N6 -->|"K (7)"| N7
-
-    N2 -.->|"D' (0)"| N5
-    N3 -.->|"J' (0)"| N6
-
-    Start ==>|"C (10)"| N8
-    N8 ==>|"G (30)"| N9
-    N6 -.->|"F' (0)"| N10
-    N9 ==>|"H (15)"| N10
-    N7 -.->|"K' (0)"| N11
-    N10 ==>|"I (4)"| N11
-    N11 ==>|"L (1)"| N12
+    Start ==>|"T01 (5)"| N1
+    N1 -->|"T02 (5)"| N2
+    N1 ==>|"T03 (4)"| N3
+    N3 ==>|"T04 (8)"| N4
+    N2 -.->|"T02' (0)"| N4
+    N4 -->|"T06 (7)"| N6
+    N4 ==>|"T05 (12)"| N5
+    N6 -.->|"T06' (0)"| N5
+    N5 ==>|"T07 (4)"| N7
+    N7 ==>|"T08 (3)"| N8
 ```
 
 ---
 
-#### 🔀 Réseau PERT 2 : Sprint de Modernisation, Audit & Cybersécurité
+#### 🔀 Réseau PERT 2 : Sprint de Modernisation, Audit & Cybersécurité (17 Jours)
 
-##### Rendu Graphique Haute Définition (Vecteur SVG Conforme au Gabarit)
+##### Rendu Graphique Haute Définition (Vecteur SVG Normalisé AURORA)
 
 ![Réseau PERT 2 — Sprint Modernisation & Cybersécurité](./aurora_pert_network_2.svg)
 
 ##### Tableau des Tâches, Dépendances et Marges (PERT 2)
 
-| Réf | Tâche du Sprint | Durée | Antécédents | Date au plus tôt | Date au plus tard | Marge Totale | Statut Critique |
+| Réf | Intitulé de la Tâche du Sprint | Durée | Antécédents | Date au plus tôt | Date au plus tard | Marge Totale | Statut Critique |
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **S1** | Audit Forensique & Détection Failles | 2 j | — | 0 | 0 | 0 j | **CRITIQUE** |
-| **S2** | Migration Vite 7 & React 19 | 3 j | S1 | 2 | 2 | 0 j | **CRITIQUE** |
-| **S3** | Refonte Recherche (Debounce, Multi-champs) | 3 j | S2 | 5 | 11 | 6 j | Flottante |
-| **S4** | Authentification Client (User, bcrypt, JWT) | 4 j | S2 | 5 | 5 | 0 j | **CRITIQUE** |
-| **S5** | Stripe Checkout API & VerifyPayment | 4 j | S2 | 5 | 10 | 5 j | Flottante |
-| **S6** | Middleware adminAuth (Correctif SEC-1 HTTP 403) | 2 j | S4 | 9 | 9 | 0 j | **CRITIQUE** |
-| **S7** | Durcissement Admin Panel (ADM-1 à 3) | 2 j | S6 | 11 | 12 | 1 j | Flottante |
-| **S8** | Cyberdéfense NoSQL, ReDoS & CastError (BE-1) | 3 j | S6 | 11 | 11 | 0 j | **CRITIQUE** |
-| **S9** | Suite de Tests Vitest (29 tests unitaires) | 2 j | S8, S3', S5', S7' | 14 | 14 | 0 j | **CRITIQUE** |
-| **S10**| Finalisation Documentation & Commit Git | 1 j | S9 | 16 | 16 | 0 j | **CRITIQUE** |
+| **M01** | Audit Forensique & Détection Failles | 2 j | — | 0 | 0 | 0 j | **CRITIQUE** |
+| **M02** | Migration Create React App vers Vite 7 + React 19 | 3 j | M01 | 2 | 2 | 0 j | **CRITIQUE** |
+| **M03** | Conception Auth Client (User Model, bcrypt, JWT) | 4 j | M02 | 5 | 5 | 0 j | **CRITIQUE** |
+| **M04** | Intégration Stripe Checkout API & VerifyPayment | 4 j | M02 | 5 | 10 | 5 j | Flottante |
+| **M05** | Refonte Recherche (Debounce 150ms, multi-champs) | 3 j | M02 | 5 | 11 | 6 j | Flottante |
+| **M06** | Sécurisation adminAuth (Correctif SEC-1 HTTP 403) | 2 j | M03 | 9 | 9 | 0 j | **CRITIQUE** |
+| **M07** | Durcissement Dashboard Admin (Crash adresses, Bestseller) | 2 j | M06 | 11 | 12 | 1 j | Flottante |
+| **M08** | Cyberdéfense NoSQL, ReDoS & CastError (BE-1) | 3 j | M06 | 11 | 11 | 0 j | **CRITIQUE** |
+| **M09** | Suite de Tests Automatisée Vitest (29 tests unitaires) | 2 j | M08, M05', M04', M07' | 14 | 14 | 0 j | **CRITIQUE** |
+| **M10** | Rédaction Rapport Technique & Cahier des Charges | 1 j | M09 | 16 | 16 | 0 j | **CRITIQUE** |
+| *M05'(0)* | *Synchronisation recherche optimisée vers Vitest* | 0 j | M05 | 8 | 14 | 6 j | *Tâche Fictive* |
+| *M04'(0)* | *Synchronisation Stripe API vers Vitest* | 0 j | M04 | 9 | 14 | 5 j | *Tâche Fictive* |
+| *M07'(0)* | *Synchronisation durcissement Admin vers Vitest* | 0 j | M07 | 13 | 14 | 1 j | *Tâche Fictive* |
 
-> **Chemin Critique PERT 2 :** `S1(2) → S2(3) → S4(4) → S6(2) → S8(3) → S9(2) → S10(1)` (Durée totale : **17 jours ouvrés**).
+> **Chemin Critique PERT 2 :** `M01(2) → M02(3) → M03(4) → M06(2) → M08(3) → M09(2) → M10(1)` (Durée totale : **17 jours ouvrés**).
 
 ##### Graphique Réseau PERT 2 (Notation Compartimentée)
 
@@ -499,30 +474,30 @@ flowchart LR
     classDef floatNode2 fill:#ffffff,stroke:#708090,stroke-width:1.5px;
 
     Start2["Début Sprint<br/>[ 0 | 0 ]<br/>Marge: 0"]:::critNode2
-    NS1["Étape S1<br/>[ 2 | 2 ]<br/>Marge: 0"]:::critNode2
-    NS2["Étape S2<br/>[ 5 | 5 ]<br/>Marge: 0"]:::critNode2
-    NS3["Étape S3<br/>[ 8 | 14 ]<br/>Marge: 6"]:::floatNode2
-    NS4["Étape S4<br/>[ 9 | 9 ]<br/>Marge: 0"]:::critNode2
-    NS5["Étape S5<br/>[ 9 | 14 ]<br/>Marge: 5"]:::floatNode2
-    NS6["Étape S6<br/>[ 11 | 11 ]<br/>Marge: 0"]:::critNode2
-    NS7["Étape S7<br/>[ 13 | 14 ]<br/>Marge: 1"]:::floatNode2
-    NS8["Étape S8<br/>[ 14 | 14 ]<br/>Marge: 0"]:::critNode2
-    NS9["Étape S9<br/>[ 16 | 16 ]<br/>Marge: 0"]:::critNode2
-    NS10["Étape S10<br/>[ 17 | 17 ]<br/>Marge: 0"]:::critNode2
+    NM1["Étape 1 (M01)<br/>[ 2 | 2 ]<br/>Marge: 0"]:::critNode2
+    NM2["Étape 2 (M02)<br/>[ 5 | 5 ]<br/>Marge: 0"]:::critNode2
+    NM5["Étape 2a (M05 Recherche)<br/>[ 8 | 14 ]<br/>Marge: 6"]:::floatNode2
+    NM4["Étape 2b (M04 Stripe)<br/>[ 9 | 14 ]<br/>Marge: 5"]:::floatNode2
+    NM3["Étape 3 (M03 Auth Client)<br/>[ 9 | 9 ]<br/>Marge: 0"]:::critNode2
+    NM6["Étape 4 (M06 adminAuth)<br/>[ 11 | 11 ]<br/>Marge: 0"]:::critNode2
+    NM7["Étape 4a (M07 Admin)<br/>[ 13 | 14 ]<br/>Marge: 1"]:::floatNode2
+    NM8["Étape 5 (M08 Cyberdéfense)<br/>[ 14 | 14 ]<br/>Marge: 0"]:::critNode2
+    NM9["Étape 6 (M09 Vitest 29/29)<br/>[ 16 | 16 ]<br/>Marge: 0"]:::critNode2
+    NM10["Étape 7 (M10 Rapport)<br/>[ 17 | 17 ]<br/>Marge: 0"]:::critNode2
 
-    Start2 ==>|"S1 (2)"| NS1
-    NS1 ==>|"S2 (3)"| NS2
-    NS2 -->|"S3 (3)"| NS3
-    NS2 -->|"S5 (4)"| NS5
-    NS2 ==>|"S4 (4)"| NS4
-    NS4 ==>|"S6 (2)"| NS6
-    NS6 -->|"S7 (2)"| NS7
-    NS6 ==>|"S8 (3)"| NS8
-    NS3 -.->|"S3' (0)"| NS9
-    NS5 -.->|"S5' (0)"| NS9
-    NS7 -.->|"S7' (0)"| NS9
-    NS8 ==>|"S9 (2)"| NS9
-    NS9 ==>|"S10 (1)"| NS10
+    Start2 ==>|"M01 (2)"| NM1
+    NM1 ==>|"M02 (3)"| NM2
+    NM2 -->|"M05 (3)"| NM5
+    NM2 -->|"M04 (4)"| NM4
+    NM2 ==>|"M03 (4)"| NM3
+    NM3 ==>|"M06 (2)"| NM6
+    NM6 -->|"M07 (2)"| NM7
+    NM6 ==>|"M08 (3)"| NM8
+    NM5 -.->|"M05' (0)"| NM8
+    NM4 -.->|"M04' (0)"| NM8
+    NM7 -.->|"M07' (0)"| NM8
+    NM8 ==>|"M09 (2)"| NM9
+    NM9 ==>|"M10 (1)"| NM10
 ```
 
 ---
